@@ -14,6 +14,9 @@
 
     <div class="category-carousel">
       <div class="category-track" data-category-track tabindex="0" aria-label="Shop by category">
+      {% if categories == blank %}
+        {% assign categories = collections %}
+      {% endif %}
       {% if categories != blank %}
         {% for collection in categories limit: 12 %}
           {% assign category_image = collection.featured_image | default: collection.image %}

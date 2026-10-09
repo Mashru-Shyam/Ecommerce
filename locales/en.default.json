@@ -8,6 +8,25 @@
  * ------------------------------------------------------------
  */
 {
+  "catalog": {
+    "home": "Home",
+    "store_title": "Our Store",
+    "hero_description": "Freshly milled staples and organic essentials, packed for your order.",
+    "promise_fresh": "Farm Fresh",
+    "promise_fresh_detail": "Sourced with care",
+    "promise_natural": "Pure & Natural",
+    "promise_natural_detail": "No additives",
+    "promise_delivery": "Fast Delivery",
+    "promise_delivery_detail": "Across India",
+    "promise_better": "Better Living",
+    "promise_better_detail": "Wholesome choices",
+    "categories": "Categories",
+    "all_categories": "All categories",
+    "search_products": "Search Products",
+    "search_products_placeholder": "Search products...",
+    "apply_filters": "Apply Filters",
+    "clear_filters": "Clear Filters"
+  },
   "accessibility": {
     "account": "Account",
     "active_filters": "Active filters:",

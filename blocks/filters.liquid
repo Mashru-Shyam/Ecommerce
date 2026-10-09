@@ -170,6 +170,9 @@
     "
     {{ block.shopify_attributes }}
   >
+    {% if template.name == 'collection' and block_settings.filter_style == 'vertical' %}
+      {% render 'catalog-filter-links', active_collection: collection, context: 'desktop' %}
+    {% endif %}
     <div
       class="facets facets--{{ block_settings.filter_style }} spacing-style"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
@@ -310,6 +313,19 @@
           {% endif %}
         </form>
       </facets-form-component>
+      {% if template.name == 'collection' and block_settings.filter_style == 'vertical' and block_settings.enable_filtering %}
+        <facet-remove-component class="catalog-clear-filters" data-url="{{ results_url }}">
+          <button
+            type="button"
+            class="button-secondary"
+            on:click="/removeFilter?form=FacetFiltersForm--{{ section.id }}-desktop"
+            on:keydown="/removeFilter?form=FacetFiltersForm--{{ section.id }}-desktop"
+          >
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.1 7.5A6.5 6.5 0 1 0 16.2 12" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"/><path d="M16 3.8v4.4h-4.4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/></svg>
+            {{ 'catalog.clear_filters' | t }}
+          </button>
+        </facet-remove-component>
+      {% endif %}
     </div>
   </div>
 
@@ -331,12 +347,17 @@
           on:click="#filters-drawer/open"
           type="button"
           aria-haspopup="dialog"
+          {% if template.name == 'collection' %}aria-label="{{ 'accessibility.filters' | t }}"{% endif %}
         >
           <span class="svg-wrapper">
             {{ 'icon-filter.svg' | inline_asset_content }}
           </span>
 
-          {{ 'actions.show_filters' | t }}
+          {% if template.name == 'collection' %}
+            {{ 'accessibility.filters' | t }}
+          {% else %}
+            {{ 'actions.show_filters' | t }}
+          {% endif %}
 
           {% if total_active_values > 0 %}
             <div
@@ -370,7 +391,8 @@
     %}
 
     <div class="facets-mobile-wrapper facets-controls-wrapper{% if child_count > 1 %} facets-mobile-wrapper--multiple-controls{% endif %}">
-      {% if block_settings.enable_filtering == false and block_settings.enable_sorting %}
+      {% if block_settings.enable_sorting %}
+        {% if block_settings.enable_filtering == false or template.name == 'collection' %}
         <facets-form-component
           section-id="{{ section.id }}"
           id="FacetFiltersForm--{{ section.id }}-mobile-sorting-only"
@@ -395,6 +417,7 @@
             %}
           </form>
         </facets-form-component>
+        {% endif %}
       {% endif %}
       {% if block_settings.enable_grid_density %}
         {% render 'grid-density-controls', viewport: 'mobile' %}
@@ -460,6 +483,9 @@
           <scroll-hint
             class="facets-drawer__filters"
           >
+            {% if template.name == 'collection' %}
+              {% render 'catalog-filter-links', active_collection: collection, context: 'mobile' %}
+            {% endif %}
             {% if block_settings.enable_filtering %}
               {% render 'filter-remove-buttons',
                 filters: filters,
@@ -526,7 +552,14 @@
             on:click="/removeFilter?form={{ form_component }}"
             on:keydown="/removeFilter?form={{ form_component }}"
           >
-            {{- 'actions.clear_all' | t -}}
+            {% if template.name == 'collection' %}
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.1 7.5A6.5 6.5 0 1 0 16.2 12" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"/><path d="M16 3.8v4.4h-4.4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/></svg>
+            {% endif %}
+            {% if template.name == 'collection' %}
+              {{- 'catalog.clear_filters' | t -}}
+            {% else %}
+              {{- 'actions.clear_all' | t -}}
+            {% endif %}
           </button>
         </facet-remove-component>
 
@@ -536,7 +569,11 @@
             type="button"
             on:click="#filters-drawer/close"
           >
-            {{- 'actions.see_items' | t: count: products_count -}}
+            {% if template.name == 'collection' %}
+              {{- 'catalog.apply_filters' | t -}}
+            {% else %}
+              {{- 'actions.see_items' | t: count: products_count -}}
+            {% endif %}
           </button>
         {% endif %}
       </div>
