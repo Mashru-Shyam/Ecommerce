@@ -10,17 +10,10 @@
         <p class="category-eyebrow"><span aria-hidden="true">✦</span> {{ section.settings.eyebrow | escape }}</p>
         <h2 id="category-heading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
       </div>
-      <div class="category-controls" aria-label="Category carousel controls">
-        <button class="category-control" type="button" data-category-scroll="previous" aria-label="Scroll to previous categories">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
-        </button>
-        <button class="category-control" type="button" data-category-scroll="next" aria-label="Scroll to more categories">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
-        </button>
-      </div>
     </div>
 
-    <div class="category-track" data-category-track tabindex="0" aria-label="Shop by category">
+    <div class="category-carousel">
+      <div class="category-track" data-category-track tabindex="0" aria-label="Shop by category">
       {% if categories != blank %}
         {% for collection in categories limit: 12 %}
           {% assign category_image = collection.featured_image | default: collection.image %}
@@ -53,6 +46,15 @@
           </a>
         {% endfor %}
       {% endif %}
+      </div>
+      <div class="category-controls" aria-label="Category carousel controls">
+        <button class="category-control" type="button" data-category-scroll="previous" aria-label="Scroll to previous categories" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+        </button>
+        <button class="category-control" type="button" data-category-scroll="next" aria-label="Scroll to more categories" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+        </button>
+      </div>
     </div>
   </div>
 </section>
@@ -65,6 +67,7 @@
   }
 
   .category-panel {
+    position: relative;
     width: 100%;
     padding: 16px 18px 18px;
     overflow: hidden;
@@ -111,8 +114,21 @@
 
   .category-controls {
     display: flex;
-    flex: 0 0 auto;
-    gap: 7px;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 6px;
+    pointer-events: none;
+  }
+
+  .category-carousel {
+    position: relative;
+  }
+
+  .category-controls[hidden] {
+    display: none;
   }
 
   .category-control {
@@ -123,8 +139,11 @@
     border: 1px solid #d8e0d2;
     border-radius: 50%;
     color: #145b35;
-    background: #fff;
+    background: rgb(255 255 255 / 78%);
+    backdrop-filter: blur(8px);
     cursor: pointer;
+    pointer-events: auto;
+    box-shadow: 0 2px 10px rgb(17 49 30 / 14%);
     transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
   }
 
@@ -133,6 +152,11 @@
     border-color: #176b3d;
     color: #fff;
     background: #176b3d;
+  }
+
+  .category-control:disabled {
+    visibility: hidden;
+    pointer-events: none;
   }
 
   .category-control svg {
@@ -238,7 +262,7 @@
 
   @media screen and (min-width: 750px) {
     .category-track {
-      grid-auto-columns: calc((100% - 40px) / 5);
+      grid-auto-columns: calc((100% - 32px) / 4.25);
     }
   }
 
@@ -273,10 +297,6 @@
       letter-spacing: -0.04em;
     }
 
-    .category-controls {
-      gap: 4px;
-    }
-
     .category-control {
       width: 29px;
       height: 29px;
@@ -288,7 +308,7 @@
     }
 
     .category-track {
-      grid-auto-columns: calc((100vw - 48px) / 5);
+      grid-auto-columns: calc((100vw - 38px) / 2.2);
       gap: 6px;
       margin-inline: -2px;
       padding: 2px;
@@ -314,39 +334,49 @@
 {% endstylesheet %}
 
 {% javascript %}
-  document.addEventListener('click', (event) => {
-    const control = event.target.closest('[data-category-scroll]');
-    if (!control) return;
+  (() => {
+    const updateCategoryControls = (panel) => {
+      const track = panel.querySelector('[data-category-track]');
+      const controls = panel.querySelector('.category-controls');
+      if (!track || !controls) return;
 
-    const panel = control.closest('.category-panel');
-    const track = panel?.querySelector('[data-category-track]');
-    if (!track) return;
+      const canScroll = track.scrollWidth > track.clientWidth + 1;
+      const previous = controls.querySelector('[data-category-scroll="previous"]');
+      const next = controls.querySelector('[data-category-scroll="next"]');
+      controls.hidden = !canScroll;
+      previous.disabled = !canScroll || track.scrollLeft <= 1;
+      next.disabled = !canScroll || track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
+    };
 
-    const direction = control.dataset.categoryScroll === 'next' ? 1 : -1;
-    const firstCard = track.querySelector('.category-card');
-    const cardStep = firstCard ? firstCard.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0) : 0;
+    const initializeCategoryControls = (root = document) => {
+      root.querySelectorAll('.category-panel').forEach((panel) => {
+        const track = panel.querySelector('[data-category-track]');
+        if (!track || track.dataset.categoryControlsReady) return;
+        track.dataset.categoryControlsReady = 'true';
 
-    if (track.scrollWidth > track.clientWidth + 1) {
-      const maximumScroll = track.scrollWidth - track.clientWidth;
-      const nextPosition = track.scrollLeft + direction * cardStep;
+        const refresh = () => updateCategoryControls(panel);
+        track.addEventListener('scroll', refresh, { passive: true });
+        window.addEventListener('resize', refresh);
+        refresh();
+      });
+    };
 
-      if (direction > 0 && nextPosition >= maximumScroll - 1) {
-        track.scrollTo({ left: 0, behavior: 'smooth' });
-      } else if (direction < 0 && nextPosition <= 0) {
-        track.scrollTo({ left: maximumScroll, behavior: 'smooth' });
-      } else {
-        track.scrollTo({ left: nextPosition, behavior: 'smooth' });
-      }
-      return;
-    }
+    document.addEventListener('click', (event) => {
+      const control = event.target.closest('[data-category-scroll]');
+      if (!control || control.disabled) return;
 
-    const cards = [...track.children];
-    if (direction > 0) {
-      track.append(cards[0]);
-    } else {
-      track.prepend(cards[cards.length - 1]);
-    }
-  });
+      const track = control.closest('.category-panel')?.querySelector('[data-category-track]');
+      const firstCard = track?.querySelector('.category-card');
+      if (!track || !firstCard) return;
+
+      const direction = control.dataset.categoryScroll === 'next' ? 1 : -1;
+      const cardStep = firstCard.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0);
+      track.scrollBy({ left: direction * cardStep, behavior: 'smooth' });
+    });
+
+    initializeCategoryControls();
+    document.addEventListener('shopify:section:load', (event) => initializeCategoryControls(event.target));
+  })();
 {% endjavascript %}
 
 {% schema %}

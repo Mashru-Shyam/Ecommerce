@@ -12,6 +12,10 @@
     href="{{ closest.product.url }}"
   >
     {% render 'text', fallback_text: product_title, block: block %}
+    {% assign card_variant = closest.product.selected_or_first_available_variant %}
+    {% if section.settings.quick_add_position == 'below' and card_variant.title != blank and card_variant.title != 'Default Title' %}
+      <span class="best-seller-variant-label">{{ card_variant.title | escape }}</span>
+    {% endif %}
   </a>
 {% endif %}
 

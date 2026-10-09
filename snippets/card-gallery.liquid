@@ -212,15 +212,21 @@
       {%- endif -%}
     </a>
   {% elsif product != blank and product.media.size == 0 %}
-    <div class="product-card-gallery__title-placeholder">
-      <a
-        class="contents"
-        ref="cardGalleryLink"
-        href="{{ product.url }}"
-      >
-        <span class="title-text">{{- product.title -}}</span>
+    {% if section.settings.quick_add_position == 'below' %}
+      <a class="best-seller-sample-image" href="{{ product.url }}" ref="cardGalleryLink" aria-label="{{ product.title | escape }}">
+        <img src="{{ 'best-seller-sample.svg' | asset_url }}" alt="{{ product.title | escape }}" loading="lazy" width="320" height="400">
       </a>
-    </div>
+    {% else %}
+      <div class="product-card-gallery__title-placeholder">
+        <a
+          class="contents"
+          ref="cardGalleryLink"
+          href="{{ product.url }}"
+        >
+          <span class="title-text">{{- product.title -}}</span>
+        </a>
+      </div>
+    {% endif %}
   {% elsif product == blank %}
     {% liquid
       capture placeholder_image

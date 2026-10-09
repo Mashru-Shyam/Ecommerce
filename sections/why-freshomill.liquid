@@ -1,0 +1,259 @@
+<section class="why-freshomill" aria-labelledby="why-heading-{{ section.id }}">
+  <div class="why-freshomill__panel">
+    <div class="why-freshomill__copy">
+      <p class="why-freshomill__eyebrow"><span aria-hidden="true">✦</span>{{ section.settings.eyebrow | escape }}</p>
+      <h2 id="why-heading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+      <p class="why-freshomill__description">{{ section.settings.description | escape }}</p>
+    </div>
+
+    <div class="why-freshomill__features">
+      {% for block in section.blocks %}
+        <article class="why-freshomill__feature" {{ block.shopify_attributes }}>
+          <div class="why-freshomill__icon" aria-hidden="true">
+            {% case block.settings.icon %}
+              {% when 'drop' %}
+                <svg viewBox="0 0 48 48"><path d="M24 4C19 13 10 22 10 30a14 14 0 0 0 28 0C38 22 29 13 24 4Z"/><path d="M24 38c5 0 9-4 9-9"/><path d="m35 11 8-5-2 10"/><path d="M35 11c-4 3-7 7-9 12"/></svg>
+              {% when 'bowl' %}
+                <svg viewBox="0 0 48 48"><path d="M6 23h36c-1 11-8 18-18 18S7 34 6 23Z"/><path d="M12 19c2-5 6-8 12-8s10 3 12 8"/><path d="M16 5c0 4 4 4 4 8m7-9c0 4 4 4 4 8"/><path d="m9 16-4-4m34 4 4-4"/><path d="M17 46h14"/></svg>
+              {% else %}
+                <svg viewBox="0 0 48 48"><path d="M24 42V19"/><path d="M24 29C9 29 7 20 8 11c9 0 17 3 16 18Z"/><path d="M24 25c0-12 7-19 17-19 1 10-3 18-17 19Z"/><path d="M24 41c-5-6-10-9-17-9"/></svg>
+            {% endcase %}
+          </div>
+          <h3>{{ block.settings.title | escape }}</h3>
+          <p>{{ block.settings.description | escape }}</p>
+        </article>
+      {% endfor %}
+    </div>
+    <div class="why-freshomill__fieldline" style="--fieldline-image: url('{{ 'freshomill-fieldline.svg' | asset_url }}')" aria-hidden="true"></div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .why-freshomill {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    padding: 14px 18px 0;
+    color: #102f1c;
+  }
+
+  .why-freshomill__panel {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(230px, 0.9fr) minmax(0, 2.1fr);
+    align-items: center;
+    gap: 18px;
+    min-height: 210px;
+    padding: 24px 22px 44px;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #fbfaf4;
+  }
+
+  .why-freshomill__copy,
+  .why-freshomill__features {
+    position: relative;
+    z-index: 1;
+  }
+
+  .why-freshomill__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0 0 4px;
+    color: #174c2d;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .why-freshomill__eyebrow span {
+    color: #518a39;
+  }
+
+  .why-freshomill__copy h2 {
+    margin: 0 0 5px;
+    color: #103b21;
+    font-size: clamp(24px, 2.6vw, 36px);
+    font-weight: 780;
+    letter-spacing: -0.045em;
+    line-height: 1.04;
+  }
+
+  .why-freshomill__description {
+    max-width: 450px;
+    margin: 0;
+    color: #343a32;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .why-freshomill__features {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .why-freshomill__feature {
+    display: flex;
+    min-height: 136px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 10px;
+    border: 1px solid rgb(255 255 255 / 90%);
+    border-radius: 12px;
+    background: rgb(255 255 255 / 84%);
+    text-align: center;
+  }
+
+  .why-freshomill__icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 7px;
+    color: #173c28;
+  }
+
+  .why-freshomill__icon svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+  }
+
+  .why-freshomill__feature h3 {
+    margin: 0 0 3px;
+    color: #143923;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  .why-freshomill__feature p {
+    max-width: 190px;
+    margin: 0;
+    color: #4c5149;
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .why-freshomill__fieldline {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 50px;
+    background: var(--fieldline-image) center bottom / 100% 100% no-repeat;
+    opacity: 0.52;
+    pointer-events: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .why-freshomill {
+      padding: 10px 10px 0;
+    }
+
+    .why-freshomill__panel {
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.65fr);
+      align-items: start;
+      gap: 7px;
+      min-height: 142px;
+      padding: 14px 10px 34px;
+      border-radius: 11px;
+    }
+
+    .why-freshomill__eyebrow {
+      gap: 4px;
+      margin-bottom: 3px;
+      font-size: 9px;
+    }
+
+    .why-freshomill__copy h2 {
+      margin-bottom: 4px;
+      font-size: clamp(15px, 4.8vw, 20px);
+      letter-spacing: -0.04em;
+      line-height: 1.06;
+    }
+
+    .why-freshomill__description {
+      font-size: 9px;
+      line-height: 1.25;
+    }
+
+    .why-freshomill__features {
+      gap: 4px;
+      padding-top: 17px;
+    }
+
+    .why-freshomill__feature {
+      min-height: 95px;
+      padding: 6px 3px;
+      border-radius: 7px;
+    }
+
+    .why-freshomill__icon {
+      width: 27px;
+      height: 27px;
+      margin-bottom: 4px;
+    }
+
+    .why-freshomill__feature h3 {
+      margin-bottom: 2px;
+      font-size: 8px;
+      line-height: 1.1;
+    }
+
+    .why-freshomill__feature p {
+      font-size: 7px;
+      line-height: 1.2;
+    }
+
+    .why-freshomill__fieldline {
+      height: 32px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Why FreshOMill",
+  "class": "why-freshomill-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why FreshOMill" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "More than a store" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "We bring you honest, nutritious food made the traditional way — from trusted farmers to your home." }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Store promise",
+      "settings": [
+        {
+          "type": "select", "id": "icon", "label": "Icon",
+          "options": [
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "drop", "label": "Oil drop" },
+            { "value": "bowl", "label": "Bowl" }
+          ],
+          "default": "leaf"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Locally Sourced" },
+        { "type": "text", "id": "description", "label": "Description", "default": "We work with trusted farmers across India." }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Why FreshOMill",
+      "category": "About",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "leaf", "title": "Locally Sourced", "description": "We work with trusted farmers across India." } },
+        { "type": "feature", "settings": { "icon": "drop", "title": "Washed & Cleaned", "description": "Carefully cleaned for better purity and taste." } },
+        { "type": "feature", "settings": { "icon": "bowl", "title": "Freshly Prepared", "description": "Milled, pressed and packed in small batches." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

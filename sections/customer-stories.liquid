@@ -1,0 +1,461 @@
+<section class="customer-stories" aria-labelledby="customer-stories-heading-{{ section.id }}">
+  <div class="customer-stories__panel">
+    <div class="customer-stories__heading-row">
+      <h2 id="customer-stories-heading-{{ section.id }}"><span aria-hidden="true">✦</span>{{ section.settings.heading | escape }}</h2>
+    </div>
+
+    <div class="customer-stories__carousel" data-customer-carousel>
+      <div class="customer-stories__track" data-customer-track tabindex="0" aria-label="Customer reviews">
+        {% for block in section.blocks %}
+          {% assign avatar_index = forloop.index0 | modulo: 4 | plus: 1 %}
+          {% assign avatar_fallback = 'customer-avatar-' | append: avatar_index | append: '.svg' %}
+          <article class="customer-review" {{ block.shopify_attributes }}>
+            <div class="customer-review__avatar">
+              {% if block.settings.image != blank %}
+                {{ block.settings.image | image_url: width: 180 | image_tag: loading: 'lazy', widths: '72, 108, 144, 180', sizes: '56px', alt: block.settings.name }}
+              {% else %}
+                <img src="{{ avatar_fallback | asset_url }}" alt="{{ block.settings.name | escape }}" loading="lazy" width="120" height="120">
+              {% endif %}
+            </div>
+            <div class="customer-review__copy">
+              <p class="customer-review__quote">“{{ block.settings.quote | escape }}”</p>
+              <div class="customer-review__rating" aria-label="{{ block.settings.rating }} out of 5 stars">
+                {% for star in (1..5) %}<span aria-hidden="true">{% if star <= block.settings.rating %}★{% else %}☆{% endif %}</span>{% endfor %}
+              </div>
+              <p class="customer-review__name">{{ block.settings.name | escape }}</p>
+              <p class="customer-review__location">{{ block.settings.location | escape }}</p>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+
+      <div class="customer-stories__controls" data-customer-controls aria-label="Customer review carousel controls">
+        <button class="category-control" type="button" data-customer-scroll="previous" aria-label="Previous customer reviews" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+        </button>
+        <button class="category-control" type="button" data-customer-scroll="next" aria-label="More customer reviews" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="customer-stories__dots" data-customer-dots aria-label="Choose a customer review">
+      {% for block in section.blocks %}
+        <button type="button" class="customer-stories__dot{% if forloop.first %} is-active{% endif %}" data-customer-dot="{{ forloop.index0 }}" aria-label="Show review {{ forloop.index }}"{% if forloop.first %} aria-current="true"{% endif %}></button>
+      {% endfor %}
+    </div>
+    <div class="customer-stories__foliage" style="--fieldline-image: url('{{ 'freshomill-fieldline.svg' | asset_url }}')" aria-hidden="true"></div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .customer-stories {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    padding: 10px 18px 18px;
+    color: #123a22;
+  }
+
+  .customer-stories__panel {
+    position: relative;
+    padding: 16px 18px 12px;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #f1f5e8;
+  }
+
+  .customer-stories__heading-row {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 10px;
+  }
+
+  .customer-stories__heading-row h2 {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0;
+    color: #103b21;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .customer-stories__heading-row h2 span {
+    color: #518a39;
+    font-size: 16px;
+  }
+
+  .customer-stories__carousel {
+    position: relative;
+    z-index: 1;
+  }
+
+  .customer-stories__track {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .customer-stories__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .customer-review {
+    display: grid;
+    flex: 0 0 calc((100% - 20px) / 3);
+    grid-template-columns: 58px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    min-height: 124px;
+    padding: 12px;
+    border: 1px solid rgb(255 255 255 / 90%);
+    border-radius: 11px;
+    background: rgb(255 255 255 / 90%);
+    scroll-snap-align: start;
+  }
+
+  .customer-review__avatar {
+    width: 58px;
+    height: 58px;
+    overflow: hidden;
+    border: 2px solid #edf1e8;
+    border-radius: 50%;
+    background: #e8eee0;
+  }
+
+  .customer-review__avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .customer-review__copy {
+    min-width: 0;
+  }
+
+  .customer-review__quote {
+    display: -webkit-box;
+    min-height: 3.8em;
+    margin: 0 0 4px;
+    overflow: hidden;
+    color: #424940;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 1.28;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .customer-review__rating {
+    display: flex;
+    gap: 1px;
+    margin-bottom: 3px;
+    color: #d69a16;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    line-height: 1;
+  }
+
+  .customer-review__name {
+    margin: 0;
+    color: #172c1c;
+    font-size: 10px;
+    font-weight: 750;
+    line-height: 1.2;
+  }
+
+  .customer-review__location {
+    margin: 1px 0 0;
+    color: #687064;
+    font-size: 9px;
+    line-height: 1.2;
+  }
+
+  .customer-stories__controls {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 5px;
+    pointer-events: none;
+  }
+
+  .customer-stories__controls[hidden] {
+    display: none;
+  }
+
+  .customer-stories__controls .category-control {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border: 1px solid #d8e0d2;
+    border-radius: 50%;
+    color: #145b35;
+    background: rgb(255 255 255 / 78%);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 10px rgb(17 49 30 / 14%);
+    cursor: pointer;
+    pointer-events: auto;
+    transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
+  }
+
+  .customer-stories__controls .category-control:hover,
+  .customer-stories__controls .category-control:focus-visible {
+    border-color: #176b3d;
+    color: #fff;
+    background: #176b3d;
+  }
+
+  .customer-stories__controls .category-control:disabled {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .customer-stories__controls svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+  }
+
+  .customer-stories__dots {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding-top: 9px;
+  }
+
+  .customer-stories__dots[hidden] {
+    display: none;
+  }
+
+  .customer-stories__dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #d9dfd2;
+    cursor: pointer;
+  }
+
+  .customer-stories__dot.is-active {
+    background: #28783b;
+  }
+
+  .customer-stories__foliage {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 34px;
+    background: var(--fieldline-image) center bottom / 100% 100% no-repeat;
+    opacity: 0.26;
+    pointer-events: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .customer-stories {
+      padding: 8px 10px 12px;
+    }
+
+    .customer-stories__panel {
+      padding: 11px 10px 9px;
+      border-radius: 11px;
+    }
+
+    .customer-stories__heading-row {
+      margin-bottom: 7px;
+    }
+
+    .customer-stories__heading-row h2 {
+      gap: 4px;
+      font-size: 9px;
+    }
+
+    .customer-stories__heading-row h2 span {
+      font-size: 12px;
+    }
+
+    .customer-stories__track {
+      gap: 6px;
+      margin-inline: 1px;
+    }
+
+    .customer-review {
+      flex-basis: 82%;
+      grid-template-columns: 43px minmax(0, 1fr);
+      gap: 7px;
+      min-height: 86px;
+      padding: 7px;
+      border-radius: 8px;
+    }
+
+    .customer-review__avatar {
+      width: 43px;
+      height: 43px;
+    }
+
+    .customer-review__quote {
+      min-height: 2.6em;
+      margin-bottom: 3px;
+      font-size: 8px;
+      line-height: 1.2;
+      -webkit-line-clamp: 2;
+    }
+
+    .customer-review__rating {
+      margin-bottom: 2px;
+      font-size: 9px;
+    }
+
+    .customer-review__name {
+      font-size: 8px;
+    }
+
+    .customer-review__location {
+      font-size: 7px;
+    }
+
+    .customer-stories__controls .category-control {
+      width: 27px;
+      height: 27px;
+    }
+
+    .customer-stories__controls svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .customer-stories__dots {
+      gap: 6px;
+      padding-top: 7px;
+    }
+
+    .customer-stories__dot {
+      width: 6px;
+      height: 6px;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (() => {
+    const updateCustomerCarousel = (carousel) => {
+      const track = carousel.querySelector('[data-customer-track]');
+      const controls = carousel.querySelector('[data-customer-controls]');
+      const dots = carousel.parentElement.querySelector('[data-customer-dots]');
+      if (!track || !controls) return;
+
+      const cards = [...track.querySelectorAll('.customer-review')];
+      const canScroll = track.scrollWidth > track.clientWidth + 1;
+      const previous = controls.querySelector('[data-customer-scroll="previous"]');
+      const next = controls.querySelector('[data-customer-scroll="next"]');
+      controls.hidden = !canScroll;
+      if (dots) dots.hidden = !canScroll;
+      previous.disabled = !canScroll || track.scrollLeft <= 1;
+      next.disabled = !canScroll || track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
+
+      if (dots && cards.length) {
+        const cardStep = cards[0].getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0);
+        const visibleCards = Math.max(1, Math.floor((track.clientWidth + parseFloat(getComputedStyle(track).columnGap || 0)) / cardStep));
+        const lastPage = Math.max(0, cards.length - visibleCards);
+        const current = Math.min(lastPage, Math.round(track.scrollLeft / cardStep));
+        dots.querySelectorAll('[data-customer-dot]').forEach((dot, index) => {
+          const active = index === current;
+          dot.hidden = index > lastPage;
+          dot.classList.toggle('is-active', active);
+          if (active) dot.setAttribute('aria-current', 'true');
+          else dot.removeAttribute('aria-current');
+        });
+      }
+    };
+
+    const initializeCustomerCarousels = (root = document) => {
+      root.querySelectorAll('[data-customer-carousel]').forEach((carousel) => {
+        const track = carousel.querySelector('[data-customer-track]');
+        if (!track || track.dataset.carouselReady) return;
+        track.dataset.carouselReady = 'true';
+        const refresh = () => updateCustomerCarousel(carousel);
+        track.addEventListener('scroll', refresh, { passive: true });
+        window.addEventListener('resize', refresh);
+        refresh();
+      });
+    };
+
+    document.addEventListener('click', (event) => {
+      const arrow = event.target.closest('[data-customer-scroll]');
+      if (arrow && !arrow.disabled) {
+        const track = arrow.closest('[data-customer-carousel]')?.querySelector('[data-customer-track]');
+        const card = track?.querySelector('.customer-review');
+        if (track && card) {
+          const direction = arrow.dataset.customerScroll === 'next' ? 1 : -1;
+          track.scrollBy({ left: direction * (card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0)), behavior: 'smooth' });
+        }
+      }
+
+      const dot = event.target.closest('[data-customer-dot]');
+      if (dot) {
+        const section = dot.closest('.customer-stories');
+        const track = section?.querySelector('[data-customer-track]');
+        const card = track?.querySelectorAll('.customer-review')[Number(dot.dataset.customerDot)];
+        if (track && card) track.scrollTo({ left: card.offsetLeft - track.offsetLeft, behavior: 'smooth' });
+      }
+    });
+
+    initializeCustomerCarousels();
+    document.addEventListener('shopify:section:load', (event) => initializeCustomerCarousels(event.target));
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Customer stories",
+  "class": "customer-stories-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Our customers, healthier homes" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Customer review",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Customer photo" },
+        { "type": "textarea", "id": "quote", "label": "Review", "default": "Fresh, natural food that makes our home feel healthier every day." },
+        { "type": "text", "id": "name", "label": "Name", "default": "Priya S." },
+        { "type": "text", "id": "location", "label": "Location", "default": "Bengaluru" },
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Customer stories",
+      "category": "Testimonials",
+      "blocks": [
+        { "type": "review", "settings": { "quote": "The atta tastes so fresh and natural. You can really feel the difference.", "name": "Priya S.", "location": "Bengaluru", "rating": 5 } },
+        { "type": "review", "settings": { "quote": "Pure ingredients and great quality. Now a part of our daily kitchen.", "name": "Rahul M.", "location": "Pune", "rating": 5 } },
+        { "type": "review", "settings": { "quote": "Love the cold-pressed oils! Authentic taste and super fresh.", "name": "Ananya K.", "location": "Hyderabad", "rating": 5 } },
+        { "type": "review", "settings": { "quote": "Freshly packed and full of flavor. We order every month.", "name": "Meera R.", "location": "Mumbai", "rating": 5 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

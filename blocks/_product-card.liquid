@@ -10,6 +10,9 @@
 
 {% capture children %}
   {% content_for 'blocks', closest.product: product %}
+  {% if section.settings.quick_add_position == 'below' and product != blank and product.available %}
+    {% render 'quick-add', product: product, section_id: section.id, block: block %}
+  {% endif %}
 {% endcapture %}
 
 {% render 'product-card', children: children, product: product, product_view_context: product_view_context %}

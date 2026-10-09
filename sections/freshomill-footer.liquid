@@ -1,0 +1,420 @@
+<footer class="freshomill-footer" aria-label="Footer">
+  <div class="freshomill-footer__main">
+    <div class="freshomill-footer__brand">
+      <a class="freshomill-footer__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
+        {% assign footer_logo = settings.logo_inverse | default: settings.logo %}
+        {% if footer_logo != blank %}
+          {{ footer_logo | image_url: width: 520 | image_tag: loading: 'lazy', widths: '180, 260, 360, 520', alt: shop.name }}
+        {% else %}
+          <span>{{ shop.name | escape }}</span>
+        {% endif %}
+      </a>
+      <p class="freshomill-footer__tagline">{{ section.settings.tagline | escape }}</p>
+      <nav class="freshomill-footer__social" aria-label="Social media">
+        {% if section.settings.instagram_url != blank %}
+          <a href="{{ section.settings.instagram_url }}" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1" class="icon-fill"/></svg></a>
+        {% endif %}
+        {% if section.settings.facebook_url != blank %}
+          <a href="{{ section.settings.facebook_url }}" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="icon-fill" d="M14 21v-8h3l.5-3H14V8c0-.9.3-1.5 1.6-1.5h2V3.2c-.4-.1-1.5-.2-2.8-.2-2.8 0-4.8 1.7-4.8 4.9V10H7v3h3v8h4Z"/></svg></a>
+        {% endif %}
+        {% if section.settings.youtube_url != blank %}
+          <a href="{{ section.settings.youtube_url }}" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 8.2a3 3 0 0 0-2-2.1C18.2 5.6 12 5.6 12 5.6s-6.2 0-8 .5a3 3 0 0 0-2 2.1 31 31 0 0 0-.5 3.8 31 31 0 0 0 .5 3.8 3 3 0 0 0 2 2.1c1.8.5 8 .5 8 .5s6.2 0 8-.5a3 3 0 0 0 2-2.1 31 31 0 0 0 .5-3.8 31 31 0 0 0-.5-3.8Z"/><path class="icon-fill" d="m10 15.5 5-3.5-5-3.5v7Z"/></svg></a>
+        {% endif %}
+        {% if section.settings.pinterest_url != blank %}
+          <a href="{{ section.settings.pinterest_url }}" aria-label="Pinterest"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="icon-fill" d="M12.2 2C6.3 2 3.2 6.2 3.2 9.7c0 2.7 1 5.1 3.2 6 .4.2.7 0 .8-.4l.3-1.1c.1-.4.1-.5-.2-.8-.6-.7-1-1.6-1-3 0-3.9 2.9-7.4 7.5-7.4 4.1 0 6.3 2.5 6.3 5.9 0 4.4-1.9 8.2-4.8 8.2-1.6 0-2.8-1.3-2.4-3 .5-2 1.5-4.2 1.5-5.7 0-1.3-.7-2.3-2-2.3-1.6 0-2.9 1.7-2.9 4 0 1.5.5 2.5.5 2.5L8 21c-.6 2.4-.1 5.3-.1 5.6 0 .2.2.2.3.1.2-.2 2.1-2.6 2.8-4.9l1.1-4.4c.5 1 2 1.9 3.6 1.9 4.7 0 7.9-4.3 7.9-10.1C23.6 5 19.1 2 12.2 2Z" transform="translate(-1 0) scale(.94)"/></svg></a>
+        {% endif %}
+      </nav>
+    </div>
+
+    <div class="freshomill-footer__column">
+      <details class="freshomill-footer__details" data-footer-disclosure>
+        <summary>Quick Links<span class="freshomill-footer__chevron" aria-hidden="true"></span></summary>
+        <nav aria-label="Quick links">
+          <ul>
+            {% if section.settings.quick_links != blank and section.settings.quick_links.links.size > 0 %}
+              {% for link in section.settings.quick_links.links %}
+                <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+              {% endfor %}
+            {% else %}
+              <li><a href="{{ routes.root_url }}">Home</a></li>
+              <li><a href="{{ routes.all_products_collection_url }}">Store</a></li>
+              <li><a href="{{ pages['contact'].url | default: '/pages/contact' }}">Contact</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+      </details>
+    </div>
+
+    <div class="freshomill-footer__column">
+      <details class="freshomill-footer__details" data-footer-disclosure>
+        <summary>Contact Us<span class="freshomill-footer__chevron" aria-hidden="true"></span></summary>
+        <ul class="freshomill-footer__contact-list">
+          {% if section.settings.address != blank %}
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>{{ section.settings.address | escape | newline_to_br }}</span></li>
+          {% endif %}
+          {% if section.settings.phone != blank %}
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3h3l1.4 4-2 1.5a16 16 0 0 0 6.6 6.6l1.5-2 4 1.4v3c0 1.1-.9 2-2 2A16 16 0 0 1 4.5 5c0-1.1.9-2 2-2Z"/></svg><a href="tel:{{ section.settings.phone | remove: ' ' | remove: '-' }}">{{ section.settings.phone | escape }}</a></li>
+          {% endif %}
+          {% if section.settings.email != blank %}
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg><a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email | escape }}</a></li>
+          {% endif %}
+        </ul>
+      </details>
+    </div>
+
+  </div>
+
+  <div class="freshomill-footer__bottom">
+    <span class="freshomill-footer__mark" aria-hidden="true">✦</span>
+    <p>© {{ 'now' | date: '%Y' }} {{ shop.name | escape }}. {{ section.settings.copyright_text | escape }}</p>
+  </div>
+</footer>
+
+{% style %}
+  .freshomill-footer {
+    --footer-green: #064a2c;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+    color: #f7faf3;
+    background: linear-gradient(115deg, #07512e, #003d26);
+  }
+
+  .freshomill-footer-section {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .freshomill-footer__main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 0;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 22px 28px 18px;
+  }
+
+  .freshomill-footer__brand,
+  .freshomill-footer__column {
+    min-width: 0;
+    padding-inline: 18px;
+  }
+
+  .freshomill-footer__details,
+  .freshomill-footer__details > nav,
+  .freshomill-footer__contact-list {
+    min-width: 0;
+  }
+
+  .freshomill-footer__brand {
+    padding-inline-start: 8px;
+  }
+
+  .freshomill-footer__column {
+    border-inline-start: 1px solid rgb(255 255 255 / 12%);
+  }
+
+  .freshomill-footer__logo {
+    display: inline-flex;
+    align-items: center;
+    max-width: 180px;
+    color: #fff;
+    font-size: 25px;
+    font-weight: 750;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .freshomill-footer__logo img {
+    display: block;
+    width: 100%;
+    max-height: 54px;
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  .freshomill-footer__tagline {
+    max-width: 220px;
+    margin: 8px 0 9px;
+    color: rgb(247 250 243 / 82%);
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .freshomill-footer__social {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+  }
+
+  .freshomill-footer__social a {
+    display: grid;
+    width: 18px;
+    height: 18px;
+    place-items: center;
+    color: #fff;
+  }
+
+  .freshomill-footer__social svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+  }
+
+  .freshomill-footer__social svg .icon-fill {
+    fill: currentColor;
+    stroke: none;
+  }
+
+  .freshomill-footer__details summary {
+    margin: 0 0 10px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 750;
+    line-height: 1.2;
+    list-style: none;
+  }
+
+  .freshomill-footer__details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .freshomill-footer__chevron {
+    display: none;
+  }
+
+  .freshomill-footer__details ul {
+    display: grid;
+    gap: 5px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .freshomill-footer__details a {
+    color: rgb(247 250 243 / 84%);
+    font-size: 10px;
+    line-height: 1.3;
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  .freshomill-footer__details a:hover,
+  .freshomill-footer__details a:focus-visible {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .freshomill-footer__contact-list {
+    gap: 8px !important;
+  }
+
+  .freshomill-footer__contact-list li {
+    display: grid;
+    grid-template-columns: 14px minmax(0, 1fr);
+    align-items: start;
+    gap: 7px;
+    color: rgb(247 250 243 / 84%);
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
+  .freshomill-footer__contact-list svg {
+    width: 13px;
+    height: 13px;
+    fill: none;
+    stroke: #fff;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+  }
+
+  .freshomill-footer__contact-list a {
+    overflow-wrap: anywhere;
+  }
+
+  .freshomill-footer__contact-list span {
+    overflow-wrap: anywhere;
+  }
+
+  .freshomill-footer__payment-list {
+    grid-template-columns: repeat(3, minmax(40px, 1fr));
+    max-width: 190px;
+    gap: 6px !important;
+  }
+
+  .freshomill-footer__payment-list li {
+    display: grid;
+    min-height: 27px;
+    place-items: center;
+    padding: 3px 5px;
+    border-radius: 4px;
+    background: #fff;
+  }
+
+  .freshomill-footer__payment-icon {
+    display: block;
+    width: 100%;
+    max-width: 48px;
+    height: 20px;
+  }
+
+  .freshomill-footer__bottom {
+    display: flex;
+    min-height: 34px;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 7px 16px;
+    border-top: 1px solid rgb(255 255 255 / 12%);
+    color: rgb(247 250 243 / 82%);
+    background: rgb(0 35 22 / 28%);
+    text-align: center;
+  }
+
+  .freshomill-footer__bottom p {
+    margin: 0;
+    font-size: 9px;
+    line-height: 1.2;
+  }
+
+  .freshomill-footer__mark {
+    color: #9bbf38;
+    font-size: 15px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .freshomill-footer__main {
+      grid-template-columns: 1fr;
+      padding: 14px 18px 10px;
+    }
+
+    .freshomill-footer__brand,
+    .freshomill-footer__column {
+      padding-inline: 0;
+    }
+
+    .freshomill-footer__brand {
+      padding-bottom: 12px;
+    }
+
+    .freshomill-footer__logo {
+      max-width: 180px;
+    }
+
+    .freshomill-footer__logo img {
+      max-height: 48px;
+    }
+
+    .freshomill-footer__tagline {
+      display: none;
+    }
+
+    .freshomill-footer__social {
+      gap: 15px;
+      margin-top: 6px;
+    }
+
+    .freshomill-footer__social a,
+    .freshomill-footer__social svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .freshomill-footer__column {
+      border-top: 1px solid rgb(255 255 255 / 15%);
+      border-inline-start: 0;
+    }
+
+    .freshomill-footer__details summary {
+      display: flex;
+      min-height: 42px;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .freshomill-footer__chevron {
+      display: block;
+      width: 8px;
+      height: 8px;
+      border-top: 1.5px solid currentColor;
+      border-right: 1.5px solid currentColor;
+      transform: rotate(45deg);
+      transition: transform 150ms ease;
+    }
+
+    .freshomill-footer__details[open] .freshomill-footer__chevron {
+      transform: rotate(135deg);
+    }
+
+    .freshomill-footer__details > nav,
+    .freshomill-footer__details > .freshomill-footer__contact-list,
+    .freshomill-footer__details > .freshomill-footer__payment-list {
+      padding: 0 0 11px;
+    }
+
+    .freshomill-footer__details ul {
+      gap: 7px;
+    }
+
+    .freshomill-footer__details a,
+    .freshomill-footer__contact-list li {
+      font-size: 11px;
+    }
+
+    .freshomill-footer__payment-list {
+      grid-template-columns: repeat(4, minmax(42px, 1fr));
+      max-width: 280px;
+    }
+
+    .freshomill-footer__bottom {
+      min-height: 32px;
+      padding-block: 6px;
+    }
+  }
+{% endstyle %}
+
+{% javascript %}
+  (() => {
+    const footer = document.querySelector('.freshomill-footer');
+    if (!footer) return;
+    const disclosures = footer.querySelectorAll('[data-footer-disclosure]');
+    const setDisclosureMode = () => {
+      const mobile = window.matchMedia('(max-width: 749px)').matches;
+      disclosures.forEach((disclosure) => {
+        if (mobile) disclosure.removeAttribute('open');
+        else disclosure.setAttribute('open', '');
+      });
+    };
+    setDisclosureMode();
+    window.addEventListener('resize', setDisclosureMode);
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "FreshOMill footer",
+  "class": "freshomill-footer-section",
+  "settings": [
+    { "type": "link_list", "id": "quick_links", "label": "Quick links", "default": "main-menu" },
+    { "type": "textarea", "id": "tagline", "label": "Brand tagline", "default": "Wholesome, natural and nutritious staples for a healthier tomorrow." },
+    { "type": "text", "id": "address", "label": "Address", "default": "123 Green Street, Bengaluru, KA 560001" },
+    { "type": "text", "id": "phone", "label": "Phone", "default": "+91 98765 43210" },
+    { "type": "text", "id": "email", "label": "Email", "default": "support@freshomill.in" },
+    { "type": "url", "id": "instagram_url", "label": "Instagram" },
+    { "type": "url", "id": "facebook_url", "label": "Facebook" },
+    { "type": "url", "id": "youtube_url", "label": "YouTube" },
+    { "type": "url", "id": "pinterest_url", "label": "Pinterest" },
+    { "type": "text", "id": "copyright_text", "label": "Copyright text", "default": "All rights reserved." }
+  ],
+  "enabled_on": { "groups": ["footer"] },
+  "presets": [{ "name": "FreshOMill footer", "category": "Footer" }]
+}
+{% endschema %}

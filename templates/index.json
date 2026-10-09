@@ -107,7 +107,7 @@
               "type": "_product-list-text",
               "name": "t:names.collection_title",
               "settings": {
-                "text": "<h3>{{ closest.collection.title }}</h3>",
+                "text": "<p>Most loved</p><h2>Best sellers this month</h2>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -133,7 +133,7 @@
               "type": "_product-list-button",
               "name": "t:names.product_list_button",
               "settings": {
-                "label": "View all",
+                "label": "View all products",
                 "open_in_new_tab": false,
                 "style_class": "link",
                 "custom_button_background": "{{ settings.color_palette.foreground }}",
@@ -175,7 +175,7 @@
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
-                "image_ratio": "adapt",
+                "image_ratio": "portrait",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -197,7 +197,7 @@
                 "alignment": "left",
                 "type_preset": "rte",
                 "font": "var(--font-body--family)",
-                "font_size": "1rem",
+                "font_size": "0.72rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
@@ -224,7 +224,7 @@
                 "width": "100%",
                 "alignment": "left",
                 "font": "var(--font-body--family)",
-                "font_size": "1rem",
+                "font_size": "0.82rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
@@ -247,28 +247,120 @@
       "name": "t:names.product_list",
       "settings": {
         "collection": "all",
-        "layout_type": "grid",
+        "quick_add_position": "below",
+        "layout_type": "carousel",
         "carousel_on_mobile": false,
-        "max_products": 8,
-        "columns": 4,
+        "max_products": 12,
+        "columns": 6,
         "mobile_columns": "2",
-        "mobile_card_size": "60cqw",
+        "mobile_card_size": "44cqw",
         "columns_gap": 8,
         "rows_gap": 24,
         "icons_style": "arrow",
         "icons_shape": "none",
-        "section_width": "page-width",
+        "section_width": "full-width",
         "horizontal_alignment": "flex-start",
-        "gap": 28,
+        "gap": 16,
         "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-start": 14,
+        "padding-block-end": 20
       }
+    },
+    "why_freshomill_home": {
+      "type": "why-freshomill",
+      "name": "Why FreshOMill",
+      "settings": {
+        "eyebrow": "Why FreshOMill",
+        "heading": "More than a store",
+        "description": "We bring you honest, nutritious food made the traditional way — from trusted farmers to your home."
+      },
+      "blocks": {
+        "local_sourcing": {
+          "type": "feature",
+          "name": "Locally Sourced",
+          "settings": {
+            "icon": "leaf",
+            "title": "Locally Sourced",
+            "description": "We work with trusted farmers across India."
+          }
+        },
+        "washed_cleaned": {
+          "type": "feature",
+          "name": "Washed & Cleaned",
+          "settings": {
+            "icon": "drop",
+            "title": "Washed & Cleaned",
+            "description": "Carefully cleaned for better purity and taste."
+          }
+        },
+        "freshly_prepared": {
+          "type": "feature",
+          "name": "Freshly Prepared",
+          "settings": {
+            "icon": "bowl",
+            "title": "Freshly Prepared",
+            "description": "Milled, pressed and packed in small batches."
+          }
+        }
+      },
+      "block_order": ["local_sourcing", "washed_cleaned", "freshly_prepared"]
+    },
+    "customer_stories_home": {
+      "type": "customer-stories",
+      "name": "Customer stories",
+      "settings": {
+        "heading": "Our customers, healthier homes"
+      },
+      "blocks": {
+        "review_priya": {
+          "type": "review",
+          "name": "Priya S.",
+          "settings": {
+            "quote": "The atta tastes so fresh and natural. You can really feel the difference.",
+            "name": "Priya S.",
+            "location": "Bengaluru",
+            "rating": 5
+          }
+        },
+        "review_rahul": {
+          "type": "review",
+          "name": "Rahul M.",
+          "settings": {
+            "quote": "Pure ingredients and great quality. Now a part of our daily kitchen.",
+            "name": "Rahul M.",
+            "location": "Pune",
+            "rating": 5
+          }
+        },
+        "review_ananya": {
+          "type": "review",
+          "name": "Ananya K.",
+          "settings": {
+            "quote": "Love the cold-pressed oils! Authentic taste and super fresh.",
+            "name": "Ananya K.",
+            "location": "Hyderabad",
+            "rating": 5
+          }
+        },
+        "review_meera": {
+          "type": "review",
+          "name": "Meera R.",
+          "settings": {
+            "quote": "Freshly packed and full of flavor. We order every month.",
+            "name": "Meera R.",
+            "location": "Mumbai",
+            "rating": 5
+          }
+        }
+      },
+      "block_order": ["review_priya", "review_rahul", "review_ananya", "review_meera"]
     }
   },
   "order": [
     "hero_jVaWmY",
     "category_list_home",
-    "product_list_fa6P9H"
+    "product_list_fa6P9H",
+    "why_freshomill_home",
+    "customer_stories_home"
   ]
 }

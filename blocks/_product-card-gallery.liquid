@@ -27,7 +27,9 @@
       </div>
     {%- endif -%}
     {% if product.available and settings.quick_add or settings.mobile_quick_add %}
+      {% unless section.settings.quick_add_position == 'below' %}
       {% render 'quick-add', product: product, section_id: section.id %}
+      {% endunless %}
     {% endif %}
   {% endunless %}
 {% endcapture %}

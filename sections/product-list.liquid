@@ -69,14 +69,24 @@
     assign list_items_array = list_items | strip | split: '<!--@list/split-->'
   %}
 
-  {% render 'resource-list',
-    list_items: list_items,
-    list_items_array: list_items_array,
-    settings: section.settings,
-    slide_count: max_items,
-    content_type: 'products',
-    test_id: 'resource-list-grid'
-  %}
+  <div class="best-seller-carousel-wrap">
+    {% render 'resource-list',
+      list_items: list_items,
+      list_items_array: list_items_array,
+      settings: section.settings,
+      slide_count: max_items,
+      content_type: 'products',
+      test_id: 'resource-list-grid'
+    %}
+    <div class="category-controls best-seller-controls" data-best-seller-controls aria-label="Best sellers carousel controls">
+      <button class="category-control" type="button" data-best-seller-scroll="previous" aria-label="Scroll to previous products" disabled>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+      </button>
+      <button class="category-control" type="button" data-best-seller-scroll="next" aria-label="Scroll to more products" disabled>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+      </button>
+    </div>
+  </div>
 
   <div
     class="section-resource-list__content"
@@ -85,6 +95,448 @@
     {%- content_for 'blocks' -%}
   </div>
 </div>
+
+{% style %}
+  .ui-test-product-list {
+    background: #f5f6ec;
+  }
+
+  .ui-test-product-list .section-resource-list__header {
+    margin-bottom: 14px;
+  }
+
+  .ui-test-product-list .section {
+    padding-inline: 18px;
+  }
+
+  .ui-test-product-list .best-seller-carousel-wrap {
+    position: relative;
+  }
+
+  .ui-test-product-list .best-seller-controls {
+    display: flex;
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 6px;
+    pointer-events: none;
+  }
+
+  .ui-test-product-list .best-seller-controls[hidden] {
+    display: none;
+  }
+
+  .ui-test-product-list .best-seller-controls .category-control {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border: 1px solid #d8e0d2;
+    border-radius: 50%;
+    color: #145b35;
+    background: rgb(255 255 255 / 78%);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    pointer-events: auto;
+    box-shadow: 0 2px 10px rgb(17 49 30 / 14%);
+    transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
+  }
+
+  .ui-test-product-list .best-seller-controls .category-control:hover,
+  .ui-test-product-list .best-seller-controls .category-control:focus-visible {
+    border-color: #176b3d;
+    color: #fff;
+    background: #176b3d;
+  }
+
+  .ui-test-product-list .best-seller-controls .category-control:disabled {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .ui-test-product-list .best-seller-controls .category-control svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+  }
+
+  .ui-test-product-list .section-resource-list__header h2 {
+    margin: 0;
+    color: #0b3019;
+    font-size: clamp(22px, 2.2vw, 32px);
+    font-weight: 750;
+    letter-spacing: -0.045em;
+    line-height: 1.08;
+  }
+
+  .ui-test-product-list .section-resource-list__header p {
+    margin: 0 0 3px;
+    color: #173e25;
+    font-size: 12px;
+    font-weight: 650;
+    line-height: 1.2;
+  }
+
+  .ui-test-product-list .section-resource-list__header p:first-child::before {
+    content: '✦';
+    margin-right: 6px;
+    color: #4c7d2b;
+  }
+
+  .ui-test-product-list .section-resource-list__header a {
+    color: #143b21;
+    font-size: 11px;
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+  .ui-test-product-list .section-resource-list__header a::after {
+    content: ' →';
+    font-size: 15px;
+  }
+
+  .ui-test-product-list product-card {
+    height: 100%;
+    min-width: 0;
+  }
+
+  .ui-test-product-list .product-card__content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    box-sizing: border-box;
+    height: 100%;
+    min-height: 100%;
+    gap: 5px !important;
+    padding: 8px !important;
+    overflow: hidden;
+    border: 1px solid #e8e6dc;
+    border-radius: 9px;
+    background: #fff;
+  }
+
+  .ui-test-product-list .product-card__content > * {
+    min-width: 0;
+  }
+
+  .ui-test-product-list .card-gallery {
+    width: 100%;
+    flex: 0 0 auto;
+    overflow: hidden;
+    border-radius: 5px;
+    background: #fff;
+  }
+
+  .ui-test-product-list .best-seller-sample-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: var(--gallery-aspect-ratio, 4 / 5);
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .ui-test-product-list .best-seller-sample-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .ui-test-product-list .card-gallery .product-media-container {
+    --product-media-fit: contain !important;
+  }
+
+  .ui-test-product-list .product-card__content > a.contents {
+    display: block;
+    width: 100%;
+    min-height: 2.5em;
+    color: #171914;
+    text-decoration: none;
+  }
+
+  .ui-test-product-list .product-card__content > a.contents .text-block,
+  .ui-test-product-list .product-card__content > a.contents p {
+    color: #171914;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .ui-test-product-list .product-card__content > a.contents p {
+    display: -webkit-box;
+    margin: 0;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .ui-test-product-list .product-card__content product-price {
+    display: block;
+    width: 100%;
+    color: #171914;
+    font-size: 13px;
+    line-height: 1.2;
+  }
+
+  .ui-test-product-list .product-card__content product-price .price,
+  .ui-test-product-list .product-card__content product-price .price-item__group {
+    color: #171914;
+    font-size: 13px;
+    font-weight: 750;
+    line-height: 1.2;
+  }
+
+  .ui-test-product-list .product-card__content product-price .compare-at-price {
+    margin-inline-start: 4px;
+    color: #777970;
+    font-size: 9px;
+    font-weight: 400;
+    text-decoration: line-through;
+  }
+
+  .ui-test-product-list .product-card__content product-price .unit-price {
+    display: block;
+    margin-top: 2px;
+    color: #5d6058;
+    font-size: 9px;
+    font-weight: 400;
+  }
+
+  .ui-test-product-list .best-seller-variant-label {
+    display: block;
+    margin-top: 2px;
+    color: #5d6058;
+    font-size: 9px;
+    line-height: 1.15;
+  }
+
+  .ui-test-product-list .product-card__content > quick-add-component.quick-add {
+    position: relative !important;
+    inset: auto !important;
+    z-index: 2;
+    display: flex !important;
+    width: 100% !important;
+    height: 28px !important;
+    min-height: 28px !important;
+    margin-top: auto !important;
+    flex: 0 0 28px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  .ui-test-product-list .product-badges {
+    display: none;
+  }
+
+  .ui-test-product-list .product-card__content > quick-add-component .quick-add__product-form-component,
+  .ui-test-product-list .product-card__content > quick-add-component .quick-add__product-form-component form,
+  .ui-test-product-list .product-card__content > quick-add-component button.quick-add__button {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 28px !important;
+    min-height: 28px !important;
+  }
+
+  .ui-test-product-list .product-card__content > quick-add-component button.quick-add__button {
+    position: relative !important;
+    inset: auto !important;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+  }
+
+  .ui-test-product-list .quick-add__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0 5px;
+    border: 1px solid #9db987;
+    border-radius: 4px;
+    background: #fff;
+    color: #285637;
+    font-size: 10px;
+    font-weight: 650;
+    line-height: 1;
+  }
+
+  .ui-test-product-list .quick-add__button .svg-wrapper {
+    width: 12px;
+    height: 12px;
+    flex: 0 0 12px;
+  }
+
+  .ui-test-product-list .quick-add__button .svg-wrapper svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .ui-test-product-list .quick-add__button--add {
+    font-size: 0;
+  }
+
+  .ui-test-product-list .quick-add__button--add::after {
+    content: 'Add to Cart';
+    font-size: 10px;
+  }
+
+  .ui-test-product-list .quick-add__button:hover {
+    border-color: #246b32;
+    background: #f3f8ef;
+  }
+
+  .ui-test-product-list .resource-list__carousel slideshow-arrows {
+    display: none;
+  }
+
+  .ui-test-product-list .card-gallery slideshow-arrows {
+    display: none !important;
+  }
+
+  .ui-test-product-list .resource-list__carousel slideshow-arrows .slideshow-control {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    place-items: center;
+    padding: 0;
+    border: 1px solid #d7e1d2;
+    border-radius: 50%;
+    color: #145b35;
+    background: #fff;
+    opacity: 1;
+    box-shadow: 0 2px 8px rgb(20 50 30 / 12%);
+  }
+
+  @media screen and (min-width: 750px) {
+    .ui-test-product-list .section-resource-list__header {
+      margin-bottom: 14px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ui-test-product-list .section {
+      padding-inline: 10px;
+    }
+
+    .ui-test-product-list .section-resource-list__header {
+      margin-bottom: 10px;
+    }
+
+    .ui-test-product-list .best-seller-controls .category-control {
+      width: 29px;
+      height: 29px;
+    }
+
+    .ui-test-product-list .best-seller-controls .category-control svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .ui-test-product-list .section-resource-list__header h2 {
+      font-size: 20px;
+    }
+
+    .ui-test-product-list .section-resource-list__header a {
+      font-size: 9px;
+    }
+
+    .ui-test-product-list .product-card__content {
+      gap: 4px !important;
+      padding: 6px !important;
+      border-radius: 7px;
+    }
+
+    .ui-test-product-list .product-card__content > a.contents .text-block,
+    .ui-test-product-list .product-card__content > a.contents p {
+      font-size: 9px;
+    }
+
+    .ui-test-product-list .product-card__content product-price,
+    .ui-test-product-list .product-card__content product-price .price,
+    .ui-test-product-list .product-card__content product-price .price-item__group {
+      font-size: 11px;
+    }
+
+    .ui-test-product-list .product-card__content product-price .compare-at-price,
+    .ui-test-product-list .product-card__content product-price .unit-price {
+      font-size: 8px;
+    }
+
+    .ui-test-product-list .best-seller-variant-label {
+      font-size: 8px;
+    }
+
+    .ui-test-product-list .product-card__content > quick-add-component.quick-add,
+    .ui-test-product-list .product-card__content > quick-add-component .quick-add__product-form-component,
+    .ui-test-product-list .product-card__content > quick-add-component .quick-add__product-form-component form,
+    .ui-test-product-list .product-card__content > quick-add-component button.quick-add__button {
+      height: 26px !important;
+      min-height: 26px !important;
+    }
+
+    .ui-test-product-list .quick-add__button {
+      font-size: 9px;
+    }
+
+    .ui-test-product-list .quick-add__button--add::after {
+      font-size: 9px;
+    }
+  }
+{% endstyle %}
+
+{% javascript %}
+  (() => {
+    const updateBestSellerControls = (section) => {
+      const controls = section.querySelector('[data-best-seller-controls]');
+      const slides = section.querySelector('.resource-list__carousel slideshow-slides');
+      if (!controls || !slides) return;
+
+      const previous = controls.querySelector('[data-best-seller-scroll="previous"]');
+      const next = controls.querySelector('[data-best-seller-scroll="next"]');
+      const canScroll = slides.scrollWidth > slides.clientWidth + 1;
+      controls.hidden = !canScroll;
+      previous.disabled = !canScroll || slides.scrollLeft <= 1;
+      next.disabled = !canScroll || slides.scrollLeft + slides.clientWidth >= slides.scrollWidth - 1;
+    };
+
+    const initializeBestSellerControls = (root = document) => {
+      root.querySelectorAll('.ui-test-product-list').forEach((section) => {
+        const slides = section.querySelector('.resource-list__carousel slideshow-slides');
+        if (!slides || slides.dataset.bestSellerControlsReady) return;
+        slides.dataset.bestSellerControlsReady = 'true';
+
+        const refresh = () => updateBestSellerControls(section);
+        slides.addEventListener('scroll', refresh, { passive: true });
+        window.addEventListener('resize', refresh);
+        refresh();
+      });
+    };
+
+    document.addEventListener('click', (event) => {
+      const control = event.target.closest('[data-best-seller-scroll]');
+      if (!control || control.disabled) return;
+
+      const section = control.closest('.ui-test-product-list');
+      const action = control.dataset.bestSellerScroll;
+      const nativeControl = section?.querySelector(`.resource-list__carousel .slideshow-control--${action}`);
+      nativeControl?.click();
+    });
+
+    initializeBestSellerControls();
+    document.addEventListener('shopify:section:load', (event) => initializeBestSellerControls(event.target));
+  })();
+{% endjavascript %}
 
 {% schema %}
 {
@@ -109,6 +561,16 @@
       "type": "collection",
       "id": "collection",
       "label": "t:settings.collection"
+    },
+    {
+      "type": "select",
+      "id": "quick_add_position",
+      "label": "Quick add position",
+      "options": [
+        { "value": "overlay", "label": "On product image" },
+        { "value": "below", "label": "Below product details" }
+      ],
+      "default": "overlay"
     },
     {
       "type": "select",

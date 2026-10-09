@@ -25,6 +25,11 @@ html {
   scroll-behavior: smooth;
 }
 
+html,
+body {
+  overflow-x: clip;
+}
+
 @media (min-width: 990px) {
   html:has(.page-wrapper),
   html:has(.page-wrapper) body {
@@ -48,8 +53,17 @@ html[scroll-lock] {
 .page-wrapper {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
   min-height: 100dvh;
   transition: margin-inline-end var(--animation-speed) var(--animation-timing-fade-out);
+}
+
+.page-wrapper > footer {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 @media (min-width: 990px) {
