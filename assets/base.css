@@ -30,6 +30,18 @@ body {
   overflow-x: clip;
 }
 
+@media (max-width: 749px) {
+  html,
+  body {
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @media (min-width: 990px) {
   html:has(.page-wrapper),
   html:has(.page-wrapper) body {
