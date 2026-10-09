@@ -1511,12 +1511,12 @@
     #header-component[data-menu-style='drawer'] .header__columns {
       grid-template-columns: minmax(0, 1fr) auto auto;
       grid-template-areas:
-        'logo cart visit'
+        'logo visit cart'
         'search search search';
       grid-template-rows: auto auto;
       grid-column: 1 / -1;
       row-gap: 10px;
-      column-gap: 12px;
+      column-gap: 8px;
       align-items: center;
       height: auto;
       padding: 0 var(--page-margin);
@@ -1538,7 +1538,7 @@
 
     #header-component .header-logo__image {
       height: min(var(--header-logo-image-height-mobile, 40px), 40px) !important;
-      max-width: min(140px, 36vw);
+      max-width: min(120px, 32vw);
     }
 
     #header-component .header-search {
@@ -1551,7 +1551,7 @@
       grid-area: visit;
       min-height: 34px;
       gap: 5px;
-      padding-inline: 8px;
+      padding-inline: 7px;
       font-size: 0.68rem;
     }
 
@@ -1577,7 +1577,7 @@
     #header-component header-actions > [data-testid='cart-drawer-trigger'] {
       grid-area: cart;
       display: flex !important;
-      min-width: 40px !important;
+      min-width: 36px !important;
       padding: 0 2px !important;
     }
 
@@ -1592,8 +1592,8 @@
     }
 
     #header-component .header-actions__cart-icon .cart-bubble {
-      top: -3px;
-      inset-inline-end: -8px;
+      top: -2px;
+      inset-inline-end: 0;
       width: 15px;
       min-width: 15px;
       height: 15px;
