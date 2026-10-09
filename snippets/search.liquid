@@ -9,7 +9,35 @@
   {% render 'search', style: 'default', class: 'custom-class', display_style: 'icon' %}
 {%- enddoc -%}
 
-{% unless style == 'none' %}
+{% if style == 'inline' %}
+  <form
+    class="header-search"
+    action="{{ routes.search_url }}"
+    method="get"
+    role="search"
+  >
+    <label class="visually-hidden" for="HeaderSearch-{{ section.id }}">
+      {{- 'content.search_input_label' | t -}}
+    </label>
+    <span class="header-search__icon" aria-hidden="true">
+      {{ 'icon-search.svg' | inline_asset_content }}
+    </span>
+    <input
+      id="HeaderSearch-{{ section.id }}"
+      type="search"
+      name="q"
+      value="{{ search.terms | escape }}"
+      placeholder="{{ 'content.search_input_placeholder' | t }}"
+      autocomplete="off"
+    >
+    <input name="options[prefix]" type="hidden" value="last">
+    <button type="submit" aria-label="{{ 'content.search' | t }}">
+      <span class="svg-wrapper" aria-hidden="true">
+        {{ 'icon-search.svg' | inline_asset_content }}
+      </span>
+    </button>
+  </form>
+{% elsif style != 'none' %}
   <search-button
     class="search-action{% if display_style == 'text' %} search-action--text{% endif %}{% if class != blank %} {{ class | strip }}{% endif %}"
   >
@@ -28,7 +56,7 @@
       </span>
     </button>
   </search-button>
-{% endunless %}
+{% endif %}
 
 {% stylesheet %}
   .search-action {
@@ -36,6 +64,75 @@
     --search-border-width: var(--style-border-width-inputs);
 
     display: flex;
+  }
+
+  .header-search {
+    display: flex;
+    align-items: stretch;
+    width: clamp(230px, 26vw, 320px);
+    height: 42px;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #d8d8d8;
+    border-radius: 8px;
+    background: #fff;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+  }
+
+  .header-search:hover {
+    border-color: #aeb8b0;
+  }
+
+  .header-search:focus-within {
+    border-color: #176b1c;
+    box-shadow: 0 0 0 2px rgb(23 107 28 / 0.12);
+  }
+
+  .header-search input {
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+    padding: 0 12px 0 8px;
+    border: 0;
+    outline: 0;
+    color: #252525;
+    background: transparent;
+    font: inherit;
+    font-size: 0.9rem;
+  }
+
+  .header-search__icon {
+    display: grid;
+    flex: 0 0 44px;
+    place-items: center;
+    color: #252525;
+  }
+
+  .header-search__icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .header-search input::placeholder {
+    color: #777;
+    opacity: 1;
+  }
+
+  .header-search button {
+    display: grid;
+    flex: 0 0 48px;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    color: #fff;
+    background: #176b1c;
+    cursor: pointer;
+  }
+
+  .header-search button .svg-wrapper,
+  .header-search button svg {
+    width: 20px;
+    height: 20px;
   }
 
   @media screen and (max-width: 749px) {

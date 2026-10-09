@@ -7,16 +7,16 @@
 <aside
   class="announcement-bar section section--full-width"
   aria-label="Store information"
-  style="background-color: #075f3b; color: #fff; min-height: 28px; padding: 4px 0; overflow: hidden;"
+  style="background-color: #075f3b; color: #fff; height: 30px; min-height: 30px; padding: 0; overflow: hidden;"
 >
   <marquee-component
     class="announcement-bar__marquee"
     data-speed-factor="25"
     data-movement-direction="normal"
-    style="display: block; width: 100%; overflow: hidden; background: transparent; color: #fff;"
+    style="display: flex; width: 100%; height: 100%; align-items: center; overflow: hidden; background: transparent; color: #fff;"
   >
-    <div class="announcement-bar__marquee-track" ref="wrapper" style="display: flex; width: max-content; white-space: nowrap; animation: announcement-bar-motion 34s linear infinite;">
-      <div class="announcement-bar__marquee-content" ref="content" style="display: flex; width: max-content;">
+    <div class="announcement-bar__marquee-track" ref="wrapper" style="display: flex; width: max-content; align-items: center; white-space: nowrap; animation: announcement-bar-motion 34s linear infinite;">
+      <div class="announcement-bar__marquee-content" ref="content" style="display: flex; width: max-content; align-items: center;">
         <div class="announcement-bar__messages" ref="marqueeItems[]" style="display: flex; align-items: center; width: max-content; gap: clamp(36px, 5vw, 88px); padding-inline: clamp(18px, 2.5vw, 44px);">
           {% content_for 'blocks' %}
         </div>
@@ -27,13 +27,30 @@
 
 {% stylesheet %}
   .announcement-bar {
+    display: flex;
+    align-items: center;
     position: relative;
     overflow: hidden;
     width: 100%;
-    min-height: 28px;
-    padding: 4px 0;
+    height: 30px;
+    margin-block: 0;
+    min-height: 30px;
+    padding: 0;
     color: #fff;
     background: #075f3b;
+  }
+
+  .shopify-section:has(> .announcement-bar) {
+    position: sticky;
+    top: 0;
+    z-index: var(--layer-menu-drawer);
+    margin-block: 0;
+    padding-block: 0;
+  }
+
+  #header-group .header-section:has(> #header-component[sticky='always']),
+  #header-group .header-section:has(> #header-component[sticky='scroll-up'][data-sticky-state='active']) {
+    top: 30px;
   }
 
   .announcement-bar__marquee {
@@ -78,16 +95,6 @@
     line-height: var(--line-height, 1.25);
     text-transform: var(--text-transform, none);
     text-decoration: none;
-  }
-
-  .announcement-bar__message::after {
-    content: '.';
-    position: absolute;
-    inset-inline-end: calc(clamp(36px, 5vw, 88px) / -2 - 0.15em);
-    color: #fff;
-    font-size: 1.25em;
-    font-weight: 700;
-    line-height: 1;
   }
 
   @keyframes announcement-bar-motion {

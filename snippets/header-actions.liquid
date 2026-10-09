@@ -22,6 +22,9 @@
   <cart-icon
     class="header-actions__cart-icon{% if display_style == 'text' %} header-actions__cart-icon--text{% endif %}{% unless cart == empty %} header-actions__cart-icon--has-cart{% endunless %}"
     data-testid="cart-icon"
+    data-money-format="{{ shop.money_format | escape }}"
+    data-currency="{{ cart.currency.iso_code | default: shop.currency }}"
+    data-show-empty-count
   >
     <span class="{% if display_style == 'icon' %}hidden{% else %}mobile:hidden{% endif %}">
       {{ 'content.cart_title' | t }}
@@ -34,7 +37,7 @@
       {{ 'icon-cart.svg' | inline_asset_content }}
     </span>
 
-    {% render 'cart-bubble', limit: 100 %}
+    {% render 'cart-bubble', limit: 100, show_empty: true %}
   </cart-icon>
 {% endcapture %}
 
@@ -110,6 +113,7 @@
           </span>
         {% endif %}
       </shopify-account>
+      <span class="header-action__label">My Account</span>
     </div>
   {% endif %}
 
@@ -125,6 +129,8 @@
       data-testid="cart-drawer-trigger"
     >
       {{ cart_icon }}
+      <span class="header-action__label">{{ 'content.cart_title' | t }}</span>
+      <span class="header-cart-total" data-cart-total>{{ cart.total_price | money }}</span>
     </button>
   {% else %}
     <a
@@ -134,6 +140,8 @@
       aria-describedby="cart-bubble-text"
     >
       {{ cart_icon }}
+      <span class="header-action__label">{{ 'content.cart_title' | t }}</span>
+      <span class="header-cart-total" data-cart-total>{{ cart.total_price | money }}</span>
     </a>
   {% endif %}
 

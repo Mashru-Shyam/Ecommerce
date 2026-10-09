@@ -1,6 +1,7 @@
 import { Component } from '@theme/component';
 import { onAnimationEnd } from '@theme/utilities';
 import { StandardEvents, CartLinesUpdateEvent } from '@shopify/events';
+import { formatMoney } from '@theme/money-formatting';
 
 /**
  * A custom element that displays a cart icon.
@@ -73,7 +74,7 @@ class CartIcon extends Component {
 
         this.#cartRenderRevision += 1;
         this.#historyCartController?.abort();
-        this.renderCartBubble(itemCount);
+        this.renderCartBubble(itemCount, true, cart?.total_price);
       })
       .catch((error) => {
         if (error?.name !== 'AbortError') console.warn('[cart-icon] Event promise rejected:', error);
@@ -85,13 +86,23 @@ class CartIcon extends Component {
    * @param {number} itemCount - The absolute number of items in the cart.
    * @param {boolean} [animate=true] - Whether to animate the bubble.
    */
-  renderCartBubble = async (itemCount, animate = true) => {
-    this.refs.cartBubbleCount.classList.toggle('hidden', itemCount === 0);
-    this.refs.cartBubble.classList.toggle('visually-hidden', itemCount === 0);
+  renderCartBubble = async (itemCount, animate = true, totalPrice = null) => {
+    const showEmptyCount = this.hasAttribute('data-show-empty-count');
+    this.refs.cartBubbleCount.classList.toggle('hidden', itemCount === 0 && !showEmptyCount);
+    this.refs.cartBubble.classList.toggle('visually-hidden', itemCount === 0 && !showEmptyCount);
 
     this.currentCartCount = itemCount;
 
     this.classList.toggle('header-actions__cart-icon--has-cart', itemCount > 0);
+
+    const totalElement = this.parentElement?.querySelector('[data-cart-total]');
+    if (totalElement && totalPrice !== null && totalPrice !== undefined) {
+      totalElement.textContent = formatMoney(
+        Number(totalPrice),
+        this.dataset.moneyFormat || '{{amount}}',
+        this.dataset.currency || ''
+      );
+    }
 
     sessionStorage.setItem(
       'cart-count',
@@ -172,7 +183,7 @@ class CartIcon extends Component {
       if (!Number.isInteger(itemCount) || itemCount < 0) throw new Error('Cart response has an invalid item count');
       if (this.#cartRenderRevision !== cartRenderRevision) return;
 
-      await this.renderCartBubble(itemCount, false);
+      await this.renderCartBubble(itemCount, false, cart?.total_price);
     } catch (error) {
       if (error?.name !== 'AbortError') console.warn('[cart-icon] History reconciliation failed:', error);
     } finally {
