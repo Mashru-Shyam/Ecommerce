@@ -610,12 +610,6 @@
               <span>{{ section.settings.hero_feature_three | escape }}</span>
             </div>
           {% endif %}
-          {% if section.settings.hero_feature_four != blank %}
-            <div class="hero__home-feature">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13v-1a8 8 0 0 1 16 0v1M4 13H3v4h4v-6H4Zm16 0h1v4h-4v-6h3Zm-4 7h-3" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/></svg>
-              <span>{{ section.settings.hero_feature_four | escape }}</span>
-            </div>
-          {% endif %}
         </div>
 
         {% if section.blocks.size > 0 %}
@@ -691,11 +685,11 @@
     z-index: 2;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     width: 56%;
     height: 100%;
     min-height: 0;
-    padding: clamp(18px, 3.5vw, 48px) 0 clamp(16px, 2.6vw, 34px) clamp(20px, 4vw, 58px);
+    padding: clamp(18px, 3.5vw, 48px) 0 clamp(16px, 2.6vw, 34px) clamp(10px, 2.5vw, 36px);
     background: transparent;
   }
 
@@ -841,28 +835,29 @@
 
   .hero__home-features {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     width: 100%;
-    max-width: 690px;
-    margin-block-start: 20px;
+    max-width: 540px;
+    margin-block-start: 10px;
+    transform: none;
   }
 
   .hero__home-feature {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     gap: 5px;
     min-width: 0;
-    padding-inline: 8px;
+    padding-inline: 0;
     color: #233c2b;
     font-size: 0.72rem;
     line-height: 1.2;
-    text-align: center;
+    text-align: start;
   }
 
   .hero__home-feature + .hero__home-feature {
-    border-inline-start: 1px solid rgb(20 55 31 / 0.12);
+    border-inline-start: 0;
   }
 
   .hero__home-feature svg {
@@ -979,7 +974,7 @@
 
     .hero--home .hero__content-wrapper--home {
       width: 60%;
-      padding: 12px 0 10px 12px;
+      padding: 10px 0 8px 8px;
     }
 
     .hero__slide-controls {
@@ -1028,16 +1023,18 @@
     }
 
     .hero__home-features {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      row-gap: 5px;
-      margin-block-start: 8px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      row-gap: 0;
+      margin-block-start: 6px;
+      transform: none;
     }
 
     .hero__home-feature {
-      flex-direction: row;
+      flex-direction: column;
+      align-items: flex-start;
       justify-content: flex-start;
-      gap: 4px;
-      padding-inline: 3px;
+      gap: 3px;
+      padding-inline: 0;
       font-size: clamp(7px, 1.95vw, 9px);
       text-align: start;
     }
@@ -1047,7 +1044,6 @@
     }
 
     .hero__home-feature svg {
-      flex: 0 0 14px;
       width: 14px;
       height: 14px;
     }
@@ -1330,12 +1326,6 @@
       "id": "hero_feature_three",
       "label": "Third benefit",
       "default": "Secure payments"
-    },
-    {
-      "type": "text",
-      "id": "hero_feature_four",
-      "label": "Fourth benefit",
-      "default": "Helpful support"
     },
     {
       "type": "header",
