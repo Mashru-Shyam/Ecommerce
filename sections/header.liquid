@@ -1509,7 +1509,7 @@
 
     #header-component .header__columns,
     #header-component[data-menu-style='drawer'] .header__columns {
-      grid-template-columns: minmax(0, 1fr) auto auto;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
       grid-template-areas:
         'logo visit cart'
         'search search search';
@@ -1549,6 +1549,7 @@
 
     #header-component .header-visit-store {
       grid-area: visit;
+      justify-self: center;
       min-height: 34px;
       gap: 5px;
       padding-inline: 7px;
@@ -1576,6 +1577,7 @@
     #header-component header-actions > .action__cart,
     #header-component header-actions > [data-testid='cart-drawer-trigger'] {
       grid-area: cart;
+      justify-self: end;
       display: flex !important;
       min-width: 36px !important;
       padding: 0 2px !important;
@@ -1598,6 +1600,10 @@
       min-width: 15px;
       height: 15px;
       font-size: 0.54rem;
+    }
+
+    #header-component .header-actions__cart-icon .cart-bubble__text-count {
+      font-size: 0.46rem;
     }
 
     #header-component .header-action__label,
