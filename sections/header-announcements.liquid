@@ -1,127 +1,103 @@
+﻿<script
+  src="{{ 'marquee.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
 
-
-{% if section.blocks.size > 1 %}
-  <script
-    src="{{ 'announcement-bar.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-{% endif %}
-
-{% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
-
-<div class="section-background color-custom-{{ section.id }}"></div>
 <aside
-  class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-custom-{{ section.id }}"
-  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;{% if section.settings.divider_color != blank %} --color-border: {{ section.settings.divider_color }};{% endif %}"
+  class="announcement-bar section section--full-width"
+  aria-label="Store information"
 >
-  {% liquid
-    assign autoplay = false
-    assign show_arrows = false
-    if section.blocks.size > 1
-      assign autoplay = true
-      assign show_arrows = true
-    endif
-  %}
-
-  <announcement-bar-component
-    class="announcement-bar__slider"
-    {% if autoplay == true %}
-      autoplay="{{ section.settings.speed }}" aria-live="polite"
-    {% endif %}
+  <marquee-component
+    class="announcement-bar__marquee"
+    data-speed-factor="25"
+    data-movement-direction="normal"
   >
-    {% if show_arrows %}
-      {% render 'slideshow-arrows', icon_style: 'chevron' %}
-    {% endif %}
-
-    <div class="announcement-bar__slides">
-      {% content_for 'blocks' %}
+    <div class="announcement-bar__marquee-track" ref="wrapper">
+      <div class="announcement-bar__marquee-content" ref="content">
+        <div class="announcement-bar__messages" ref="marqueeItems[]">
+          {% content_for 'blocks' %}
+        </div>
+      </div>
     </div>
-  </announcement-bar-component>
+  </marquee-component>
 </aside>
 
 {% stylesheet %}
   .announcement-bar {
-    border-block-end: var(--border-bottom-width) solid var(--color-border);
-  }
-
-  .announcement-bar__slider {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     position: relative;
-
-    @media screen and (max-width: 749px) {
-      grid-column: 1 / -1;
-    }
+    overflow: hidden;
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 0;
+    color: #fff;
+    background: #075f3b;
   }
 
-  .announcement-bar__slides {
-    display: grid;
-    grid: [stack] auto / [stack] auto;
-    width: calc(100% - var(--button-size) * 2);
-    max-width: 680px;
-    margin-inline: auto;
+  .announcement-bar__marquee {
+    display: block;
+    width: 100%;
+    overflow: hidden;
   }
 
-  .announcement-bar__slides > * {
-    grid-area: stack;
-  }
-
-  .announcement-bar__slide {
-    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-    content-visibility: visible;
-
-    &[aria-hidden='true'] {
-      opacity: 0;
-      visibility: hidden;
-    }
-  }
-
-  .announcement-bar__slider slideshow-arrows {
-    padding: 0;
-    mix-blend-mode: normal;
-  }
-
-  .announcement-bar__slider slideshow-arrows .slideshow-control {
-    color: var(--color-foreground);
-  }
-
-  .announcement-bar__slider .slideshow-control {
+  .announcement-bar__marquee-track {
     display: flex;
-    padding: 0;
-    width: var(--button-size);
-    height: var(--button-size);
+    width: fit-content;
+    white-space: nowrap;
+    animation: announcement-bar-motion 34s linear infinite;
+  }
+
+  .announcement-bar__marquee-content,
+  .announcement-bar__messages {
+    display: flex;
     align-items: center;
-    justify-content: center;
-    opacity: 1;
-    animation: none;
+    width: max-content;
+  }
 
-    @media screen and (min-width: 750px) {
-      --slideshow-control-offset: calc((var(--button-size) - var(--icon-size-xs)) / 2);
+  .announcement-bar__messages {
+    gap: clamp(36px, 5vw, 88px);
+    padding-inline: clamp(18px, 2.5vw, 44px);
+  }
 
-      .section--page-width &.slideshow-control--previous {
-        transform: translateX(var(--slideshow-control-offset));
-      }
+  .announcement-bar__messages > * {
+    flex: 0 0 auto;
+  }
+
+  .announcement-bar__message {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(36px, 5vw, 88px);
+    color: var(--color, #fff);
+    font-family: var(--font-family, var(--font-body--family));
+    font-size: var(--font-size, 1rem);
+    font-weight: var(--font-weight, 600);
+    letter-spacing: var(--letter-spacing, normal);
+    line-height: var(--line-height, 1.25);
+    text-transform: var(--text-transform, none);
+    text-decoration: none;
+  }
+
+  .announcement-bar__message::after {
+    content: '.';
+    position: absolute;
+    inset-inline-end: calc(clamp(36px, 5vw, 88px) / -2 - 0.15em);
+    color: #fff;
+    font-size: 1.25em;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  @keyframes announcement-bar-motion {
+    to {
+      transform: translate3d(-50%, 0, 0);
     }
   }
 
-  .announcement-bar__slider .slideshow-control .svg-wrapper {
-    width: var(--icon-size-xs);
-    height: var(--icon-size-xs);
-  }
-
-  .announcement-bar__slide {
-    place-content: center;
-  }
-
-  .announcement-bar__text:first-child {
-    margin: 0;
-  }
-
-  .announcement-bar__link {
-    position: absolute;
-    inset: 0;
+  @media (prefers-reduced-motion: reduce) {
+    .announcement-bar__marquee-track {
+      animation: none;
+    }
   }
 {% endstylesheet %}
 
@@ -136,93 +112,49 @@
   "enabled_on": {
     "groups": ["header"]
   },
-  "settings": [
-    {
-      "type": "range",
-      "id": "speed",
-      "label": "t:settings.scroll_speed",
-      "min": 2,
-      "max": 10,
-      "default": 5,
-      "unit": "sec"
-    },
-    {
-      "type": "header",
-      "content": "t:content.appearance"
-    },
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "t:settings.section_width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "t:options.page"
-        },
-        {
-          "value": "full-width",
-          "label": "t:options.full"
-        }
-      ],
-      "default": "page-width"
-    },
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "t:settings.background_color",
-      "placeholder": "t:settings.default"
-    },
-    {
-      "type": "range",
-      "id": "divider_width",
-      "label": "t:settings.divider_thickness",
-      "min": 0,
-      "max": 5,
-      "step": 0.5,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "color",
-      "id": "divider_color",
-      "label": "t:settings.divider_color",
-      "placeholder": "t:settings.default",
-      "visible_if": "{{ section.settings.divider_width > 0 }}"
-    },
-    {
-      "type": "header",
-      "content": "t:content.padding"
-    },
-    {
-      "type": "range",
-      "id": "padding-block-start",
-      "label": "t:settings.top",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 15
-    },
-    {
-      "type": "range",
-      "id": "padding-block-end",
-      "label": "t:settings.bottom",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 15
-    }
-  ],
+  "settings": [],
   "presets": [
     {
       "name": "t:names.announcement_bar",
       "blocks": {
         "announcement_1": {
-          "type": "_announcement"
+          "type": "_announcement",
+          "settings": {
+            "text": "Washed & Cleaned"
+          }
+        },
+        "announcement_2": {
+          "type": "_announcement",
+          "settings": {
+            "text": "No Preservatives Or Adulterants"
+          }
+        },
+        "announcement_3": {
+          "type": "_announcement",
+          "settings": {
+            "text": "Freshly Packed On Order"
+          }
+        },
+        "announcement_4": {
+          "type": "_announcement",
+          "settings": {
+            "text": "Premium Quality Ingredients"
+          }
+        },
+        "announcement_5": {
+          "type": "_announcement",
+          "settings": {
+            "text": "Sourced From Local Farms"
+          }
         }
       },
-      "block_order": ["announcement_1"]
+      "block_order": [
+        "announcement_1",
+        "announcement_2",
+        "announcement_3",
+        "announcement_4",
+        "announcement_5"
+      ]
     }
   ]
 }

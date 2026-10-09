@@ -1,51 +1,26 @@
-
-
-{% render 'text-block-styles' %}
-
 {%- assign block_settings = block.settings -%}
 {%- assign plain_text = block_settings.text | strip_newlines | strip_html | strip -%}
-{%- assign block_index = section.blocks | find_index: 'id', block.id -%}
 
 {%- unless plain_text == '' -%}
-  <slideshow-slide
-    ref="slides[]"
-    class="
-      announcement-bar__slide
-      text-block
-      text-block--{{ block.id }}
-      text-block--align-center
-      text-block--full-width
-      custom-typography
-      {% if block_settings.font_size != "" %}custom-font-size{% endif %}
-      {% if block_settings.weight != "" %}custom-font-weight{% endif %}
-    "
-    style="
-      {% render 'typography-style', settings: block_settings, preset: 'custom' %}
-      {% if block_settings.text_color != blank %}--color: {{ block_settings.text_color }}; --color-rgb: {{ block_settings.text_color.rgb }};{% endif %}
-      --width: 100%;
-      --text-align: center;
-      --line-height: 1;
-    "
-    {{ block.shopify_attributes }}
-    aria-hidden="{% if block_index == 0 %}false{% else %}true{% endif %}"
-  >
-    <p class="announcement-bar__text">
-      {{ block.settings.text }}
-    </p>
-
+  <div class="announcement-bar__item" {{ block.shopify_attributes }}>
     {% if block_settings.link != blank %}
       <a
-        class="announcement-bar__link"
+        class="announcement-bar__message"
         href="{{ block_settings.link }}"
+        style="{% render 'typography-style', settings: block_settings, preset: 'custom' %}--line-height: 1.25;{% if block_settings.text_color != blank %}--color: {{ block_settings.text_color }};{% endif %}"
       >
-        <span class="visually-hidden">
-          {{ block_settings.text | strip_html }}
-        </span>
+        {{ block_settings.text }}
       </a>
+    {% else %}
+      <span
+        class="announcement-bar__message"
+        style="{% render 'typography-style', settings: block_settings, preset: 'custom' %}--line-height: 1.25;{% if block_settings.text_color != blank %}--color: {{ block_settings.text_color }};{% endif %}"
+      >
+        {{ block_settings.text }}
+      </span>
     {% endif %}
-  </slideshow-slide>
+  </div>
 {%- endunless -%}
-
 {% schema %}
 {
   "name": "t:names.announcement",
