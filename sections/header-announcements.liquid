@@ -1,104 +1,114 @@
-﻿<script
-  src="{{ 'marquee.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-
 <aside
   class="announcement-bar section section--full-width"
   aria-label="Store information"
-  style="background-color: #075f3b; color: #fff; height: 30px; min-height: 30px; padding: 0; overflow: hidden;"
 >
-  <marquee-component
-    class="announcement-bar__marquee"
-    data-speed-factor="25"
-    data-movement-direction="normal"
-    style="display: flex; width: 100%; height: 100%; align-items: center; overflow: hidden; background: transparent; color: #fff;"
-  >
-    <div class="announcement-bar__marquee-track" ref="wrapper" style="display: flex; width: max-content; align-items: center; white-space: nowrap; animation: announcement-bar-motion 34s linear infinite;">
-      <div class="announcement-bar__marquee-content" ref="content" style="display: flex; width: max-content; align-items: center;">
-        <div class="announcement-bar__messages" ref="marqueeItems[]" style="display: flex; align-items: center; width: max-content; gap: clamp(36px, 5vw, 88px); padding-inline: clamp(18px, 2.5vw, 44px);">
-          {% content_for 'blocks' %}
+  <div class="announcement-bar__marquee">
+    <div class="announcement-bar__marquee-track">
+      {% for copy in (1..8) %}
+        <div class="announcement-bar__messages"{% unless forloop.first %} aria-hidden="true"{% endunless %}>
+          {% for block in section.blocks %}
+            {% assign block_settings = block.settings %}
+            {% assign plain_text = block_settings.text | strip_newlines | strip_html | strip %}
+            {% unless plain_text == blank %}
+              <div class="announcement-bar__item"{% if forloop.parentloop.first %} {{ block.shopify_attributes }}{% endif %}>
+                {% if block_settings.link != blank %}
+                  <a
+                    class="announcement-bar__message"
+                    href="{{ block_settings.link }}"
+                    style="{% render 'typography-style', settings: block_settings, preset: 'custom' %}--line-height: 1.25;{% if block_settings.text_color != blank %}--color: {{ block_settings.text_color }};{% endif %}"
+                  >
+                    {{ block_settings.text }}
+                  </a>
+                {% else %}
+                  <span
+                    class="announcement-bar__message"
+                    style="{% render 'typography-style', settings: block_settings, preset: 'custom' %}--line-height: 1.25;{% if block_settings.text_color != blank %}--color: {{ block_settings.text_color }};{% endif %}"
+                  >
+                    {{ block_settings.text }}
+                  </span>
+                {% endif %}
+              </div>
+            {% endunless %}
+          {% endfor %}
         </div>
-      </div>
+      {% endfor %}
     </div>
-  </marquee-component>
+  </div>
 </aside>
 
 {% stylesheet %}
-  .announcement-bar {
+  .announcement-bar.section {
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
     width: 100%;
-    height: 30px;
+    height: 28px;
     margin-block: 0;
-    min-height: 30px;
+    min-height: 28px;
     padding: 0;
     color: #fff;
     background: #075f3b;
   }
 
+  .announcement-bar > * {
+    grid-column: 1 / -1;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
   .shopify-section:has(> .announcement-bar) {
     position: relative;
+    flex: 0 0 28px;
+    height: 28px;
+    min-height: 28px;
     margin-block: 0;
     padding-block: 0;
-  }
-
-  #header-group:has(#header-component[sticky]) {
-    position: sticky;
-    inset-block-start: 0;
-    z-index: var(--layer-menu-drawer);
-    display: flex !important;
-    flex-direction: column;
-    align-items: stretch;
-    margin: 0;
-    padding: 0;
-  }
-
-  #header-group:has(#header-component[sticky]) > .header-section {
-    position: relative !important;
-    inset-block-start: auto !important;
+    overflow: hidden;
+    background: #075f3b;
   }
 
   .announcement-bar__marquee {
     display: block;
     width: 100%;
+    height: 100%;
     overflow: hidden;
+    color: #fff;
+    background: transparent;
   }
 
   .announcement-bar__marquee-track {
     display: flex;
-    width: fit-content;
+    width: max-content;
+    height: 100%;
+    align-items: center;
     white-space: nowrap;
     animation: announcement-bar-motion 34s linear infinite;
   }
 
-  .announcement-bar__marquee-content,
   .announcement-bar__messages {
     display: flex;
+    flex: 0 0 auto;
     align-items: center;
     width: max-content;
   }
 
   .announcement-bar__messages {
-    gap: clamp(36px, 5vw, 88px);
-    padding-inline: clamp(18px, 2.5vw, 44px);
+    gap: clamp(28px, 4vw, 64px);
+    padding-inline: clamp(16px, 2vw, 32px);
   }
 
   .announcement-bar__messages > * {
     flex: 0 0 auto;
   }
 
+  .announcement-bar__item,
   .announcement-bar__message {
-    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: clamp(36px, 5vw, 88px);
     color: var(--color, #fff);
     font-family: var(--font-family, var(--font-body--family));
-    font-size: var(--font-size, 1rem);
+    font-size: var(--font-size, 0.875rem);
     font-weight: var(--font-weight, 600);
     letter-spacing: var(--letter-spacing, normal);
     line-height: var(--line-height, 1.25);
@@ -106,9 +116,19 @@
     text-decoration: none;
   }
 
+  .announcement-bar__item {
+    flex: 0 0 auto;
+  }
+
+  .announcement-bar__message {
+    position: relative;
+    min-height: 28px;
+    text-decoration: none;
+  }
+
   @keyframes announcement-bar-motion {
     to {
-      transform: translate3d(-50%, 0, 0);
+      transform: translate3d(-12.5%, 0, 0);
     }
   }
 

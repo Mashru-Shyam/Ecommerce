@@ -461,7 +461,7 @@
 
 <div
   id="Hero-{{ section.id }}"
-  class="hero{% if template.name == 'index' %} hero--home{% endif %}{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}"
+  class="hero{% if template.name == 'index' %} hero--home{% endif %}{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' and template.name != 'index' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}"
   style="
     --hero-border-style: {{ section.settings.border }};
     --hero-border-width: {{ section.settings.border_width }}px;
@@ -629,9 +629,10 @@
 
   .hero--home {
     width: 100%;
-    aspect-ratio: 2.55 / 1;
+    aspect-ratio: 3 / 1;
+    max-height: 460px;
     min-height: 0;
-    margin-block-start: 12px;
+    margin-block-start: 6px;
     background: #fffdf8;
   }
 
@@ -643,21 +644,21 @@
     padding: 0;
   }
 
-  .hero__media-grid--home {
+  .hero--home .hero__media-grid--home {
     position: absolute;
     inset: 0 0 0 auto;
-    width: 52%;
+    width: 44%;
     overflow: hidden;
   }
 
-  .hero__content-wrapper--home {
+  .hero--home .hero__content-wrapper--home {
     position: absolute;
     inset: 0 auto 0 0;
     z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 52%;
+    width: 56%;
     height: 100%;
     min-height: 0;
     padding: clamp(18px, 3.5vw, 48px) 0 clamp(16px, 2.6vw, 34px) clamp(20px, 4vw, 58px);
@@ -778,6 +779,10 @@
     margin-block-start: 16px;
   }
 
+  .hero__media-grid--home .hero__media {
+    object-position: 52% center;
+  }
+
   .hero[data-shopify-visual-preview] {
     --hero-min-height: 600px;
 
@@ -867,16 +872,17 @@
 
   @media screen and (max-width: 749px) {
     .hero--home {
-      aspect-ratio: 1.78 / 1;
-      margin-block-start: 10px;
+      aspect-ratio: 2.1 / 1;
+      max-height: 200px;
+      margin-block-start: 6px;
     }
 
-    .hero__media-grid--home {
-      width: 43%;
+    .hero--home .hero__media-grid--home {
+      width: 40%;
     }
 
-    .hero__content-wrapper--home {
-      width: 57%;
+    .hero--home .hero__content-wrapper--home {
+      width: 60%;
       padding: 12px 0 10px 12px;
     }
 

@@ -657,7 +657,17 @@
   }
 
   #header-group:has(#header-component[sticky]) {
-    display: contents;
+    position: sticky;
+    inset-block-start: 0 !important;
+    top: 0 !important;
+    z-index: var(--layer-menu-drawer);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    row-gap: 0;
+    margin: 0;
+    padding: 0;
+    background: var(--color-background, #fff);
   }
 
   #header-group {
@@ -688,6 +698,15 @@
     /* Use -1 instead of 0 so intersection observer can track sticky state */
     top: -1px;
     z-index: var(--layer-menu-drawer);
+  }
+
+  #header-group:has(#header-component[sticky]) > .header-section {
+    position: relative;
+    inset-block-start: auto;
+    flex: 0 0 auto;
+    height: auto;
+    min-height: 0;
+    background: var(--color-background, #fff);
   }
 
   .header[data-sticky-state] {

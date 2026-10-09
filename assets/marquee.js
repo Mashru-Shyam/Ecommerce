@@ -123,7 +123,7 @@ class MarqueeComponent extends Component {
           if (!firstEntry) return;
           intersectionObserver.disconnect();
 
-          const { width: marqueeWidth } = firstEntry.rootBounds ?? { width: 0 };
+          const marqueeWidth = firstEntry.rootBounds?.width || this.clientWidth;
           const { width: marqueeItemsWidth } = firstEntry.boundingClientRect;
 
           const isHorizontalResize = this.#marqueeWidth !== marqueeWidth;
@@ -131,7 +131,7 @@ class MarqueeComponent extends Component {
 
           setTimeout(() => {
             resolve({
-              numberOfCopies: marqueeItemsWidth === 0 ? 1 : Math.ceil(marqueeWidth / marqueeItemsWidth),
+              numberOfCopies: marqueeItemsWidth === 0 ? 1 : Math.max(1, Math.ceil(marqueeWidth / marqueeItemsWidth)),
               isHorizontalResize,
             });
           }, 0);
@@ -147,25 +147,25 @@ class MarqueeComponent extends Component {
    */
   #calculateSpeed(numberOfCopies) {
     const speedFactor = Number(this.getAttribute('data-speed-factor'));
-    const speed = Math.sqrt(numberOfCopies) * speedFactor;
+    const speed = Math.max(1, Math.sqrt(numberOfCopies) * speedFactor);
 
     return speed;
   }
 
   #handleResize = debounce(async () => {
     const { marqueeItems } = this.refs;
-    const { newNumberOfCopies, isHorizontalResize } = await this.#queryNumberOfCopies();
+    const { numberOfCopies, isHorizontalResize } = await this.#queryNumberOfCopies();
 
     // opt out of marquee manipulation on vertical resizes
     if (!isHorizontalResize) return;
 
     const currentNumberOfCopies = marqueeItems.length;
-    const speed = this.#calculateSpeed(newNumberOfCopies);
+    const speed = this.#calculateSpeed(numberOfCopies);
 
-    if (newNumberOfCopies > currentNumberOfCopies) {
-      this.#addRepeatedItems(newNumberOfCopies - currentNumberOfCopies);
-    } else if (newNumberOfCopies < currentNumberOfCopies) {
-      this.#removeRepeatedItems(currentNumberOfCopies - newNumberOfCopies);
+    if (numberOfCopies > currentNumberOfCopies) {
+      this.#addRepeatedItems(numberOfCopies - currentNumberOfCopies);
+    } else if (numberOfCopies < currentNumberOfCopies) {
+      this.#removeRepeatedItems(currentNumberOfCopies - numberOfCopies);
     }
 
     this.#duplicateContent();
