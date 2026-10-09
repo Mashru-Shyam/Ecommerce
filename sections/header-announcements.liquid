@@ -41,16 +41,25 @@
   }
 
   .shopify-section:has(> .announcement-bar) {
-    position: sticky;
-    top: 0;
-    z-index: var(--layer-menu-drawer);
+    position: relative;
     margin-block: 0;
     padding-block: 0;
   }
 
-  #header-group .header-section:has(> #header-component[sticky='always']),
-  #header-group .header-section:has(> #header-component[sticky='scroll-up'][data-sticky-state='active']) {
-    top: 30px;
+  #header-group:has(#header-component[sticky]) {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: var(--layer-menu-drawer);
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 0;
+    padding: 0;
+  }
+
+  #header-group:has(#header-component[sticky]) > .header-section {
+    position: relative !important;
+    inset-block-start: auto !important;
   }
 
   .announcement-bar__marquee {

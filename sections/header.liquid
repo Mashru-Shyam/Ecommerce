@@ -376,6 +376,7 @@
     data-header-rows="single"
   {% endif %}
   style="
+    --header-padding: 0px;
     --color-background-top-row: rgba({{ section.settings.background_color_top.rgba | default: settings.page_background_color.rgba }});
     --color-background-bottom-row: rgba({{ section.settings.background_color_bottom.rgba | default: settings.page_background_color.rgba }});
     {% if transparent and text_color_transparent != blank %}
@@ -480,7 +481,7 @@
         class="{{ class | strip }}"
         ref="headerRowTop"
         {%- if style != blank -%}
-          style="{{ style | strip }}"
+          style="{{ style | strip }} padding-block: 0; margin-block: 0; min-height: 0;"
         {%- endif -%}
       >
         <div class="header__columns spacing-style">
@@ -666,6 +667,11 @@
 
   #header-group > .shopify-section-group-header-group,
   #header-group > .shopify-section {
+    margin-block: 0 !important;
+    padding-block: 0 !important;
+  }
+
+  #header-group > * {
     margin-block: 0 !important;
     padding-block: 0 !important;
   }
