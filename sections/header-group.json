@@ -13,82 +13,18 @@
   "sections": {
     "header_announcements_9jGBFp": {
       "type": "header-announcements",
-      "blocks": {
-        "announcement_BxgCk9": {
-          "type": "_announcement",
-          "settings": {
-            "text": "Washed & Cleaned",
-            "font": "var(--font-body--family)",
-            "font_size": "0.875rem",
-            "weight": "600",
-            "letter_spacing": "normal",
-            "case": "none",
-            "text_color": "#ffffff"
-          },
-          "blocks": {}
-        },
-        "announcement_2": {
-          "type": "_announcement",
-          "settings": {
-            "text": "No Preservatives Or Adulterants",
-            "font": "var(--font-body--family)",
-            "font_size": "0.875rem",
-            "weight": "600",
-            "letter_spacing": "normal",
-            "case": "none",
-            "text_color": "#ffffff"
-          },
-          "blocks": {}
-        },
-        "announcement_3": {
-          "type": "_announcement",
-          "settings": {
-            "text": "Freshly Packed On Order",
-            "font": "var(--font-body--family)",
-            "font_size": "0.875rem",
-            "weight": "600",
-            "letter_spacing": "normal",
-            "case": "none",
-            "text_color": "#ffffff"
-          },
-          "blocks": {}
-        },
-        "announcement_4": {
-          "type": "_announcement",
-          "settings": {
-            "text": "Premium Quality Ingredients",
-            "font": "var(--font-body--family)",
-            "font_size": "0.875rem",
-            "weight": "600",
-            "letter_spacing": "normal",
-            "case": "none",
-            "text_color": "#ffffff"
-          },
-          "blocks": {}
-        },
-        "announcement_5": {
-          "type": "_announcement",
-          "settings": {
-            "text": "Sourced From Local Farms",
-            "font": "var(--font-body--family)",
-            "font_size": "0.875rem",
-            "weight": "600",
-            "letter_spacing": "normal",
-            "case": "none",
-            "text_color": "#ffffff"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "announcement_BxgCk9",
-        "announcement_2",
-        "announcement_3",
-        "announcement_4",
-        "announcement_5"
-      ],
-      "name": "t:names.announcement_bar",
-      "settings": {}
+      "settings": {
+        "message_1": "Washed & Cleaned",
+        "link_1": "",
+        "message_2": "No Preservatives Or Adulterants",
+        "link_2": "",
+        "message_3": "Freshly Packed On Order",
+        "link_3": "",
+        "message_4": "Premium Quality Ingredients",
+        "link_4": "",
+        "message_5": "Sourced From Local Farms",
+        "link_5": ""
+      }
     },
     "header_section": {
       "type": "header",
@@ -139,7 +75,7 @@
         "localization_position": "right",
         "localization_row": "top",
         "section_width": "page-width",
-        "section_height": "standard",
+        "section_height": "compact",
         "enable_sticky_header": "always",
         "divider_width": 0,
         "divider_size": "page-width",

@@ -1,34 +1,22 @@
-<aside
-  class="announcement-bar section section--full-width"
-  aria-label="Store information"
->
+<aside class="announcement-bar section section--full-width" aria-label="Store information">
   <div class="announcement-bar__marquee">
     <div class="announcement-bar__marquee-track">
       {% for copy in (1..8) %}
         <div class="announcement-bar__messages"{% unless forloop.first %} aria-hidden="true"{% endunless %}>
-          {% for block in section.blocks %}
-            {% assign block_settings = block.settings %}
-            {% assign plain_text = block_settings.text | strip_newlines | strip_html | strip %}
-            {% unless plain_text == blank %}
-              <div class="announcement-bar__item"{% if forloop.parentloop.first %} {{ block.shopify_attributes }}{% endif %}>
-                {% if block_settings.link != blank %}
-                  <a
-                    class="announcement-bar__message"
-                    href="{{ block_settings.link }}"
-                    style="{% render 'typography-style', settings: block_settings, preset: 'custom' %}--line-height: 1.25;{% if block_settings.text_color != blank %}--color: {{ block_settings.text_color }};{% endif %}"
-                  >
-                    {{ block_settings.text }}
-                  </a>
+          {% for index in (1..5) %}
+            {% assign message_key = 'message_' | append: index %}
+            {% assign link_key = 'link_' | append: index %}
+            {% assign message = section.settings[message_key] %}
+            {% assign message_link = section.settings[link_key] %}
+            {% if message != blank %}
+              <span class="announcement-bar__item">
+                {% if message_link != blank %}
+                  <a class="announcement-bar__message" href="{{ message_link }}">{{ message | escape }}</a>
                 {% else %}
-                  <span
-                    class="announcement-bar__message"
-                    style="{% render 'typography-style', settings: block_settings, preset: 'custom' %}--line-height: 1.25;{% if block_settings.text_color != blank %}--color: {{ block_settings.text_color }};{% endif %}"
-                  >
-                    {{ block_settings.text }}
-                  </span>
+                  <span class="announcement-bar__message">{{ message | escape }}</span>
                 {% endif %}
-              </div>
-            {% endunless %}
+              </span>
+            {% endif %}
           {% endfor %}
         </div>
       {% endfor %}
@@ -91,9 +79,6 @@
     flex: 0 0 auto;
     align-items: center;
     width: max-content;
-  }
-
-  .announcement-bar__messages {
     gap: clamp(28px, 4vw, 64px);
     padding-inline: clamp(16px, 2vw, 32px);
   }
@@ -142,57 +127,25 @@
 {% schema %}
 {
   "name": "t:names.announcement_bar",
-  "blocks": [
-    {
-      "type": "_announcement"
-    }
-  ],
   "enabled_on": {
     "groups": ["header"]
   },
-  "settings": [],
+  "settings": [
+    { "type": "text", "id": "message_1", "label": "Message 1", "default": "Washed & Cleaned" },
+    { "type": "url", "id": "link_1", "label": "Message 1 link" },
+    { "type": "text", "id": "message_2", "label": "Message 2", "default": "No Preservatives Or Adulterants" },
+    { "type": "url", "id": "link_2", "label": "Message 2 link" },
+    { "type": "text", "id": "message_3", "label": "Message 3", "default": "Freshly Packed On Order" },
+    { "type": "url", "id": "link_3", "label": "Message 3 link" },
+    { "type": "text", "id": "message_4", "label": "Message 4", "default": "Premium Quality Ingredients" },
+    { "type": "url", "id": "link_4", "label": "Message 4 link" },
+    { "type": "text", "id": "message_5", "label": "Message 5", "default": "Sourced From Local Farms" },
+    { "type": "url", "id": "link_5", "label": "Message 5 link" }
+  ],
   "presets": [
     {
       "name": "t:names.announcement_bar",
-      "blocks": {
-        "announcement_1": {
-          "type": "_announcement",
-          "settings": {
-            "text": "Washed & Cleaned"
-          }
-        },
-        "announcement_2": {
-          "type": "_announcement",
-          "settings": {
-            "text": "No Preservatives Or Adulterants"
-          }
-        },
-        "announcement_3": {
-          "type": "_announcement",
-          "settings": {
-            "text": "Freshly Packed On Order"
-          }
-        },
-        "announcement_4": {
-          "type": "_announcement",
-          "settings": {
-            "text": "Premium Quality Ingredients"
-          }
-        },
-        "announcement_5": {
-          "type": "_announcement",
-          "settings": {
-            "text": "Sourced From Local Farms"
-          }
-        }
-      },
-      "block_order": [
-        "announcement_1",
-        "announcement_2",
-        "announcement_3",
-        "announcement_4",
-        "announcement_5"
-      ]
+      "category": "t:categories.header"
     }
   ]
 }
