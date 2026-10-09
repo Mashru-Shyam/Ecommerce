@@ -7,16 +7,17 @@
 <aside
   class="announcement-bar section section--full-width"
   aria-label="Store information"
-  style="background-color: #075f3b; color: #fff;"
+  style="background-color: #075f3b; color: #fff; min-height: 28px; padding: 4px 0; overflow: hidden;"
 >
   <marquee-component
     class="announcement-bar__marquee"
     data-speed-factor="25"
     data-movement-direction="normal"
+    style="display: block; width: 100%; overflow: hidden; background: transparent; color: #fff;"
   >
-    <div class="announcement-bar__marquee-track" ref="wrapper">
-      <div class="announcement-bar__marquee-content" ref="content">
-        <div class="announcement-bar__messages" ref="marqueeItems[]">
+    <div class="announcement-bar__marquee-track" ref="wrapper" style="display: flex; width: max-content; white-space: nowrap; animation: announcement-bar-motion 34s linear infinite;">
+      <div class="announcement-bar__marquee-content" ref="content" style="display: flex; width: max-content;">
+        <div class="announcement-bar__messages" ref="marqueeItems[]" style="display: flex; align-items: center; width: max-content; gap: clamp(36px, 5vw, 88px); padding-inline: clamp(18px, 2.5vw, 44px);">
           {% content_for 'blocks' %}
         </div>
       </div>
