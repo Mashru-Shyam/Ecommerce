@@ -481,7 +481,7 @@
         class="{{ class | strip }}"
         ref="headerRowTop"
         {%- if style != blank -%}
-          style="{{ style | strip }} padding-block: 0; margin-block: 0; min-height: 0;"
+          style="{{ style | strip }} padding-block: 0 10px; margin-block: 0; min-height: 0;"
         {%- endif -%}
       >
         <div class="header__columns spacing-style">
@@ -1419,7 +1419,7 @@
   }
 
   .header__row--top {
-    border-bottom: 1px solid #ededed;
+    border-bottom: 0;
   }
 
   .header__row--top .header__columns {
@@ -1452,7 +1452,7 @@
     #header-component .header__column--center .menu-list__link::before {
       position: absolute;
       inset-inline: 15px;
-      inset-block-end: 10px;
+      inset-block-end: 4px;
       height: 2px;
       background: #176b1c;
       content: '';
@@ -1502,6 +1502,10 @@
   }
 
   @media screen and (max-width: 749px) {
+    #header-component .header__row--top {
+      padding-block-end: 8px !important;
+    }
+
     #header-component .header__columns,
     #header-component[data-menu-style='drawer'] .header__columns {
       grid-template-columns: minmax(0, 1fr) auto;

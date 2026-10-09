@@ -1,0 +1,383 @@
+{% liquid
+  assign categories = section.settings.collection_list
+  assign sample_titles = 'Stone-Ground Flour|Grains|Cold-Pressed Oils|Whole Spices|Pantry Staples' | split: '|'
+%}
+
+<section class="category-section" aria-labelledby="category-heading-{{ section.id }}">
+  <div class="category-panel">
+    <div class="category-heading-row">
+      <div class="category-heading-copy">
+        <p class="category-eyebrow"><span aria-hidden="true">✦</span> {{ section.settings.eyebrow | escape }}</p>
+        <h2 id="category-heading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+      </div>
+      <div class="category-controls" aria-label="Category carousel controls">
+        <button class="category-control" type="button" data-category-scroll="previous" aria-label="Scroll to previous categories">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+        </button>
+        <button class="category-control" type="button" data-category-scroll="next" aria-label="Scroll to more categories">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="category-track" data-category-track tabindex="0" aria-label="Shop by category">
+      {% if categories != blank %}
+        {% for collection in categories limit: 12 %}
+          {% assign category_image = collection.featured_image | default: collection.image %}
+          <a class="category-card" href="{{ collection.url }}" aria-label="Shop {{ collection.title | escape }}">
+            <span class="category-card__image">
+              {% if category_image != blank %}
+                {{ category_image | image_url: width: 560 | image_tag: loading: 'lazy', widths: '180, 280, 420, 560', sizes: '(min-width: 750px) 17vw, 42vw', alt: collection.title }}
+              {% else %}
+                <span class="category-card__placeholder" aria-hidden="true">{{ collection.title | slice: 0 }}</span>
+              {% endif %}
+            </span>
+            <span class="category-card__title">{{ collection.title | escape }}</span>
+          </a>
+        {% endfor %}
+      {% else %}
+        {% for title in sample_titles %}
+          <a class="category-card" href="{{ routes.all_products_collection_url }}" aria-label="Shop {{ title | escape }}">
+            <span class="category-card__image">
+              <span class="category-card__placeholder category-card__placeholder--{{ forloop.index }}" aria-hidden="true">
+                {% case forloop.index %}
+                  {% when 1 %}✺
+                  {% when 2 %}◉
+                  {% when 3 %}♧
+                  {% when 4 %}✿
+                  {% else %}❋
+                {% endcase %}
+              </span>
+            </span>
+            <span class="category-card__title">{{ title | escape }}</span>
+          </a>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .category-section {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    padding: 14px 0 0;
+  }
+
+  .category-panel {
+    width: 100%;
+    padding: 16px 18px 18px;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #f5f6ec;
+  }
+
+  .category-heading-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 12px;
+  }
+
+  .category-heading-copy {
+    min-width: 0;
+  }
+
+  .category-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0 0 4px;
+    color: #155b35;
+    font-size: 12px;
+    font-weight: 650;
+    line-height: 1.2;
+  }
+
+  .category-eyebrow span {
+    color: #347d2b;
+    font-size: 16px;
+  }
+
+  .category-heading-row h2 {
+    margin: 0;
+    color: #113d25;
+    font-size: clamp(20px, 2.2vw, 30px);
+    font-weight: 750;
+    letter-spacing: -0.045em;
+    line-height: 1.12;
+  }
+
+  .category-controls {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 7px;
+  }
+
+  .category-control {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border: 1px solid #d8e0d2;
+    border-radius: 50%;
+    color: #145b35;
+    background: #fff;
+    cursor: pointer;
+    transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
+  }
+
+  .category-control:hover,
+  .category-control:focus-visible {
+    border-color: #176b3d;
+    color: #fff;
+    background: #176b3d;
+  }
+
+  .category-control svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+  }
+
+  .category-track {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    gap: 10px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .category-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .category-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 7px;
+    padding: 5px;
+    overflow: hidden;
+    border: 1px solid rgb(255 255 255 / 90%);
+    border-radius: 11px;
+    color: #171b17;
+    background: #fff;
+    text-align: center;
+    text-decoration: none;
+    scroll-snap-align: start;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+  }
+
+  .category-card:hover,
+  .category-card:focus-visible {
+    color: #171b17;
+    box-shadow: 0 5px 14px rgb(23 74 42 / 12%);
+    transform: translateY(-2px);
+  }
+
+  .category-card__image {
+    display: block;
+    aspect-ratio: 1.08;
+    overflow: hidden;
+    border-radius: 7px;
+    background: #f4eee2;
+  }
+
+  .category-card__image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 220ms ease;
+  }
+
+  .category-card:hover .category-card__image img {
+    transform: scale(1.04);
+  }
+
+  .category-card__placeholder {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    place-items: center;
+    color: #967944;
+    background: radial-gradient(ellipse at 50% 70%, #e9d7af 0 23%, transparent 24%), linear-gradient(145deg, #fbf6e9, #e9eadb);
+    font-family: Georgia, serif;
+    font-size: clamp(44px, 6vw, 88px);
+    line-height: 1;
+  }
+
+  .category-card__placeholder--2 { color: #a36a2a; background: radial-gradient(ellipse at 30% 60%, #c68a39 0 9%, transparent 10%), radial-gradient(ellipse at 68% 40%, #7a5129 0 10%, transparent 11%), #f3e7d0; }
+  .category-card__placeholder--3 { color: #47743d; background: radial-gradient(ellipse at 50% 75%, #d6b85c 0 18%, transparent 19%), linear-gradient(145deg, #f7f2df, #e5eadb); }
+  .category-card__placeholder--4 { color: #a54c2e; background: radial-gradient(ellipse at 55% 65%, #c65f37 0 18%, transparent 19%), linear-gradient(145deg, #f8ebdc, #e8e8d6); }
+  .category-card__placeholder--5 { color: #8c6937; background: radial-gradient(ellipse at 50% 60%, #c8a46c 0 22%, transparent 23%), linear-gradient(145deg, #f9f2e4, #e8eadc); }
+
+  .category-card__title {
+    display: -webkit-box;
+    min-height: 2.35em;
+    overflow: hidden;
+    color: #181b17;
+    font-size: 13px;
+    font-weight: 650;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  @media screen and (min-width: 750px) {
+    .category-track {
+      grid-auto-columns: calc((100% - 40px) / 5);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .category-section {
+      padding: 10px 0 0;
+    }
+
+    .category-panel {
+      padding: 12px 10px 12px;
+      border-radius: 11px;
+    }
+
+    .category-heading-row {
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 9px;
+    }
+
+    .category-eyebrow {
+      margin-bottom: 3px;
+      font-size: 10px;
+    }
+
+    .category-eyebrow span {
+      font-size: 13px;
+    }
+
+    .category-heading-row h2 {
+      max-width: 460px;
+      font-size: clamp(16px, 4.8vw, 21px);
+      letter-spacing: -0.04em;
+    }
+
+    .category-controls {
+      gap: 4px;
+    }
+
+    .category-control {
+      width: 29px;
+      height: 29px;
+    }
+
+    .category-control svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .category-track {
+      grid-auto-columns: calc((100vw - 48px) / 5);
+      gap: 6px;
+      margin-inline: -2px;
+      padding: 2px;
+    }
+
+    .category-card {
+      gap: 5px;
+      padding: 4px;
+      border-radius: 8px;
+    }
+
+    .category-card__image {
+      aspect-ratio: 1.04;
+      border-radius: 5px;
+    }
+
+    .category-card__title {
+      min-height: 2.3em;
+      font-size: 10px;
+      line-height: 1.12;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  document.addEventListener('click', (event) => {
+    const control = event.target.closest('[data-category-scroll]');
+    if (!control) return;
+
+    const panel = control.closest('.category-panel');
+    const track = panel?.querySelector('[data-category-track]');
+    if (!track) return;
+
+    const direction = control.dataset.categoryScroll === 'next' ? 1 : -1;
+    const firstCard = track.querySelector('.category-card');
+    const cardStep = firstCard ? firstCard.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0) : 0;
+
+    if (track.scrollWidth > track.clientWidth + 1) {
+      const maximumScroll = track.scrollWidth - track.clientWidth;
+      const nextPosition = track.scrollLeft + direction * cardStep;
+
+      if (direction > 0 && nextPosition >= maximumScroll - 1) {
+        track.scrollTo({ left: 0, behavior: 'smooth' });
+      } else if (direction < 0 && nextPosition <= 0) {
+        track.scrollTo({ left: maximumScroll, behavior: 'smooth' });
+      } else {
+        track.scrollTo({ left: nextPosition, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    const cards = [...track.children];
+    if (direction > 0) {
+      track.append(cards[0]);
+    } else {
+      track.prepend(cards[cards.length - 1]);
+    }
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Category carousel",
+  "class": "category-list-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Shop by category"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Everything we mill, press and pack"
+    },
+    {
+      "type": "collection_list",
+      "id": "collection_list",
+      "label": "Categories",
+      "limit": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category carousel",
+      "category": "Collections"
+    }
+  ]
+}
+{% endschema %}

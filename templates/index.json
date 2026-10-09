@@ -54,6 +54,15 @@
         "padding-block-end": 0
       }
     },
+    "category_list_home": {
+      "type": "category-list",
+      "name": "Shop by category",
+      "settings": {
+        "eyebrow": "Shop by category",
+        "heading": "Everything we mill, press and pack",
+        "collection_list": []
+      }
+    },
     "product_list_fa6P9H": {
       "type": "product-list",
       "blocks": {
@@ -243,6 +252,7 @@
   },
   "order": [
     "hero_jVaWmY",
+    "category_list_home",
     "product_list_fa6P9H"
   ]
 }
