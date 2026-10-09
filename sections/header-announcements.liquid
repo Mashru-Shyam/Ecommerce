@@ -78,6 +78,7 @@
     display: flex;
     flex: 0 0 auto;
     align-items: center;
+    gap: clamp(32px, 3.5vw, 52px);
     width: max-content;
     padding-inline: clamp(16px, 2vw, 32px);
   }
@@ -106,16 +107,6 @@
     display: inline-flex;
     align-items: center;
     flex: 0 0 auto;
-  }
-
-  .announcement-bar__item::after {
-    content: '.';
-    display: inline-block;
-    color: #fff;
-    font-size: 20px;
-    font-weight: 800;
-    line-height: 1;
-    margin-inline: clamp(24px, 3.5vw, 52px);
   }
 
   .announcement-bar__message {

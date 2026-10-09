@@ -30,54 +30,18 @@
   {% when 'bottom_navigation' %}
     {% if block_settings.menu != blank %}
       {% assign has_account_link = false %}
-      {% assign has_cart_link = false %}
       {% for link in block_settings.menu.links %}
         {% assign link_label = link.title | downcase %}
         {% if link.url == routes.account_url or link.handle contains 'account' or link_label contains 'account' %}
           {% assign has_account_link = true %}
         {% endif %}
-        {% if link.url == routes.cart_url or link.handle contains 'cart' or link_label contains 'cart' %}
-          {% assign has_cart_link = true %}
-        {% endif %}
       {% endfor %}
-
-      {% capture bottom_cart_icon %}
-        <cart-icon
-          class="header-bottom-navigation__cart-icon"
-          data-money-format="{{ shop.money_format | escape }}"
-          data-currency="{{ cart.currency.iso_code | default: shop.currency }}"
-          data-show-empty-count
-        >
-          <span class="svg-wrapper" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M2.75 4.25h2.1l2.2 11.1h11.4l2.2-7.8H6.1M8.1 18.9h.1m9.2 0h.1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/>
-              <circle cx="8.2" cy="19" r="1.35" fill="currentColor"/>
-              <circle cx="17.4" cy="19" r="1.35" fill="currentColor"/>
-            </svg>
-          </span>
-          <span
-            ref="cartBubble"
-            class="cart-bubble header-bottom-navigation__cart-bubble"
-            {% if cart.item_count <= 99 %}data-maintain-ratio{% endif %}
-          >
-            <span class="cart-bubble__background"></span>
-            <span ref="cartBubbleText" class="cart-bubble__text">
-              <span
-                ref="cartBubbleCount"
-                class="cart-bubble__text-count"
-                aria-hidden="true"
-              >
-                {{ cart.item_count }}
-              </span>
-            </span>
-          </span>
-        </cart-icon>
-      {% endcapture %}
 
       <nav class="header-bottom-navigation" aria-label="{{ 'accessibility.header_navigation_label' | t }}">
         <ul class="header-bottom-navigation__list">
           {% for link in block_settings.menu.links %}
             {% assign link_label = link.title | downcase %}
+            {% unless link.url == routes.cart_url or link.handle contains 'cart' or link_label contains 'cart' %}
             <li>
               <a
                 class="header-bottom-navigation__link{% if link.current %} is-current{% endif %}"
@@ -85,9 +49,7 @@
                 {% if link.current %}aria-current="page"{% endif %}
               >
                 <span class="header-bottom-navigation__icon" aria-hidden="true">
-                  {% if link_label contains 'cart' %}
-                    {{ bottom_cart_icon }}
-                  {% elsif link_label contains 'account' %}
+                  {% if link_label contains 'account' %}
                     {{ 'icon-account.svg' | inline_asset_content }}
                   {% elsif link_label contains 'home' %}
                     <svg viewBox="0 0 24 24" fill="none">
@@ -111,6 +73,7 @@
                 <span class="header-bottom-navigation__label">{{ link.title }}</span>
               </a>
             </li>
+            {% endunless %}
           {% endfor %}
 
           {% if shop.customer_accounts_enabled and has_account_link == false %}
@@ -128,33 +91,6 @@
             </li>
           {% endif %}
 
-          {% if has_cart_link == false %}
-            <li>
-              {% if settings.cart_type == 'drawer' and template.name != 'cart' %}
-                <button
-                  class="header-bottom-navigation__link{% if request.page_type == 'cart' %} is-current{% endif %}"
-                  type="button"
-                  on:click="#cart-drawer/toggle"
-                  aria-haspopup="dialog"
-                  aria-expanded="false"
-                  aria-controls="cart-drawer"
-                  aria-label="{{ 'accessibility.cart' | t }}"
-                >
-                  {{ bottom_cart_icon }}
-                  <span class="header-bottom-navigation__label">{{ 'content.cart_title' | t }}</span>
-                </button>
-              {% else %}
-                <a
-                  class="header-bottom-navigation__link{% if request.page_type == 'cart' %} is-current{% endif %}"
-                  href="{{ routes.cart_url }}"
-                  {% if request.page_type == 'cart' %}aria-current="page"{% endif %}
-                >
-                  {{ bottom_cart_icon }}
-                  <span class="header-bottom-navigation__label">{{ 'content.cart_title' | t }}</span>
-                </a>
-              {% endif %}
-            </li>
-          {% endif %}
         </ul>
       </nav>
     {% endif %}
