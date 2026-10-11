@@ -270,6 +270,8 @@
   }
 
   @media screen and (max-width: 749px) {
+    .category-controls { display: none !important; }
+
     .category-section {
       padding: 10px 0 0;
     }
@@ -315,6 +317,8 @@
       gap: 6px;
       margin-inline: -2px;
       padding: 2px;
+      touch-action: pan-x;
+      -webkit-overflow-scrolling: touch;
     }
 
     .category-card {

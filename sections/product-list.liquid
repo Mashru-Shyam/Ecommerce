@@ -425,6 +425,8 @@
   }
 
   @media screen and (max-width: 749px) {
+    .ui-test-product-list .best-seller-controls { display: none !important; }
+
     .ui-test-product-list .section {
       padding-inline: 10px;
     }
@@ -449,6 +451,11 @@
 
     .ui-test-product-list .section-resource-list__header a {
       font-size: 9px;
+    }
+
+    .ui-test-product-list .resource-list__carousel slideshow-slides {
+      touch-action: pan-x;
+      -webkit-overflow-scrolling: touch;
     }
 
     .ui-test-product-list .product-card__content {
