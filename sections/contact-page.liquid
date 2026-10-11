@@ -1,0 +1,272 @@
+{% liquid
+  assign contact_address = section.settings.contact_address | newline_to_br
+  assign map_query = section.settings.contact_address | url_encode
+  assign contact_form_id = 'ContactForm-' | append: section.id
+%}
+
+<section class="contact-page" aria-labelledby="ContactHeading-{{ section.id }}">
+  <div class="contact-page__hero">
+    {% if section.settings.hero_image != blank %}
+      {{ section.settings.hero_image | image_url: width: 2200 | image_tag: class: 'contact-page__hero-image', widths: '750, 1100, 1500, 1900, 2200', sizes: '100vw', loading: 'eager', alt: '' }}
+    {% endif %}
+    <div class="contact-page__hero-inner">
+      <p class="contact-page__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      <h1 id="ContactHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h1>
+      <p class="contact-page__intro">{{ section.settings.intro | escape | newline_to_br }}</p>
+    </div>
+  </div>
+
+  <div class="contact-page__content">
+    <div class="contact-page__form-card">
+      <header class="contact-page__form-heading">
+        <span class="contact-page__icon contact-page__icon--large" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3.5 6.5h17v12h-17zM4 7l8 6 8-6"/></svg>
+        </span>
+        <div>
+          <h2>{{ section.settings.form_title | escape }}</h2>
+          <p>{{ section.settings.form_description | escape }}</p>
+        </div>
+      </header>
+
+      {% form 'contact', id: contact_form_id, class: 'contact-page__form' %}
+        {% if form.posted_successfully? %}
+          <div class="contact-page__notice contact-page__notice--success" role="status">
+            <span class="contact-page__notice-icon" aria-hidden="true">✓</span>
+            <div><strong>{{ section.settings.success_title | escape }}</strong><p>{{ section.settings.success_message | escape }}</p></div>
+            <button type="button" class="contact-page__notice-close" aria-label="{{ 'accessibility.close' | t }}" data-contact-notice-close>×</button>
+          </div>
+        {% endif %}
+        {% if form.errors %}
+          <div class="contact-page__notice contact-page__notice--error" role="alert">{{ form.errors | default_errors }}</div>
+        {% endif %}
+
+        <label for="ContactName-{{ section.id }}">{{ 'blocks.contact_form.name' | t }} <span>*</span></label>
+        <div class="contact-page__field">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 20v-1.4a6.5 6.5 0 0 1 13 0V20z"/></svg>
+          <input id="ContactName-{{ section.id }}" type="text" name="contact[name]" autocomplete="name" value="{{ form.name | escape }}" placeholder="{{ section.settings.name_placeholder | escape }}" required>
+        </div>
+
+        <label for="ContactEmail-{{ section.id }}">{{ 'blocks.contact_form.email' | t }} <span>*</span></label>
+        <div class="contact-page__field">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="1.5"/><path d="m4.5 7 7.5 5.5L19.5 7"/></svg>
+          <input id="ContactEmail-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" value="{{ form.email | escape }}" placeholder="{{ section.settings.email_placeholder | escape }}" required>
+        </div>
+
+        <label for="ContactPhone-{{ section.id }}">{{ section.settings.phone_label | escape }} <span class="contact-page__optional">({{ section.settings.optional_label | escape }})</span></label>
+        <div class="contact-page__field">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.5h3l1.4 4-2 1.6a14 14 0 0 0 5.5 5.5l1.6-2 4 1.4v3c0 1.1-.9 2-2 2C10.7 19 5 13.3 5 5.5c0-1.1.9-2 2-2Z"/></svg>
+          <input id="ContactPhone-{{ section.id }}" type="tel" name="contact[phone]" autocomplete="tel" value="{{ form.phone | escape }}" placeholder="{{ section.settings.phone_placeholder | escape }}">
+        </div>
+
+        <label for="ContactMessage-{{ section.id }}">{{ 'blocks.contact_form.comment' | t }} <span>*</span></label>
+        <div class="contact-page__field contact-page__field--textarea">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v12H9l-5 3zM7.5 9h9M7.5 13h6"/></svg>
+          <textarea id="ContactMessage-{{ section.id }}" name="contact[body]" rows="3" placeholder="{{ section.settings.message_placeholder | escape }}" required>{{ form.body | escape }}</textarea>
+        </div>
+
+        <button class="contact-page__submit" type="submit">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 3-7.4 18-3.4-7.2L3 10.4 21 3Zm-10.8 10.8L21 3"/></svg>
+          {{ section.settings.submit_label | escape }}
+        </button>
+      {% endform %}
+    </div>
+
+    <div class="contact-page__details">
+      <div class="contact-page__info-grid">
+        <article class="contact-page__info-card">
+          <span class="contact-page__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
+          <div><h2>{{ section.settings.address_title | escape }}</h2><p>{{ contact_address }}</p></div>
+        </article>
+        <article class="contact-page__info-card">
+          <span class="contact-page__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3.5h3l1.4 4-2 1.6a14 14 0 0 0 5.5 5.5l1.6-2 4 1.4v3c0 1.1-.9 2-2 2C10.7 19 5 13.3 5 5.5c0-1.1.9-2 2-2Z"/></svg></span>
+          <div><h2>{{ section.settings.phone_title | escape }}</h2><a href="tel:{{ section.settings.phone | remove: ' ' | escape }}">{{ section.settings.phone | escape }}</a><p class="contact-page__muted">{{ section.settings.phone_note | escape }}</p></div>
+        </article>
+        <article class="contact-page__info-card">
+          <span class="contact-page__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 6.5h17v12h-17zM4 7l8 6 8-6"/></svg></span>
+          <div><h2>{{ section.settings.email_title | escape }}</h2><a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email | escape }}</a><p class="contact-page__muted">{{ section.settings.email_note | escape }}</p></div>
+        </article>
+        <article class="contact-page__info-card">
+          <span class="contact-page__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg></span>
+          <div><h2>{{ section.settings.hours_title | escape }}</h2><p>{{ section.settings.hours | escape }}</p><p class="contact-page__muted">{{ section.settings.hours_note | escape }}</p></div>
+        </article>
+      </div>
+
+      <div class="contact-page__bottom-grid">
+        <article class="contact-page__location-card">
+          <h2><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>{{ section.settings.location_title | escape }}</h2>
+          <iframe title="{{ section.settings.location_title | escape }}" src="https://maps.google.com/maps?q={{ map_query }}&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </article>
+        <article class="contact-page__social-card">
+          <h2><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.2 10.8 7.5-4.4M8.2 13.2l7.5 4.4"/></svg>{{ section.settings.social_title | escape }}</h2>
+          <p>{{ section.settings.social_description | escape }}</p>
+          <div class="contact-page__social-links">
+            {% if section.settings.instagram_url != blank %}<a class="contact-page__social-item" href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener"><span class="contact-page__social-mark contact-page__social-mark--instagram">◎</span>{{ section.settings.instagram_label | escape }}<span aria-hidden="true">›</span></a>{% else %}<div class="contact-page__social-item"><span class="contact-page__social-mark contact-page__social-mark--instagram">◎</span>{{ section.settings.instagram_label | escape }}<span aria-hidden="true">›</span></div>{% endif %}
+            {% if section.settings.youtube_url != blank %}<a class="contact-page__social-item" href="{{ section.settings.youtube_url }}" target="_blank" rel="noopener"><span class="contact-page__social-mark contact-page__social-mark--youtube">▶</span>{{ section.settings.youtube_label | escape }}<span aria-hidden="true">›</span></a>{% else %}<div class="contact-page__social-item"><span class="contact-page__social-mark contact-page__social-mark--youtube">▶</span>{{ section.settings.youtube_label | escape }}<span aria-hidden="true">›</span></div>{% endif %}
+            {% if section.settings.linkedin_url != blank %}<a class="contact-page__social-item" href="{{ section.settings.linkedin_url }}" target="_blank" rel="noopener"><span class="contact-page__social-mark contact-page__social-mark--linkedin">in</span>{{ section.settings.linkedin_label | escape }}<span aria-hidden="true">›</span></a>{% else %}<div class="contact-page__social-item"><span class="contact-page__social-mark contact-page__social-mark--linkedin">in</span>{{ section.settings.linkedin_label | escape }}<span aria-hidden="true">›</span></div>{% endif %}
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('[data-contact-notice-close]').forEach((button) => {
+    button.addEventListener('click', () => button.closest('.contact-page__notice')?.remove());
+  });
+</script>
+
+{% stylesheet %}
+  .contact-page { width: 100vw; max-width: 100vw; margin-inline: calc(50% - 50vw); color: #111b18; background: #f5f8ed; }
+  .contact-page__hero { position: relative; display: flex; width: 100%; aspect-ratio: 3 / 1; max-height: 420px; min-height: 0; margin-block-start: 6px; align-items: center; overflow: hidden; background: #f3f7e9; }
+  .contact-page__hero::after { position: absolute; inset: 0; content: ''; background: linear-gradient(90deg, #f3f7e9 0%, rgb(243 247 233 / .97) 42%, rgb(243 247 233 / .12) 78%, rgb(243 247 233 / .05) 100%); }
+  .contact-page__hero-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 52%; }
+  .contact-page__hero-inner { position: relative; z-index: 1; width: 100%; margin: 0; padding: clamp(18px, 3.5vw, 48px) 0 clamp(16px, 2.6vw, 34px) clamp(10px, 2.5vw, 36px); }
+  .contact-page__eyebrow { margin: 0 0 5px; color: #155c23; font-size: 12px; font-weight: 800; letter-spacing: .035em; text-transform: uppercase; }
+  .contact-page__hero h1 { margin: 0; font-size: clamp(34px, 4.25vw, 62px); font-weight: 750; letter-spacing: -.055em; line-height: .98; }
+  .contact-page__intro { max-width: 460px; margin: 14px 0 0; font-size: clamp(14px, 1.55vw, 20px); line-height: 1.35; }
+  .contact-page__content { display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(0, 1fr); gap: 12px; width: calc(100% - clamp(24px, 4vw, 72px)); max-width: 1600px; margin: 12px auto 28px; position: relative; z-index: 1; }
+  .contact-page__form-card,.contact-page__info-card,.contact-page__location-card,.contact-page__social-card { border: 1px solid #e8ece3; border-radius: 9px; background: rgb(255 255 255 / .96); box-shadow: 0 2px 10px rgb(39 59 42 / .045); }
+  .contact-page__form-card { padding: 14px 17px 16px; }
+  .contact-page__form-heading { display: flex; align-items: center; gap: 12px; margin-bottom: 11px; }
+  .contact-page__icon { display: grid; width: 38px; height: 38px; flex: 0 0 38px; place-items: center; border-radius: 50%; background: #edf7e7; color: #146321; }
+  .contact-page__icon svg,.contact-page__form-heading svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+  .contact-page__icon--large { width: 46px; height: 46px; flex-basis: 46px; }
+  .contact-page__form-heading h2,.contact-page__info-card h2,.contact-page__location-card h2,.contact-page__social-card h2 { margin: 0; font-size: 14px; font-weight: 750; line-height: 1.25; }
+  .contact-page__form-heading p { margin: 3px 0 0; color: #677169; font-size: 11px; line-height: 1.35; }
+  .contact-page__form { display: grid; gap: 5px; }
+  .contact-page__form label { margin-top: 2px; font-size: 11px; font-weight: 700; line-height: 1.3; }
+  .contact-page__form label > span:first-child { color: #d92929; }
+  .contact-page__form label .contact-page__optional { color: #666; font-weight: 400; }
+  .contact-page__field { position: relative; display: flex; align-items: center; min-height: 34px; }
+  .contact-page__field > svg { position: absolute; left: 11px; z-index: 1; width: 16px; height: 16px; fill: none; stroke: #343b39; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; pointer-events: none; }
+  .contact-page__field input,.contact-page__field textarea { box-sizing: border-box; width: 100%; min-height: 34px; padding: 7px 10px 7px 36px; border: 1px solid #d9dee0; border-radius: 5px; background: #fff; color: #1c2421; font: inherit; font-size: 11px; line-height: 1.35; }
+  .contact-page__field input::placeholder,.contact-page__field textarea::placeholder { color: #8a8f91; opacity: 1; }
+  .contact-page__field input:focus,.contact-page__field textarea:focus { outline: 2px solid rgb(23 107 28 / .17); border-color: #176b1c; }
+  .contact-page__field--textarea { align-items: flex-start; }
+  .contact-page__field--textarea > svg { top: 10px; }
+  .contact-page__field textarea { min-height: 66px; resize: vertical; }
+  .contact-page__submit { display: flex; min-height: 37px; align-items: center; justify-content: center; gap: 8px; margin-top: 6px; border: 1px solid #075b12; border-radius: 5px; background: #075b12; color: #fff; font: inherit; font-size: 11px; font-weight: 700; cursor: pointer; transition: background-color .16s ease; }
+  .contact-page__submit:hover { background: #06490f; }
+  .contact-page__submit svg { width: 15px; height: 15px; fill: currentColor; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.3; }
+  .contact-page__notice { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 5px; padding: 9px 10px; border: 1px solid #d8ebcf; border-radius: 6px; background: #f3faef; color: #244b2b; font-size: 10px; line-height: 1.35; }
+  .contact-page__notice--error { border-color: #efcaca; background: #fff6f6; color: #8b2222; }
+  .contact-page__notice-icon { display: grid; width: 18px; height: 18px; flex: 0 0 18px; place-items: center; border-radius: 50%; background: #176b1c; color: #fff; font-weight: 800; }
+  .contact-page__notice strong { display: block; margin-bottom: 2px; }
+  .contact-page__notice p { margin: 0; }
+  .contact-page__notice-close { margin-inline-start: auto; padding: 0 2px; border: 0; background: transparent; color: inherit; font-size: 16px; line-height: 1; cursor: pointer; }
+  .contact-page__details { display: grid; grid-template-rows: auto 1fr; gap: 12px; min-width: 0; }
+  .contact-page__info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .contact-page__info-card { position: relative; display: flex; min-width: 0; min-height: 78px; align-items: flex-start; gap: 10px; overflow: hidden; padding: 10px; }
+  .contact-page__info-card > div { position: relative; z-index: 1; min-width: 0; padding-top: 3px; }
+  .contact-page__info-card h2 { margin-bottom: 5px; font-size: 12px; }
+  .contact-page__info-card p,.contact-page__info-card a { display: block; margin: 0; color: #202927; font-size: 11px; line-height: 1.45; text-decoration: none; }
+  .contact-page__info-card a:hover { color: #176b1c; text-decoration: underline; }
+  .contact-page__info-card .contact-page__muted { margin-top: 3px; color: #737b75; font-size: 10px; }
+  .contact-page__bottom-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(190px, .9fr); gap: 10px; min-height: 0; }
+  .contact-page__location-card,.contact-page__social-card { min-width: 0; padding: 10px; }
+  .contact-page__location-card h2,.contact-page__social-card h2 { display: flex; align-items: center; gap: 7px; margin-bottom: 7px; }
+  .contact-page__location-card h2 svg,.contact-page__social-card h2 svg { width: 16px; height: 16px; fill: none; stroke: #17221d; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2; }
+  .contact-page__location-card iframe { display: block; width: 100%; min-height: 170px; height: calc(100% - 24px); border: 0; border-radius: 7px; background: #eaf0e5; }
+  .contact-page__social-card h2 svg { stroke: #176b1c; }
+  .contact-page__social-card > p { margin: -3px 0 8px 23px; color: #68736b; font-size: 10px; line-height: 1.35; }
+  .contact-page__social-links { display: grid; gap: 6px; }
+  .contact-page__social-item { display: flex; min-height: 34px; align-items: center; gap: 9px; padding: 4px 8px; border-radius: 6px; color: #19231f; font-size: 11px; font-weight: 700; text-decoration: none; }
+  a.contact-page__social-item:hover { filter: brightness(.97); }
+  .contact-page__social-item > span:last-child { margin-inline-start: auto; font-size: 21px; font-weight: 400; line-height: 1; }
+  .contact-page__social-item:nth-child(1) { background: #fff0f2; }
+  .contact-page__social-item:nth-child(2) { background: #fff0ef; }
+  .contact-page__social-item:nth-child(3) { background: #eaf4fc; }
+  .contact-page__social-mark { display: grid; width: 23px; height: 23px; place-items: center; border-radius: 5px; background: #fff; font-size: 17px; font-weight: 800; }
+  .contact-page__social-mark--instagram { color: #d62b7a; }
+  .contact-page__social-mark--youtube { color: #e62117; font-size: 13px; }
+  .contact-page__social-mark--linkedin { background: #0a66c2; color: #fff; font-size: 13px; }
+  @media screen and (max-width: 749px) {
+    .contact-page__hero { aspect-ratio: 2.1 / 1; max-height: 180px; min-height: 0; align-items: flex-start; }
+    .contact-page__hero::after { background: linear-gradient(90deg, #f3f7e9 0%, rgb(243 247 233 / .94) 44%, rgb(243 247 233 / .24) 100%); }
+    .contact-page__hero-image { object-position: 72% center; }
+    .contact-page__hero-inner { width: 100%; padding: 10px 8px 8px; }
+    .contact-page__eyebrow { margin-bottom: 3px; font-size: 8px; }
+    .contact-page__hero h1 { max-width: 70%; font-size: clamp(18px, 5.2vw, 25px); line-height: .98; }
+    .contact-page__intro { max-width: 58%; margin-top: 6px; font-size: clamp(9px, 2.65vw, 12px); line-height: 1.25; }
+    .contact-page__content { grid-template-columns: minmax(0, 1fr); gap: 9px; width: calc(100% - 24px); margin-top: 10px; margin-bottom: 18px; }
+    .contact-page__form-card { padding: 10px; }
+    .contact-page__form-heading { gap: 8px; margin-bottom: 7px; }
+    .contact-page__icon { width: 30px; height: 30px; flex-basis: 30px; }
+    .contact-page__icon--large { width: 34px; height: 34px; flex-basis: 34px; }
+    .contact-page__icon svg { width: 17px; height: 17px; }
+    .contact-page__form-heading h2 { font-size: 11px; }
+    .contact-page__form-heading p { font-size: 8px; }
+    .contact-page__form { gap: 3px; }
+    .contact-page__form label { font-size: 8px; }
+    .contact-page__field { min-height: 28px; }
+    .contact-page__field > svg { left: 8px; width: 13px; height: 13px; }
+    .contact-page__field input,.contact-page__field textarea { min-height: 28px; padding: 5px 8px 5px 27px; border-radius: 4px; font-size: 8px; }
+    .contact-page__field--textarea > svg { top: 8px; }
+    .contact-page__field textarea { min-height: 48px; }
+    .contact-page__submit { min-height: 31px; margin-top: 4px; font-size: 9px; }
+    .contact-page__submit svg { width: 13px; height: 13px; }
+    .contact-page__notice { padding: 7px; font-size: 8px; }
+    .contact-page__notice-icon { width: 16px; height: 16px; flex-basis: 16px; }
+    .contact-page__details { gap: 8px; }
+    .contact-page__info-grid { gap: 7px; }
+    .contact-page__info-card { min-height: 64px; gap: 6px; padding: 7px 6px; border-radius: 7px; }
+    .contact-page__info-card h2 { margin-bottom: 3px; font-size: 8px; }
+    .contact-page__info-card p,.contact-page__info-card a { font-size: 7px; line-height: 1.35; overflow-wrap: anywhere; }
+    .contact-page__info-card .contact-page__muted { margin-top: 2px; font-size: 7px; }
+    .contact-page__bottom-grid { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+    .contact-page__location-card,.contact-page__social-card { padding: 8px; border-radius: 7px; }
+    .contact-page__location-card h2,.contact-page__social-card h2 { gap: 5px; margin-bottom: 6px; font-size: 9px; }
+    .contact-page__location-card h2 svg,.contact-page__social-card h2 svg { width: 13px; height: 13px; }
+    .contact-page__location-card iframe { height: 118px; min-height: 118px; }
+    .contact-page__social-card > p { margin: -3px 0 6px 18px; font-size: 7px; }
+    .contact-page__social-links { gap: 4px; }
+    .contact-page__social-item { min-height: 27px; gap: 7px; padding: 3px 6px; font-size: 8px; }
+    .contact-page__social-mark { width: 19px; height: 19px; font-size: 14px; }
+    .contact-page__social-mark--youtube,.contact-page__social-mark--linkedin { font-size: 11px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Contact page",
+  "settings": [
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "We're here for a healthier you" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Connect with Us" },
+    { "type": "textarea", "id": "intro", "label": "Introduction", "default": "Have a question about our products, your order, or healthy living?\nWe'd love to hear from you and will respond as soon as possible." },
+    { "type": "text", "id": "form_title", "label": "Form title", "default": "Send Us a Message" },
+    { "type": "text", "id": "form_description", "label": "Form description", "default": "Fill out the form below and we'll get back to you soon." },
+    { "type": "text", "id": "name_placeholder", "label": "Name placeholder", "default": "Your full name" },
+    { "type": "text", "id": "email_placeholder", "label": "Email placeholder", "default": "yourname@example.com" },
+    { "type": "text", "id": "phone_label", "label": "Phone label", "default": "Phone" },
+    { "type": "text", "id": "optional_label", "label": "Optional label", "default": "optional" },
+    { "type": "text", "id": "phone_placeholder", "label": "Phone placeholder", "default": "+91 98765 43210" },
+    { "type": "text", "id": "message_placeholder", "label": "Message placeholder", "default": "Type your message here..." },
+    { "type": "text", "id": "submit_label", "label": "Submit label", "default": "Send message" },
+    { "type": "text", "id": "success_title", "label": "Success title", "default": "Message sent!" },
+    { "type": "text", "id": "success_message", "label": "Success message", "default": "Thanks for reaching out — we'll get back to you shortly." },
+    { "type": "text", "id": "address_title", "label": "Address heading", "default": "Our Address" },
+    { "type": "textarea", "id": "contact_address", "label": "Address", "default": "123 Green Street,\nVadodara, Gujarat 390007" },
+    { "type": "text", "id": "phone_title", "label": "Phone heading", "default": "Phone / WhatsApp" },
+    { "type": "text", "id": "phone", "label": "Phone number", "default": "+91 76000 62637" },
+    { "type": "text", "id": "phone_note", "label": "Phone note", "default": "Chat or call us anytime." },
+    { "type": "text", "id": "email_title", "label": "Email heading", "default": "Email Us" },
+    { "type": "text", "id": "email", "label": "Email address", "default": "mashrushyam37@gmail.com" },
+    { "type": "text", "id": "email_note", "label": "Email note", "default": "We typically respond within 24 hours." },
+    { "type": "text", "id": "hours_title", "label": "Hours heading", "default": "Opening Hours" },
+    { "type": "text", "id": "hours", "label": "Opening hours", "default": "Everyday: 9:30 AM - 8:00 PM" },
+    { "type": "text", "id": "hours_note", "label": "Hours note", "default": "We're here to serve you fresh." },
+    { "type": "text", "id": "location_title", "label": "Location heading", "default": "Our Location" },
+    { "type": "text", "id": "social_title", "label": "Social heading", "default": "Follow Us" },
+    { "type": "text", "id": "social_description", "label": "Social description", "default": "Stay updated with fresh arrivals, healthy tips and more." },
+    { "type": "text", "id": "instagram_label", "label": "Instagram label", "default": "Instagram" },
+    { "type": "url", "id": "instagram_url", "label": "Instagram URL" },
+    { "type": "text", "id": "youtube_label", "label": "YouTube label", "default": "YouTube" },
+    { "type": "url", "id": "youtube_url", "label": "YouTube URL" },
+    { "type": "text", "id": "linkedin_label", "label": "LinkedIn label", "default": "LinkedIn" },
+    { "type": "url", "id": "linkedin_url", "label": "LinkedIn URL" }
+  ],
+  "presets": [{ "name": "Contact page" }]
+}
+{% endschema %}

@@ -76,6 +76,44 @@
             {% endunless %}
           {% endfor %}
 
+          <li>
+            {% if settings.cart_type == 'drawer' and template.name != 'cart' %}
+              <button
+                class="header-bottom-navigation__link"
+                type="button"
+                on:click="#cart-drawer/toggle"
+                aria-haspopup="dialog"
+                aria-controls="cart-drawer"
+                aria-label="{{ 'accessibility.cart' | t }}"
+              >
+            {% else %}
+              <a class="header-bottom-navigation__link" href="{{ routes.cart_url }}" aria-label="{{ 'accessibility.cart' | t }}">
+            {% endif %}
+                <cart-icon
+                  class="header-bottom-navigation__cart-icon header-actions__cart-icon{% unless cart == empty %} header-actions__cart-icon--has-cart{% endunless %}"
+                  data-testid="cart-icon"
+                  data-money-format="{{ shop.money_format | escape }}"
+                  data-currency="{{ cart.currency.iso_code | default: shop.currency }}"
+                  data-show-empty-count
+                >
+                  <span class="svg-wrapper" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M2.75 4.25h2.1l2.2 11.1h11.4l2.2-7.8H6.1M8.1 18.9h.1m9.2 0h.1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/>
+                      <circle cx="8.2" cy="19" r="1.35" fill="currentColor"/>
+                      <circle cx="17.4" cy="19" r="1.35" fill="currentColor"/>
+                    </svg>
+                  </span>
+                  {% render 'cart-bubble', limit: 100, show_empty: true, bubble_text_id: 'bottom-cart-bubble-text' %}
+                </cart-icon>
+                <span class="header-bottom-navigation__label">{{ 'content.cart_title' | t }}</span>
+                <span class="header-bottom-navigation__cart-total" data-cart-total>{{ cart.total_price | money }}</span>
+            {% if settings.cart_type == 'drawer' and template.name != 'cart' %}
+              </button>
+            {% else %}
+              </a>
+            {% endif %}
+          </li>
+
           {% if shop.customer_accounts_enabled and has_account_link == false %}
             <li>
               <a

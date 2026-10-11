@@ -1515,10 +1515,10 @@
 
     #header-component .header__columns,
     #header-component[data-menu-style='drawer'] .header__columns {
-      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) auto;
       grid-template-areas:
-        'logo visit cart'
-        'search search search';
+        'logo visit'
+        'search search';
       grid-template-rows: auto auto;
       grid-column: 1 / -1;
       row-gap: 10px;
@@ -1555,7 +1555,7 @@
 
     #header-component .header-visit-store {
       grid-area: visit;
-      justify-self: center;
+      justify-self: end;
       min-height: 34px;
       gap: 5px;
       padding-inline: 7px;
@@ -1581,13 +1581,7 @@
     }
 
     #header-component header-actions > .action__cart,
-    #header-component header-actions > [data-testid='cart-drawer-trigger'] {
-      grid-area: cart;
-      justify-self: end;
-      display: flex !important;
-      min-width: 36px !important;
-      padding: 0 2px !important;
-    }
+    #header-component header-actions > [data-testid='cart-drawer-trigger'] { display: none !important; }
 
     #header-component .header-actions__action:has(.header-cart-total) {
       gap: 1px;
@@ -1697,6 +1691,35 @@
       width: 21px;
       height: 21px;
     }
+
+    .header-bottom-navigation__cart-icon {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+    }
+
+    .header-bottom-navigation__cart-icon > .svg-wrapper,
+    .header-bottom-navigation__cart-icon > .svg-wrapper svg {
+      display: block;
+      width: 21px;
+      height: 21px;
+    }
+
+    .header-bottom-navigation__cart-icon .cart-bubble {
+      position: absolute;
+      top: -3px;
+      inset-inline-end: -5px;
+      width: 14px;
+      min-width: 14px;
+      height: 14px;
+      font-size: 9px;
+    }
+
+    .header-bottom-navigation__cart-icon .cart-bubble__text-count { font-size: 8px; }
+    .header-bottom-navigation__cart-total { color: inherit; font-size: 8px; font-weight: 600; line-height: 1; }
+    .header-bottom-navigation__link:has(.header-bottom-navigation__cart-icon) { gap: 2px; }
 
     body:has(.header-bottom-navigation) {
       padding-block-end: calc(62px + env(safe-area-inset-bottom));
