@@ -46,7 +46,7 @@
   >
     <dialog
       ref="panel"
-      class="theme-drawer__dialog color-custom-drawer"
+      class="theme-drawer__dialog cart-drawer__dialog color-custom-drawer"
       aria-labelledby="cart-drawer-heading"
       cart-summary-sticky="true"
     >
@@ -93,12 +93,18 @@
                 </span>
               {% endif %}
             {% endcapture %}
-            {% assign cart_drawer_title = 'content.cart_title' | t %}
+            {% assign cart_drawer_title = 'Your cart' %}
+            {% capture cart_clear_action %}
+              <form action="{{ routes.cart_clear_url }}" method="post" class="cart-drawer__clear-form">
+                <button type="submit" class="cart-drawer__clear">Clear cart</button>
+              </form>
+            {% endcapture %}
             {% render 'theme-drawer-header',
               title: cart_drawer_title,
               drawer_id: 'cart-drawer',
               heading_id: 'cart-drawer-heading',
-              title_append: cart_badge_html
+              title_append: cart_badge_html,
+              trailing_action: cart_clear_action
             %}
           {%- endif -%}
 
@@ -110,12 +116,26 @@
                 class="cart-drawer__content"
                 aria-label="{{ 'accessibility.cart' | t }}"
               >
+                {%- assign free_delivery_goal = settings.cart_free_delivery_goal | times: 100 -%}
+                {%- if free_delivery_goal > 0 -%}
+                  {%- assign free_delivery_remaining = free_delivery_goal | minus: cart.total_price -%}
+                  {%- assign free_delivery_progress = cart.total_price | times: 100.0 | divided_by: free_delivery_goal | at_most: 100 -%}
+                  <div class="cart-drawer__delivery" role="status">
+                    <div class="cart-drawer__delivery-copy">
+                      <span>{% if free_delivery_remaining > 0 %}Add <strong>{{ free_delivery_remaining | money }}</strong> more for free delivery{% else %}Your order qualifies for free delivery{% endif %}</span>
+                      <span>{{ cart.total_price | money }} / {{ free_delivery_goal | money }}</span>
+                    </div>
+                    <span class="cart-drawer__delivery-track"><span style="width: {{ free_delivery_progress }}%"></span></span>
+                    <p>{% if free_delivery_remaining > 0 %}{{ free_delivery_remaining | money }} away from free delivery{% else %}Free delivery unlocked{% endif %}</p>
+                  </div>
+                {%- endif -%}
                 <scroll-hint class="cart-drawer__items">
                   {% render 'cart-products', context: 'drawer' %}
                 </scroll-hint>
 
                 <div class="cart-drawer__summary">
                   {% render 'cart-summary', section_id: 'cart-drawer-section' %}
+                  <button type="button" class="cart-drawer__continue" on:click="#cart-drawer/close">Continue shopping</button>
                 </div>
               </scroll-hint>
             {%- endif -%}
@@ -148,6 +168,57 @@
     height: 100%;
     overflow: hidden;
   }
+
+  .cart-drawer__dialog {
+    --theme-drawer-width: min(440px, 100vw);
+    background: #fffefa;
+  }
+
+  .cart-drawer__dialog .theme-drawer__header {
+    gap: 12px;
+    padding: 20px 20px 12px;
+    background: #fffefa;
+  }
+
+  .cart-drawer__dialog .theme-drawer__title {
+    font-size: clamp(22px, 2vw, 28px);
+    font-weight: 700;
+  }
+
+  .cart-drawer__dialog .theme-drawer__badge {
+    min-width: 0;
+    height: auto;
+    padding: 0;
+    background: transparent;
+    font-size: 13px;
+    color: #566052;
+  }
+  .cart-drawer__dialog .theme-drawer__badge::after { content: ' items'; }
+
+  .cart-drawer__clear-form { margin-inline-start: auto; }
+  .cart-drawer__clear {
+    border: 0;
+    padding: 6px 0;
+    background: transparent;
+    color: #174b20;
+    text-decoration: underline;
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .cart-drawer__delivery {
+    padding: 14px 20px 16px;
+    background: #f6f4ec;
+    color: #16241a;
+    font-size: 13px;
+  }
+
+  .cart-drawer__delivery-copy { display: flex; justify-content: space-between; gap: 12px; }
+  .cart-drawer__delivery-copy > :last-child { white-space: nowrap; }
+  .cart-drawer__delivery-track { display: block; height: 8px; margin-top: 12px; overflow: hidden; border-radius: 99px; background: #e4e3df; }
+  .cart-drawer__delivery-track > span { display: block; height: 100%; border-radius: inherit; background: #14551f; }
+  .cart-drawer__delivery p { margin: 10px 0 0; color: #24582b; }
 
   .cart-drawer__inner > .cart-items-component {
     flex: 1;
@@ -201,16 +272,72 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--gap-xl);
-    padding: var(--cart-drawer-summary-padding);
+    gap: 12px;
+    padding: 14px 20px max(16px, var(--safe-area-inset-bottom));
     margin-top: auto;
     background-color: var(--color-background);
     /* stylelint-disable-next-line color-named */
-    mask-image: linear-gradient(to bottom, transparent, black var(--cart-drawer-summary-padding));
+    mask-image: none;
 
     @media screen and (min-width: 750px) {
       --cart-drawer-summary-padding: var(--padding-2xl);
     }
+  }
+
+  .cart-drawer__summary .cart-totals { gap: 10px; }
+  .cart-drawer__summary .cart-totals__total { padding-top: 10px; border-top: 1px solid rgb(var(--color-foreground-rgb) / .12); }
+  .cart-drawer__summary .cart__ctas { width: 100%; }
+  .cart-drawer__summary .cart__checkout-button,
+  .cart-drawer__continue { width: 100%; min-height: 48px; border-radius: 10px; font-weight: 700; }
+  .cart-drawer__continue { border: 1px solid #174b20; background: transparent; color: #174b20; cursor: pointer; }
+
+  .cart-drawer__items .cart-items__table-row {
+    grid-template-columns: 78px minmax(0, 1fr) 56px;
+    grid-template-areas: 'media details price' 'media quantity quantity' 'media error error';
+    column-gap: 14px;
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+  }
+  .cart-drawer__items .cart-items__media-container { border-radius: 8px; background: #f6f4ec; }
+  .cart-drawer__items .cart-items__media-image { object-fit: contain; }
+  .cart-drawer__items .cart-items__title { font-size: 14px; font-weight: 650; }
+  .cart-drawer__items .cart-items__details * { font-size: 13px; }
+  .cart-drawer__items .cart-items__price { min-width: 56px; color: #102c18; font-weight: 700; }
+  .cart-drawer__items .cart-items__quantity { margin-top: 8px; }
+  .cart-drawer__items .cart-items__remove { width: 30px; min-height: 36px; height: 36px; }
+
+  @media screen and (max-width: 749px) {
+    .cart-drawer__dialog,
+    .cart-drawer__dialog[open] {
+      inset: auto 0 0;
+      width: 100%;
+      max-width: none;
+      height: min(92dvh, 820px);
+      max-height: 92dvh;
+      padding: 0 0 var(--safe-area-inset-bottom);
+      border: 0;
+      border-radius: 18px 18px 0 0;
+      box-shadow: 0 -10px 40px rgb(0 0 0 / .16);
+    }
+    .cart-drawer__dialog[open] { inset-inline-end: 0; }
+    .cart-drawer__inner::before {
+      content: '';
+      position: absolute;
+      z-index: 2;
+      top: 7px;
+      left: 50%;
+      width: 34px;
+      height: 4px;
+      border-radius: 99px;
+      background: rgb(var(--color-foreground-rgb) / .22);
+      transform: translateX(-50%);
+    }
+    .cart-drawer__dialog--opening { animation-name: cart-sheet-in; }
+    .cart-drawer__dialog--closing { animation-name: cart-sheet-out; }
+    @keyframes cart-sheet-in { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    @keyframes cart-sheet-out { to { transform: translateY(100%); } }
+    .cart-drawer__dialog .theme-drawer__header { padding: 18px 20px 12px; }
+    .cart-drawer__summary { padding-inline: 20px; }
   }
 
   .theme-drawer__dialog[cart-summary-sticky='false'] .cart-drawer__summary {

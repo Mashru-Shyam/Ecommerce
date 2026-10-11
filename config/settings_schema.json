@@ -1526,6 +1526,16 @@
         "visible_if": "{{ settings.cart_type == 'drawer' }}"
       },
       {
+        "type": "range",
+        "id": "cart_free_delivery_goal",
+        "label": "Free delivery threshold",
+        "min": 0,
+        "max": 10000,
+        "step": 1,
+        "default": 999,
+        "info": "Set to 0 to hide the free delivery progress in the cart."
+      },
+      {
         "type": "header",
         "content": "t:content.cart_features"
       },

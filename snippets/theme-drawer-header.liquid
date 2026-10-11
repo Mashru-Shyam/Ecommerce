@@ -7,6 +7,7 @@
   @param {string} drawer_id - The ID of the parent theme-drawer element (for the close button target)
   @param {string} [heading_id] - Optional ID for the heading element (for aria-labelledby)
   @param {string} [title_append] - Optional HTML to render after the title text (e.g., cart bubble, filter count)
+  @param {string} [trailing_action] - Optional action displayed between title and close button.
 
   @example
   {% render 'theme-drawer-header',
@@ -27,6 +28,8 @@
     {{ title }}
     {{ title_append }}
   </h2>
+
+  {{ trailing_action }}
 
   <button
     class="theme-drawer__close-button"
