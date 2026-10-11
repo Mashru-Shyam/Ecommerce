@@ -141,6 +141,7 @@
             (() => {
               const grid = document.querySelector('.product-grid');
               if (!grid) return;
+              if (grid.closest('.collection-wrapper--catalog')) return;
 
               const storedLayoutMobile = sessionStorage.getItem('product-grid-view-mobile') || 'default';
               const storedLayoutDesktop = sessionStorage.getItem('product-grid-view-desktop') || 'default';

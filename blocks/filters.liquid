@@ -112,6 +112,10 @@
       class="facets facets--horizontal facets-controls-wrapper spacing-style{% if has_custom_color %} color-custom-{{ block.id }}{% endif %}"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
     >
+      {% if template.name == 'collection' %}
+        <span class="catalog-desktop-search-title">{{ 'catalog.search_products' | t }}</span>
+        <div class="catalog-desktop-results-controls">
+      {% endif %}
       {% if block_settings.enable_filtering %}
         <h4 class="facets--filters-title">{{ 'content.filters' | t }}</h4>
       {% endif %}
@@ -143,6 +147,9 @@
 
       {% if block_settings.enable_grid_density %}
         {% render 'grid-density-controls', viewport: 'desktop' %}
+      {% endif %}
+      {% if template.name == 'collection' %}
+        </div>
       {% endif %}
     </div>
   {% endif %}
@@ -377,6 +384,18 @@
             </div>
           {% endif %}
         </button>
+      </div>
+    {% endif %}
+
+    {% if template.name == 'collection' %}
+      <div class="products-count-wrapper catalog-mobile-products-count" data-testid="products-count">
+        <span role="status">
+          {% if products_count > 25000 %}
+            {{- 'content.item_count_cutoff' | t: count: 25000 -}}
+          {% else %}
+            {{- 'content.item_count' | t: count: products_count -}}
+          {% endif %}
+        </span>
       </div>
     {% endif %}
 

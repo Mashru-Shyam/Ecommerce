@@ -40,6 +40,7 @@
       <div id="header-group">
         {% sections 'header-group' %}
       </div>
+      {% render 'site-breadcrumb' %}
 
       <script>
         /**
@@ -50,9 +51,7 @@
          * those rules use the `60px` fallback from `sections/header.liquid`, and the content visibly
          * jumps once `header.js` corrects the values after load.
          *
-         * Measuring forces layout mid-parse, so it only runs where a consuming rule exists.
-         * Callers opt in: the transparent-header branch below, or `snippets/measure-header-heights.liquid`,
-         * which any new first-paint consumer must render too.
+         * The sticky breadcrumb and transparent-header rules use these measured values at first paint.
          *
          * Measures once per page; after load, header.js's ResizeObservers keep the values fresh.
          * The group-height walk mimics calculateHeaderGroupHeight() in utilities.js — keep them
@@ -92,13 +91,7 @@
           };
         })();
 
-        /**
-         * Transparent-header rules consume the measured heights at first paint on every
-         * template, so the transparent case opts in globally here instead of per-section.
-         */
-        if (document.querySelector('#header-component')?.hasAttribute('transparent')) {
-          measureHeaderHeights();
-        }
+        measureHeaderHeights();
 
         /**
          * Sets `--top-row-height`, consumed by the header underlays and submenus. Deferred to a

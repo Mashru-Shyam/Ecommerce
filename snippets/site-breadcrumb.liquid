@@ -1,0 +1,27 @@
+{%- liquid
+  assign breadcrumb_title = page_title
+  case template.name
+    when 'collection'
+      assign breadcrumb_title = collection.title
+      if collection.handle == 'all'
+        assign breadcrumb_title = 'catalog.store_title' | t
+      endif
+    when 'product'
+      assign breadcrumb_title = product.title
+    when 'page'
+      assign breadcrumb_title = page.title
+    when 'blog'
+      assign breadcrumb_title = blog.title
+    when 'article'
+      assign breadcrumb_title = article.title
+  endcase
+-%}
+<nav class="site-breadcrumb" aria-label="Breadcrumb">
+  {% if template.name == 'index' %}
+    <span aria-current="page">{{ 'catalog.home' | t }}</span>
+  {% else %}
+    <a href="{{ routes.root_url }}">{{ 'catalog.home' | t }}</a>
+    <span class="site-breadcrumb__separator" aria-hidden="true">&#8250;</span>
+    <span aria-current="page">{{ breadcrumb_title | escape }}</span>
+  {% endif %}
+</nav>

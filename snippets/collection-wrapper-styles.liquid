@@ -42,19 +42,9 @@
     }
   }
 
-  .collection-wrapper:has(.facets--vertical) .facets-block-wrapper--vertical:not(.hidden) ~ .main-collection-grid {
+  .collection-wrapper:not(.collection-wrapper--catalog):has(.facets--vertical) .facets-block-wrapper--vertical:not(.hidden) ~ .main-collection-grid {
     @media screen and (min-width: 750px) {
       grid-column: var(--facets-vertical-col-width) / var(--full-width-column-number);
-    }
-  }
-
-  .collection-wrapper--catalog:has(.facets--vertical) > .facets-block-wrapper--vertical:not(.hidden) {
-    @media screen and (min-width: 750px) {
-      grid-column: 1 / var(--facets-vertical-col-width);
-      grid-row: 1;
-      min-width: 0;
-      margin: 0;
-      padding-inline-start: clamp(10px, 2.5vw, 36px);
     }
   }
 
@@ -123,6 +113,51 @@
   .collection-wrapper:has(> .facets--horizontal) .facets__panel[open] {
     @media screen and (min-width: 750px) {
       z-index: var(--facets-open-z-index);
+    }
+  }
+
+  .collection-wrapper--catalog {
+    @media screen and (min-width: 750px) {
+      grid-template-columns: minmax(240px, 20%) minmax(0, 1fr);
+      grid-template-rows: 34px auto;
+      column-gap: 14px;
+      row-gap: 0;
+      align-items: start;
+    }
+  }
+
+  .section.product-grid-container > .collection-wrapper--catalog {
+    @media screen and (min-width: 750px) {
+      grid-column: 1 / -1;
+      width: 100%;
+      min-width: 0;
+    }
+  }
+
+  .collection-wrapper--catalog > .facets-block-wrapper--vertical {
+    @media screen and (min-width: 750px) {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      align-self: start;
+      width: 100%;
+      min-width: 0;
+      margin: 0;
+      padding-inline: 0;
+    }
+  }
+
+  .collection-wrapper--catalog > .facets-block-wrapper--vertical ~ .main-collection-grid {
+    @media screen and (min-width: 750px) {
+      grid-column: 2;
+      grid-row: 2;
+      min-width: 0;
+    }
+  }
+
+  .collection-wrapper--catalog > .facets--horizontal.facets-controls-wrapper {
+    @media screen and (min-width: 750px) {
+      grid-column: 1 / -1;
+      grid-row: 1;
     }
   }
 {% endstylesheet %}

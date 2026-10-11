@@ -841,6 +841,12 @@
     border-bottom: var(--border-bottom-width) solid var(--border-bottom-color, var(--color-border));
   }
 
+  #header-component .header__row--bottom,
+  #header-component .header__navigation-bar-row {
+    border-bottom: 0;
+    border-block-end: 0;
+  }
+
   @media screen and (max-width: 749px) {
     .header__row--top:not(.divider--page-width),
     .header__row--top.divider--page-width .header__columns {
