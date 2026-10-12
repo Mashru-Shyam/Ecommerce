@@ -29,9 +29,11 @@
         {% render 'catalog-category-link', category: category, active_collection: active_collection %}
       {% endfor %}
     {% else %}
+      {% assign visible_catalog_categories = 0 %}
       {% for category in collections %}
-        {% if category.handle != 'all' %}
+        {% if category.handle != 'all' and visible_catalog_categories < 5 %}
           {% render 'catalog-category-link', category: category, active_collection: active_collection %}
+          {% assign visible_catalog_categories = visible_catalog_categories | plus: 1 %}
         {% endif %}
       {% endfor %}
     {% endif %}

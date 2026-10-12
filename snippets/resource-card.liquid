@@ -53,7 +53,7 @@
   >
 {%- endif -%}
 <div
-  class="resource-card{% if style == 'overlay' %} resource-card--overlay{% endif %}"
+  class="resource-card{% if resource_type == 'product' %} freshomill-resource-product-card{% endif %}{% if style == 'overlay' %} resource-card--overlay{% endif %}"
   data-resource-type="{{ resource_type }}"
 >
   <a
@@ -175,6 +175,39 @@
   .resource-card__wrapper {
     display: block;
     height: 100%;
+  }
+
+  .freshomill-resource-product-card {
+    box-sizing: border-box;
+    gap: 8px;
+    padding: 8px;
+    overflow: hidden;
+    border: 1px solid var(--freshomill-color-border, #e4e9df);
+    border-radius: var(--freshomill-radius-card, 10px);
+    background: var(--freshomill-color-surface, #fff);
+  }
+
+  .freshomill-resource-product-card .resource-card__media {
+    overflow: hidden;
+    border-radius: var(--freshomill-radius-control, 6px);
+    background: var(--freshomill-color-surface, #fff);
+  }
+
+  .freshomill-resource-product-card .resource-card__image {
+    object-fit: contain;
+  }
+
+  .freshomill-resource-product-card .resource-card__content {
+    gap: 4px;
+    padding: 0 2px 2px;
+  }
+
+  .freshomill-resource-product-card .resource-card__title {
+    margin: 0;
+    color: var(--freshomill-color-ink, #1d2a20);
+    font-size: var(--freshomill-font-size-caption, .75rem);
+    font-weight: 650;
+    line-height: 1.25;
   }
 
   .resource-card {

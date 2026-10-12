@@ -5,14 +5,15 @@
     "freshomill_footer": {
       "type": "freshomill-footer",
       "settings": {
-        "quick_links": "main-menu",        "tagline": "Wholesome, natural and nutritious staples for a healthier tomorrow.",
-        "address": "123 Green Street, Bengaluru, KA 560001",
-        "phone": "+91 98765 43210",
-        "email": "support@freshomill.in",
-        "instagram_url": "https://www.instagram.com/",
-        "facebook_url": "https://www.facebook.com/",
-        "youtube_url": "https://www.youtube.com/",
-        "pinterest_url": "https://www.pinterest.com/",
+        "quick_links": "main-menu",
+        "tagline": "Wholesome, natural and nutritious staples for a healthier tomorrow.",
+        "address": "",
+        "phone": "",
+        "email": "",
+        "instagram_url": "",
+        "facebook_url": "",
+        "youtube_url": "",
+        "pinterest_url": "",
         "copyright_text": "All rights reserved."
       }
     }

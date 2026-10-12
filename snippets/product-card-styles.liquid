@@ -7,6 +7,137 @@
 {%- enddoc -%}
 
 {% stylesheet %}
+  /* Shared product-card foundation for collection, home, search, and related grids. */
+  .freshomill-product-card .product-card__content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    box-sizing: border-box;
+    height: 100%;
+    min-height: 100%;
+    gap: 8px !important;
+    padding: 8px !important;
+    overflow: hidden;
+    border: 1px solid var(--freshomill-color-border, #e4e9df);
+    border-radius: var(--freshomill-radius-card, 10px);
+    background: var(--freshomill-color-surface, #fff);
+  }
+
+  .freshomill-product-card .product-card__content > * {
+    min-width: 0;
+  }
+
+  .freshomill-product-card .card-gallery {
+    width: 100%;
+    flex: 0 0 auto;
+    overflow: hidden;
+    border-radius: var(--freshomill-radius-control, 6px);
+    background: var(--freshomill-color-surface, #fff);
+  }
+
+  .freshomill-product-card .card-gallery .product-media-container {
+    --product-media-fit: contain;
+  }
+
+  .freshomill-product-card .product-card__content > a.contents {
+    display: block;
+    width: 100%;
+    min-height: 2.5em;
+    color: var(--freshomill-color-ink, #1d2a20);
+    text-decoration: none;
+  }
+
+  .freshomill-product-card .product-card__content > a.contents :is(.text-block, p) {
+    color: var(--freshomill-color-ink, #1d2a20);
+    font-size: var(--freshomill-font-size-caption, .75rem);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .freshomill-product-card .product-card__content > a.contents p {
+    display: -webkit-box;
+    margin: 0;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .freshomill-product-card .product-card__content product-price {
+    display: block;
+    width: 100%;
+    color: var(--freshomill-color-ink, #1d2a20);
+    font-size: var(--freshomill-font-size-small, .8125rem);
+    line-height: 1.2;
+  }
+
+  .freshomill-product-card .product-card__content product-price :is(.price, .price-item__group) {
+    color: var(--freshomill-color-ink, #1d2a20);
+    font-size: var(--freshomill-font-size-small, .8125rem);
+    font-weight: 750;
+    line-height: 1.2;
+  }
+
+  .freshomill-product-card .product-card__content product-price .compare-at-price {
+    margin-inline-start: 4px;
+    color: var(--freshomill-color-muted, #68736b);
+    font-size: var(--freshomill-font-size-caption, .75rem);
+    font-weight: 400;
+    text-decoration: line-through;
+  }
+
+  .freshomill-product-card .product-card__content product-price .unit-price {
+    display: block;
+    margin-top: 2px;
+    color: var(--freshomill-color-muted, #68736b);
+    font-size: var(--freshomill-font-size-caption, .75rem);
+    font-weight: 400;
+  }
+
+  .freshomill-product-card .product-card__content > quick-add-component.quick-add {
+    position: relative !important;
+    inset: auto !important;
+    z-index: 2;
+    display: flex !important;
+    width: 100% !important;
+    min-height: var(--freshomill-touch-target, 44px) !important;
+    margin-top: auto !important;
+    flex: 0 0 var(--freshomill-touch-target, 44px) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  .freshomill-product-card .product-card__content > quick-add-component :is(.quick-add__product-form-component, form, .quick-add__button) {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: var(--freshomill-touch-target, 44px) !important;
+  }
+
+  .freshomill-product-card .product-card__content > quick-add-component .quick-add__button {
+    position: relative !important;
+    inset: auto !important;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid var(--freshomill-color-border, #e4e9df);
+    border-radius: var(--freshomill-radius-control, 6px);
+    background: var(--freshomill-color-surface, #fff);
+    color: var(--freshomill-color-brand-strong, #145b35);
+    font-size: var(--freshomill-font-size-caption, .75rem);
+    font-weight: 650;
+    line-height: 1.1;
+  }
+
+  .freshomill-product-card .product-card__content > quick-add-component .quick-add__button:hover {
+    border-color: var(--freshomill-color-brand-hover, #0d5415);
+    background: var(--freshomill-color-brand-soft, #edf5e8);
+  }
+
   .product-grid__card.product-grid__card {
     display: flex;
     flex-flow: column nowrap;

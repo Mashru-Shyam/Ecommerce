@@ -6,14 +6,14 @@
 
   case section.settings.height
     when 'small'
-      assign layered_panel_height_mobile = '260px'
-      assign layered_min_height_desktop = 'var(--section-height-small)'
+      assign layered_panel_height_mobile = '200px'
+      assign layered_min_height_desktop = 'clamp(18rem, 30svh, 22rem)'
     when 'medium'
-      assign layered_panel_height_mobile = '320px'
-      assign layered_min_height_desktop = 'var(--section-height-medium)'
+      assign layered_panel_height_mobile = '240px'
+      assign layered_min_height_desktop = 'clamp(22rem, 38svh, 27rem)'
     when 'large'
-      assign layered_panel_height_mobile = '380px'
-      assign layered_min_height_desktop = 'var(--section-height-large)'
+      assign layered_panel_height_mobile = '280px'
+      assign layered_min_height_desktop = 'clamp(26rem, 46svh, 32rem)'
   endcase
 %}
 

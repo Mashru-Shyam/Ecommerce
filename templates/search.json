@@ -158,6 +158,7 @@
         }
       },
       "settings": {
+        "quick_add_position": "below",
         "layout_type": "grid",
         "product_card_size": "medium",
         "mobile_product_card_size": "small",

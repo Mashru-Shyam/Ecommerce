@@ -120,6 +120,9 @@
     {% endfor %}
   </product-component>
 
+  {% if request.page_type == 'product' %}
+    {% render 'freshomill-benefit-strip', context: 'product' %}
+  {% endif %}
   {{ additional_blocks }}
 </div>
 

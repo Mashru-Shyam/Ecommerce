@@ -16,6 +16,53 @@ body {
   --hover-transition-duration: 0.25s;
   --hover-transition-timing: ease-out;
   --submenu-animation-speed: 360ms;
+  --freshomill-color-brand: var(--color-primary-button-background, #176b1c);
+  --freshomill-color-accent: #9bbf38;
+  --freshomill-color-rating: #d69a16;
+  --freshomill-color-success: #226328;
+  --freshomill-color-success-soft: #e9f5e7;
+  --freshomill-color-success-border: #d8ebcf;
+  --freshomill-color-danger: #8f3025;
+  --freshomill-color-danger-soft: #fbefed;
+  --freshomill-color-danger-border: #ead5d2;
+  --freshomill-color-warning: #a94d09;
+  --freshomill-color-warning-soft: #fff4e8;
+  --freshomill-color-focus-ring: rgb(23 107 28 / .18);
+  --freshomill-color-brand-strong: var(--color-primary-button-background, #145b35);
+  --freshomill-color-brand-hover: var(--color-primary-button-hover-background, #0d5415);
+  --freshomill-color-brand-deep: #003d26;
+  --freshomill-color-brand-soft: var(--color-background, #edf5e8);
+  --freshomill-color-hero: var(--color-background, #f5f0e3);
+  --freshomill-color-ink: var(--color-foreground, #1d2a20);
+  --freshomill-color-muted: var(--color-foreground-muted, #68736b);
+  --freshomill-color-border: var(--color-input-border, #e4e9df);
+  --freshomill-color-surface: #fff;
+  --freshomill-color-surface-warm: var(--color-background, #fffefa);
+  --freshomill-font-size-body: 0.875rem;
+  --freshomill-font-size-small: 0.8125rem;
+  --freshomill-font-size-caption: 0.75rem;
+  --freshomill-radius-control: 6px;
+  --freshomill-radius-card: 10px;
+  --freshomill-radius-panel: 14px;
+  --freshomill-radius-pill: 999px;
+  --freshomill-shadow-card: 0 2px 10px rgb(39 59 42 / 4.5%);
+  --freshomill-touch-target: 44px;
+  --freshomill-page-gutter: clamp(12px, 2.5vw, 36px);
+  --freshomill-space-1: 4px;
+  --freshomill-space-2: 8px;
+  --freshomill-space-3: 12px;
+  --freshomill-space-4: 16px;
+  --freshomill-space-5: 24px;
+  --freshomill-space-6: 32px;
+  --freshomill-space-7: 48px;
+}
+
+@supports (color: color-mix(in srgb, #ffffff 90%, #000000)) {
+  :root {
+    --freshomill-color-brand-deep: color-mix(in srgb, var(--color-foreground, #145b35) 68%, #00180e);
+    --freshomill-color-brand-soft: color-mix(in srgb, var(--color-background, #f7f4e9) 94%, var(--color-foreground, #145b35));
+    --freshomill-color-focus-ring: color-mix(in srgb, var(--color-primary-button-background, #145b35) 18%, transparent);
+  }
 }
 
 html {
@@ -82,30 +129,30 @@ html[scroll-lock] {
   width: 100%;
   min-height: 40px;
   margin: 0;
-  padding: 9px clamp(12px, 2.5vw, 36px);
-  border-bottom: 1px solid #e8ebe3;
+  padding: 9px var(--freshomill-page-gutter);
+  border-bottom: 1px solid var(--freshomill-color-border);
   background: var(--color-background, #fff);
-  color: #56665a;
-  font-size: 12px;
+  color: var(--freshomill-color-muted);
+  font-size: var(--freshomill-font-size-caption);
   font-weight: 500;
   line-height: 1.35;
   letter-spacing: 0.01em;
 }
 
 .site-breadcrumb a {
-  color: #526458;
+  color: var(--freshomill-color-brand-strong);
   text-decoration: none;
   text-underline-offset: 3px;
   transition: color 160ms ease;
 }
 
 .site-breadcrumb a:hover {
-  color: #176b1c;
+  color: var(--freshomill-color-brand);
   text-decoration: underline;
 }
 
 .site-breadcrumb__separator {
-  color: #9aa59b;
+  color: var(--freshomill-color-muted);
   font-size: 16px;
   font-weight: 400;
   line-height: 1;
@@ -113,7 +160,7 @@ html[scroll-lock] {
 
 .site-breadcrumb [aria-current='page'] {
   overflow: hidden;
-  color: #25392b;
+  color: var(--freshomill-color-ink);
   font-weight: 650;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -127,8 +174,8 @@ html[scroll-lock] {
   .site-breadcrumb {
     min-height: 38px;
     gap: 8px;
-    padding: 8px 10px;
-    font-size: 11px;
+    padding: 8px var(--freshomill-page-gutter);
+    font-size: var(--freshomill-font-size-caption);
   }
 }
 
@@ -326,14 +373,14 @@ p:empty {
 
 /* Focus */
 *:focus-visible {
-  outline: var(--focus-outline-width) solid currentcolor;
-  outline-offset: var(--focus-outline-offset);
+  outline: 2px solid var(--freshomill-color-brand);
+  outline-offset: 3px;
 }
 
 @supports not selector(:focus-visible) {
   *:focus {
-    outline: var(--focus-outline-width) solid currentcolor;
-    outline-offset: var(--focus-outline-offset);
+    outline: 2px solid var(--freshomill-color-brand);
+    outline-offset: 3px;
   }
 }
 

@@ -197,11 +197,11 @@
     align-items: center;
     gap: 6px;
     padding: 5px 10px;
-    border: 1px solid #dce9d3;
-    border-radius: 999px;
-    background: #eff6e9;
-    color: #184b20;
-    font-size: 13px;
+    border: 1px solid var(--freshomill-color-border);
+    border-radius: var(--freshomill-radius-pill);
+    background: var(--freshomill-color-success-soft);
+    color: var(--freshomill-color-success);
+    font-size: var(--freshomill-font-size-small);
     font-weight: 600;
     line-height: 1;
   }
@@ -211,25 +211,25 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #468627;
+    background: var(--freshomill-color-brand-strong);
   }
 
   .product-status-badge--unavailable {
-    border-color: #ead5d2;
-    background: #fbefed;
-    color: #8f3025;
+    border-color: var(--freshomill-color-danger-border);
+    background: var(--freshomill-color-danger-soft);
+    color: var(--freshomill-color-danger);
   }
 
   .product-information .product-type-label {
     margin: 0;
-    color: var(--color-foreground-secondary, #596259);
-    font-size: 14px;
+    color: var(--freshomill-color-muted);
+    font-size: var(--freshomill-font-size-body);
   }
 
   .product-information .product-purchase-label {
     margin: 0;
-    color: #26332a;
-    font-size: 14px;
+    color: var(--freshomill-color-ink);
+    font-size: var(--freshomill-font-size-body);
     font-weight: 650;
   }
 
@@ -257,7 +257,7 @@
 
   .product-information .product-form-buttons:not(.product-form-buttons--stacked) .add-to-cart-button {
     min-height: 52px;
-    border-radius: 9px;
+    border-radius: var(--freshomill-radius-card);
     font-weight: 700;
   }
 

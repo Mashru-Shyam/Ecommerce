@@ -71,7 +71,7 @@
                 "alignment": "left",
                 "type_preset": "rte",
                 "font": "var(--font-body--family)",
-                "font_size": "0.72rem",
+                "font_size": "0.75rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
@@ -130,7 +130,7 @@
         "padding-block-start": 0,
         "padding-block-end": 32,
         "enable_infinite_scroll": false,
-        "products_per_page": 10,
+        "products_per_page": 12,
         "quick_add_position": "below"
       }
     }

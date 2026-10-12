@@ -244,6 +244,7 @@
       "name": "t:names.product_list",
       "settings": {
         "collection": "all",
+        "quick_add_position": "below",
         "layout_type": "grid",
         "carousel_on_mobile": false,
         "max_products": 4,

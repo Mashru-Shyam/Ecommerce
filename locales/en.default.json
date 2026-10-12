@@ -27,6 +27,28 @@
     "apply_filters": "Apply Filters",
     "clear_filters": "Clear Filters"
   },
+  "benefit_strip": {
+    "label": "FreshOMill service benefits",
+    "packed_title": "Packed after your order",
+    "packed_detail": "Freshness you can trust",
+    "secure_title": "Secure payments",
+    "secure_detail": "100% protected",
+    "safe_detail": "Your payments are safe with us",
+    "support_title": "Helpful support",
+    "support_detail": "Always here for you",
+    "quality_title": "Fresh Quality",
+    "quality_detail": "Handpicked farm fresh products",
+    "delivery_title": "Fast Delivery",
+    "delivery_detail": "On orders over ₹499",
+    "returns_title": "Easy Returns",
+    "returns_detail": "Hassle-free within 7 days",
+    "free_delivery_title": "Free Delivery",
+    "free_delivery_detail": "On orders over ₹499"
+  },
+  "footer": {
+    "customer_support": "Customer Support",
+    "we_accept": "We Accept"
+  },
   "accessibility": {
     "account": "Account",
     "active_filters": "Active filters:",

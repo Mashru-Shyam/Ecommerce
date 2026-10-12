@@ -19,10 +19,11 @@
         "hero_primary_label": "Shop fresh",
         "hero_primary_link": "shopify://collections/all",
         "hero_secondary_label": "Why FreshOMill",
-        "hero_secondary_link": "",
+        "hero_secondary_link": "#why-freshomill",
         "hero_feature_one": "Quality assured",
         "hero_feature_two": "Freshly packed",
         "hero_feature_three": "Secure payments",
+        "hero_feature_four": "Helpful support",
         "media_type_1": "image",
         "image_1": "shopify://shop_images/ChatGPT_Image_Oct_10_2026_02_36_34_AM.png",
         "media_type_2": "image",
@@ -197,7 +198,7 @@
                 "alignment": "left",
                 "type_preset": "rte",
                 "font": "var(--font-body--family)",
-                "font_size": "0.72rem",
+                "font_size": "0.75rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
@@ -248,9 +249,9 @@
       "settings": {
         "collection": "all",
         "quick_add_position": "below",
-        "layout_type": "carousel",
+        "layout_type": "grid",
         "carousel_on_mobile": false,
-        "max_products": 12,
+        "max_products": 6,
         "columns": 6,
         "mobile_columns": "2",
         "mobile_card_size": "44cqw",
@@ -311,49 +312,8 @@
       "settings": {
         "heading": "Our customers, healthier homes"
       },
-      "blocks": {
-        "review_priya": {
-          "type": "review",
-          "name": "Priya S.",
-          "settings": {
-            "quote": "The atta tastes so fresh and natural. You can really feel the difference.",
-            "name": "Priya S.",
-            "location": "Bengaluru",
-            "rating": 5
-          }
-        },
-        "review_rahul": {
-          "type": "review",
-          "name": "Rahul M.",
-          "settings": {
-            "quote": "Pure ingredients and great quality. Now a part of our daily kitchen.",
-            "name": "Rahul M.",
-            "location": "Pune",
-            "rating": 5
-          }
-        },
-        "review_ananya": {
-          "type": "review",
-          "name": "Ananya K.",
-          "settings": {
-            "quote": "Love the cold-pressed oils! Authentic taste and super fresh.",
-            "name": "Ananya K.",
-            "location": "Hyderabad",
-            "rating": 5
-          }
-        },
-        "review_meera": {
-          "type": "review",
-          "name": "Meera R.",
-          "settings": {
-            "quote": "Freshly packed and full of flavor. We order every month.",
-            "name": "Meera R.",
-            "location": "Mumbai",
-            "rating": 5
-          }
-        }
-      },
-      "block_order": ["review_priya", "review_rahul", "review_ananya", "review_meera"]
+      "blocks": {},
+      "block_order": []
     }
   },
   "order": [

@@ -40,57 +40,56 @@
 {% style %}
   body:has(.account-sign-in) #header-group,
   body:has(.account-sign-in) .site-breadcrumb { display: none !important; }
-  body:has(.account-sign-in) .freshomill-footer { color: #17251d; background: linear-gradient(115deg, #fbfaf6, #f5f4ed); }
-  body:has(.account-sign-in) .freshomill-footer__column { border-color: #e7e5dc; }
-  body:has(.account-sign-in) .freshomill-footer__logo,
-  body:has(.account-sign-in) .freshomill-footer__social a,
-  body:has(.account-sign-in) .freshomill-footer__details summary { color: #15271e; }
-  body:has(.account-sign-in) .freshomill-footer__tagline,
-  body:has(.account-sign-in) .freshomill-footer__details a,
-  body:has(.account-sign-in) .freshomill-footer__bottom { color: #566159; }
-  .account-sign-in { --account-green: #145225; --account-ink: #10251b; --account-muted: #5a6470; position: relative; isolation: isolate; display: grid; min-height: min(760px, 100svh); align-items: center; overflow: hidden; padding: clamp(24px, 4vw, 56px) clamp(18px, 4vw, 64px); background: #f5f5ed; color: var(--account-ink); }
+  .account-sign-in { --account-green: var(--freshomill-color-brand-strong); --account-ink: var(--freshomill-color-ink); --account-muted: var(--freshomill-color-muted); position: relative; isolation: isolate; display: grid; min-height: min(560px, 80svh); align-items: center; overflow: hidden; padding: clamp(24px, 4vw, 56px) var(--freshomill-page-gutter); background: var(--freshomill-color-hero); color: var(--account-ink); }
   .account-sign-in__image { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
   .account-sign-in__wash { position: absolute; z-index: -1; inset: 0; background: linear-gradient(90deg, rgb(249 249 241 / .94) 0%, rgb(249 249 241 / .83) 40%, rgb(249 249 241 / .2) 69%, rgb(249 249 241 / .16) 100%); }
   .account-sign-in__layout { display: grid; width: min(1320px, 100%); grid-template-columns: minmax(0, 1.2fr) minmax(390px, .88fr); gap: clamp(28px, 5vw, 76px); align-items: center; margin: 0 auto; }
   .account-sign-in__story { max-width: 650px; padding: 10px 0; }
-  .account-sign-in__eyebrow { margin: 0 0 12px; color: #477442; font-size: 12px; font-weight: 750; letter-spacing: .28em; }
-  .account-sign-in__story h1 { max-width: 630px; margin: 0; color: #08251a; font-size: clamp(54px, 6vw, 88px); font-weight: 780; letter-spacing: -.065em; line-height: .9; }
-  .account-sign-in__story h1 span { color: #32762b; }
-  .account-sign-in__intro { max-width: 540px; margin: 18px 0 24px; color: #27332f; font-size: clamp(16px, 1.45vw, 20px); line-height: 1.45; }
+  .account-sign-in__eyebrow { margin: 0 0 12px; color: var(--freshomill-color-brand-strong); font-size: var(--freshomill-font-size-caption); font-weight: 750; letter-spacing: .28em; }
+  .account-sign-in__story h1 { max-width: 630px; margin: 0; color: var(--freshomill-color-brand-deep); font-size: clamp(54px, 6vw, 88px); font-weight: 780; letter-spacing: -.065em; line-height: .9; }
+  .account-sign-in__story h1 span { color: var(--freshomill-color-brand); }
+  .account-sign-in__intro { max-width: 540px; margin: 18px 0 24px; color: var(--freshomill-color-ink); font-size: clamp(16px, 1.45vw, 20px); line-height: 1.45; }
   .account-sign-in__benefits { display: flex; flex-wrap: wrap; gap: 0; }
-  .account-sign-in__benefits > div { display: flex; min-height: 42px; align-items: center; gap: 10px; padding: 0 18px; border-right: 1px solid rgb(26 62 34 / .22); font-size: 12px; font-weight: 600; line-height: 1.2; }
+  .account-sign-in__benefits > div { display: flex; min-height: 42px; align-items: center; gap: 10px; padding: 0 18px; border-right: 1px solid rgb(26 62 34 / .22); font-size: var(--freshomill-font-size-caption); font-weight: 600; line-height: 1.2; }
   .account-sign-in__benefits > div:first-child { padding-left: 0; }
   .account-sign-in__benefits > div:last-child { border: 0; }
-  .account-sign-in__benefits svg { width: 28px; height: 28px; flex: 0 0 auto; fill: none; stroke: #357b2e; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-  .account-sign-in__card { width: 100%; padding: clamp(24px, 3vw, 40px); border: 1px solid rgb(255 255 255 / .8); border-radius: 18px; background: rgb(255 255 255 / .94); box-shadow: 0 16px 48px rgb(26 38 27 / .1); backdrop-filter: blur(10px); }
+  .account-sign-in__benefits svg { width: 28px; height: 28px; flex: 0 0 auto; fill: none; stroke: var(--freshomill-color-brand); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .account-sign-in__card { width: 100%; padding: clamp(24px, 3vw, 40px); border: 1px solid rgb(255 255 255 / .8); border-radius: var(--freshomill-radius-panel); background: rgb(255 255 255 / .94); box-shadow: var(--freshomill-shadow-card); backdrop-filter: blur(10px); }
   .account-sign-in__card h2 { margin: 0; font-size: clamp(34px, 3.2vw, 46px); font-weight: 760; letter-spacing: -.055em; line-height: 1.08; }
-  .account-sign-in__subheading { margin: 8px 0 24px; color: #4c5664; font-size: 16px; line-height: 1.4; }
+  .account-sign-in__subheading { margin: 8px 0 24px; color: var(--freshomill-color-muted); font-size: 16px; line-height: 1.4; }
   .account-sign-in__auth { min-height: 104px; }
   .account-sign-in__auth shopify-account { display: block; width: 100%; }
-  .account-sign-in__button { display: flex; width: 100%; min-height: 54px; align-items: center; justify-content: center; gap: 18px; padding: 12px 18px; border: 1px solid #154d22; border-radius: 9px; background: linear-gradient(100deg, #155326, #0d421b); color: #fff; font: inherit; font-size: 16px; font-weight: 700; text-align: center; text-decoration: none; cursor: pointer; }
+  .account-sign-in__button { display: flex; width: 100%; min-height: 54px; align-items: center; justify-content: center; gap: 18px; padding: 12px 18px; border: 1px solid var(--freshomill-color-brand-strong); border-radius: var(--freshomill-radius-control); background: linear-gradient(100deg, var(--freshomill-color-brand-strong), var(--freshomill-color-brand-deep)); color: var(--freshomill-color-surface); font: inherit; font-size: 16px; font-weight: 700; text-align: center; text-decoration: none; cursor: pointer; }
   .account-sign-in__button span:last-child { font-size: 24px; font-weight: 400; line-height: 1; }
-  .account-sign-in__button:hover { background: #0b3c1a; }
-  .account-sign-in__native-note { margin: 12px 0 0; color: var(--account-muted); font-size: 12px; text-align: center; }
-  .account-sign-in__signed-in { margin: 0 0 14px; font-size: 14px; }
-  .account-sign-in__privacy { display: flex; align-items: center; gap: 10px; margin: 22px 0 0; padding-top: 17px; border-top: 1px solid #e7eae4; color: #59616d; font-size: 12px; line-height: 1.45; }
+  .account-sign-in__button:hover { background: var(--freshomill-color-brand-hover); }
+  .account-sign-in__native-note { margin: 12px 0 0; color: var(--account-muted); font-size: var(--freshomill-font-size-caption); text-align: center; }
+  .account-sign-in__signed-in { margin: 0 0 14px; font-size: var(--freshomill-font-size-body); }
+  .account-sign-in__privacy { display: flex; align-items: center; gap: 10px; margin: 22px 0 0; padding-top: 17px; border-top: 1px solid var(--freshomill-color-border); color: var(--freshomill-color-muted); font-size: var(--freshomill-font-size-caption); line-height: 1.45; }
   .account-sign-in__privacy svg { width: 20px; height: 20px; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  @media (min-width: 750px) and (max-width: 989px) {
+    .account-sign-in { min-height: auto; padding-block: var(--freshomill-space-6); }
+    .account-sign-in__wash { background: linear-gradient(180deg, rgb(249 249 241 / .88), rgb(249 249 241 / .78)); }
+    .account-sign-in__layout { width: min(760px, 100%); grid-template-columns: minmax(0, 1fr); gap: var(--freshomill-space-5); }
+    .account-sign-in__story { max-width: 680px; }
+    .account-sign-in__card { max-width: 600px; }
+  }
   @media (max-width: 749px) {
-    .account-sign-in { min-height: auto; padding: 22px 14px 26px; align-items: start; }
+    .account-sign-in { min-height: auto; padding: var(--freshomill-space-5) var(--freshomill-page-gutter) var(--freshomill-space-6); align-items: start; }
     .account-sign-in__image { height: min(78vw, 340px); object-position: 67% center; }
-    .account-sign-in__wash { background: linear-gradient(180deg, rgb(249 249 241 / .55), rgb(249 249 241 / .85) 245px, #f6f7f1 350px); }
-    .account-sign-in__layout { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+    .account-sign-in__wash { background: linear-gradient(180deg, rgb(249 249 241 / .55), rgb(249 249 241 / .85) 245px, var(--freshomill-color-hero) 350px); }
+    .account-sign-in__layout { grid-template-columns: minmax(0, 1fr); gap: var(--freshomill-space-5); }
     .account-sign-in__story { min-height: 250px; padding: 8px 5px 0; }
-    .account-sign-in__eyebrow { margin-bottom: 8px; font-size: 9px; letter-spacing: .2em; }
+    .account-sign-in__eyebrow { margin-bottom: 8px; font-size: var(--freshomill-font-size-caption); letter-spacing: .2em; }
     .account-sign-in__story h1 { max-width: 310px; font-size: clamp(38px, 11vw, 54px); }
-    .account-sign-in__intro { max-width: 310px; margin: 10px 0 12px; font-size: 13px; }
-    .account-sign-in__benefits > div { gap: 5px; padding: 0 9px; font-size: 9px; }
+    .account-sign-in__intro { max-width: 310px; margin: 10px 0 12px; font-size: var(--freshomill-font-size-small); }
+    .account-sign-in__benefits > div { gap: 5px; padding: 0 9px; font-size: var(--freshomill-font-size-caption); }
     .account-sign-in__benefits svg { width: 21px; height: 21px; }
-    .account-sign-in__card { padding: 20px 18px; border-radius: 14px; }
+    .account-sign-in__card { padding: var(--freshomill-space-5); border-radius: var(--freshomill-radius-panel); }
     .account-sign-in__card h2 { font-size: 32px; }
-    .account-sign-in__subheading { margin: 5px 0 20px; font-size: 14px; }
+    .account-sign-in__subheading { margin: 5px 0 20px; font-size: var(--freshomill-font-size-body); }
     .account-sign-in__auth { min-height: 100px; }
-    .account-sign-in__button { min-height: 48px; font-size: 14px; }
-    .account-sign-in__privacy { margin-top: 16px; padding-top: 13px; font-size: 11px; }
+    .account-sign-in__button { min-height: 48px; font-size: var(--freshomill-font-size-body); }
+    .account-sign-in__privacy { margin-top: 16px; padding-top: 13px; font-size: var(--freshomill-font-size-caption); }
   }
 {% endstyle %}
 

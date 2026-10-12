@@ -372,13 +372,13 @@
     --menu-font-2xl--line-height: calc(1.1 + 0.5 * min(16 / 28));
 
     /* Colors */
-    --color-error: #8B0000;
-    --color-success: #006400;
-    --color-white: #FFFFFF;
+    --color-error: var(--freshomill-color-danger);
+    --color-success: var(--freshomill-color-success);
+    --color-white: var(--freshomill-color-surface);
     --color-white-rgb: 255 255 255;
-    --color-instock: #3ED660;
-    --color-lowstock: #EE9441;
-    --color-outofstock: #C8C8C8;
+    --color-instock: var(--freshomill-color-success);
+    --color-lowstock: var(--freshomill-color-warning);
+    --color-outofstock: var(--freshomill-color-muted);
 
     /* Opacity */
     --opacity-5: 0.05;
@@ -549,13 +549,13 @@
 
     /* Checkbox */
     --checkbox-size: 22px;
-    --checkbox-border-radius: 7px;
+    --checkbox-border-radius: var(--freshomill-radius-card);
     --checkbox-border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-35-55));
     --checkbox-label-padding: 8px;
 
     @media screen and (min-width: 750px) {
       --checkbox-size: 16px;
-      --checkbox-border-radius: 5px;
+      --checkbox-border-radius: var(--freshomill-radius-control);
       --checkbox-label-padding: 6px;
     }
 

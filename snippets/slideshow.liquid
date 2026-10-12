@@ -43,13 +43,13 @@
   case slide_size
     when 'small'
       assign slide_min_height = slide_min_height | replace: 'auto', '17.5rem'
-      assign slide_min_height_desktop = slide_min_height_desktop | replace: 'auto', '26.25rem'
+      assign slide_min_height_desktop = slide_min_height_desktop | replace: 'auto', '21rem'
     when 'medium'
-      assign slide_min_height = slide_min_height | replace: 'auto', '21.25rem'
-      assign slide_min_height_desktop = slide_min_height_desktop | replace: 'auto', '35rem'
+      assign slide_min_height = slide_min_height | replace: 'auto', '18rem'
+      assign slide_min_height_desktop = slide_min_height_desktop | replace: 'auto', '27rem'
     when 'large'
-      assign slide_min_height = slide_min_height | replace: 'auto', '25rem'
-      assign slide_min_height_desktop = slide_min_height_desktop | replace: 'auto', '45rem'
+      assign slide_min_height = slide_min_height | replace: 'auto', '21rem'
+      assign slide_min_height_desktop = slide_min_height_desktop | replace: 'auto', '32rem'
   endcase
 
   case slide_position

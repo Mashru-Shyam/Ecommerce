@@ -63,8 +63,8 @@
         "type": "color_palette",
         "id": "color_palette",
         "default": {
-          "background": "#ffffff",
-          "foreground": "#000000"
+          "background": "#f7f4e9",
+          "foreground": "#145b35"
         }
       }
     ]
@@ -1328,7 +1328,7 @@
         "step": 1,
         "unit": "px",
         "label": "t:settings.border_radius",
-        "default": 100
+        "default": 6
       },
       {
         "type": "select",
@@ -1405,7 +1405,7 @@
         "step": 1,
         "unit": "px",
         "label": "t:settings.border_radius",
-        "default": 100
+        "default": 6
       },
       {
         "type": "select",
@@ -1719,7 +1719,7 @@
         "step": 1,
         "unit": "px",
         "label": "t:settings.border_radius",
-        "default": 8
+        "default": 6
       },
       {
         "type": "select",
@@ -1786,7 +1786,7 @@
         "max": 16,
         "step": 1,
         "unit": "px",
-        "default": 8
+        "default": 14
       },
       {
         "type": "color",
@@ -1923,7 +1923,7 @@
         "step": 1,
         "unit": "px",
         "label": "t:settings.product_corner_radius",
-        "default": 0
+        "default": 6
       },
       {
         "type": "range",
@@ -1933,7 +1933,7 @@
         "step": 1,
         "unit": "px",
         "label": "t:settings.card_corner_radius",
-        "default": 0
+        "default": 10
       },
       {
         "type": "select",
@@ -2107,7 +2107,7 @@
         "step": 1,
         "unit": "px",
         "label": "t:settings.border_radius",
-        "default": 8
+        "default": 6
       },
       {
         "type": "select",

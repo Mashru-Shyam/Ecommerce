@@ -73,19 +73,19 @@
     height: 40px;
     min-width: 0;
     overflow: hidden;
-    border: 1px solid #d8d8d8;
-    border-radius: 8px;
-    background: #fff;
+    border: 1px solid var(--freshomill-color-border);
+    border-radius: var(--freshomill-radius-card);
+    background: var(--freshomill-color-surface);
     transition: border-color 160ms ease, box-shadow 160ms ease;
   }
 
   .header-search:hover {
-    border-color: #aeb8b0;
+    border-color: var(--freshomill-color-muted);
   }
 
   .header-search:focus-within {
-    border-color: #176b1c;
-    box-shadow: 0 0 0 2px rgb(23 107 28 / 0.12);
+    border-color: var(--freshomill-color-brand);
+    box-shadow: 0 0 0 2px var(--freshomill-color-focus-ring);
   }
 
   .header-search input {
@@ -95,7 +95,7 @@
     padding: 0 12px 0 8px;
     border: 0;
     outline: 0;
-    color: #252525;
+    color: var(--freshomill-color-ink);
     background: transparent;
     font: inherit;
     font-size: 0.9rem;
@@ -105,7 +105,7 @@
     display: grid;
     flex: 0 0 44px;
     place-items: center;
-    color: #252525;
+    color: var(--freshomill-color-ink);
   }
 
   .header-search__icon svg {
@@ -114,7 +114,7 @@
   }
 
   .header-search input::placeholder {
-    color: #777;
+    color: var(--freshomill-color-muted);
     opacity: 1;
   }
 
@@ -124,8 +124,8 @@
     place-items: center;
     padding: 0;
     border: 0;
-    color: #fff;
-    background: #176b1c;
+    color: var(--freshomill-color-surface);
+    background: var(--freshomill-color-brand);
     cursor: pointer;
   }
 

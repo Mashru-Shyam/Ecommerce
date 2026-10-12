@@ -1,8 +1,12 @@
 {% liquid
   assign categories = section.settings.collection_list
-  assign sample_titles = 'Stone-Ground Flour|Grains|Cold-Pressed Oils|Whole Spices|Pantry Staples' | split: '|'
+  if categories == blank
+    assign categories = collections
+  endif
 %}
 
+{% if categories != blank %}
+{% assign visible_category_count = 0 %}
 <section class="category-section" aria-labelledby="category-heading-{{ section.id }}">
   <div class="category-panel">
     <div class="category-heading-row">
@@ -14,11 +18,8 @@
 
     <div class="category-carousel">
       <div class="category-track" data-category-track tabindex="0" aria-label="Shop by category">
-      {% if categories == blank %}
-        {% assign categories = collections %}
-      {% endif %}
-      {% if categories != blank %}
-        {% for collection in categories limit: 12 %}
+        {% for collection in categories %}
+          {% if collection.handle != 'all' and visible_category_count < 5 %}
           {% assign category_image = collection.featured_image | default: collection.image %}
           <a class="category-card" href="{{ collection.url }}" aria-label="Shop {{ collection.title | escape }}">
             <span class="category-card__image">
@@ -30,25 +31,9 @@
             </span>
             <span class="category-card__title">{{ collection.title | escape }}</span>
           </a>
+          {% assign visible_category_count = visible_category_count | plus: 1 %}
+          {% endif %}
         {% endfor %}
-      {% else %}
-        {% for title in sample_titles %}
-          <a class="category-card" href="{{ routes.all_products_collection_url }}" aria-label="Shop {{ title | escape }}">
-            <span class="category-card__image">
-              <span class="category-card__placeholder category-card__placeholder--{{ forloop.index }}" aria-hidden="true">
-                {% case forloop.index %}
-                  {% when 1 %}✺
-                  {% when 2 %}◉
-                  {% when 3 %}♧
-                  {% when 4 %}✿
-                  {% else %}❋
-                {% endcase %}
-              </span>
-            </span>
-            <span class="category-card__title">{{ title | escape }}</span>
-          </a>
-        {% endfor %}
-      {% endif %}
       </div>
       <div class="category-controls" aria-label="Category carousel controls">
         <button class="category-control" type="button" data-category-scroll="previous" aria-label="Scroll to previous categories" disabled>
@@ -61,21 +46,22 @@
     </div>
   </div>
 </section>
+{% endif %}
 
 {% stylesheet %}
   .category-section {
     width: 100vw;
     margin-inline: calc(50% - 50vw);
-    padding: 14px 0 0;
+    padding: var(--freshomill-space-4) var(--freshomill-page-gutter) 0;
   }
 
   .category-panel {
     position: relative;
     width: 100%;
-    padding: 16px 18px 18px;
+    padding: var(--freshomill-space-4) var(--freshomill-space-4) var(--freshomill-space-5);
     overflow: hidden;
-    border-radius: 14px;
-    background: #f5f6ec;
+    border-radius: var(--freshomill-radius-panel);
+    background: var(--freshomill-color-brand-soft);
   }
 
   .category-heading-row {
@@ -95,20 +81,20 @@
     align-items: center;
     gap: 7px;
     margin: 0 0 4px;
-    color: #155b35;
-    font-size: 12px;
+    color: var(--freshomill-color-brand-strong);
+    font-size: var(--freshomill-font-size-caption);
     font-weight: 650;
     line-height: 1.2;
   }
 
   .category-eyebrow span {
-    color: #347d2b;
+    color: var(--freshomill-color-brand);
     font-size: 16px;
   }
 
   .category-heading-row h2 {
     margin: 0;
-    color: #113d25;
+    color: var(--freshomill-color-brand-deep);
     font-size: clamp(20px, 2.2vw, 30px);
     font-weight: 750;
     letter-spacing: -0.045em;
@@ -136,12 +122,12 @@
 
   .category-control {
     display: grid;
-    width: 34px;
-    height: 34px;
+    width: var(--freshomill-touch-target);
+    height: var(--freshomill-touch-target);
     place-items: center;
-    border: 1px solid #d8e0d2;
+    border: 1px solid var(--freshomill-color-border);
     border-radius: 50%;
-    color: #145b35;
+    color: var(--freshomill-color-brand-strong);
     background: rgb(255 255 255 / 78%);
     backdrop-filter: blur(8px);
     cursor: pointer;
@@ -152,9 +138,9 @@
 
   .category-control:hover,
   .category-control:focus-visible {
-    border-color: #176b3d;
-    color: #fff;
-    background: #176b3d;
+    border-color: var(--freshomill-color-brand);
+    color: var(--freshomill-color-surface);
+    background: var(--freshomill-color-brand);
   }
 
   .category-control:disabled {
@@ -197,9 +183,9 @@
     padding: 5px;
     overflow: hidden;
     border: 1px solid rgb(255 255 255 / 90%);
-    border-radius: 11px;
-    color: #171b17;
-    background: #fff;
+    border-radius: var(--freshomill-radius-panel);
+    color: var(--freshomill-color-ink);
+    background: var(--freshomill-color-surface);
     text-align: center;
     text-decoration: none;
     scroll-snap-align: start;
@@ -208,7 +194,7 @@
 
   .category-card:hover,
   .category-card:focus-visible {
-    color: #171b17;
+    color: var(--freshomill-color-ink);
     box-shadow: 0 5px 14px rgb(23 74 42 / 12%);
     transform: translateY(-2px);
   }
@@ -217,8 +203,8 @@
     display: block;
     aspect-ratio: 1.08;
     overflow: hidden;
-    border-radius: 7px;
-    background: #f4eee2;
+    border-radius: var(--freshomill-radius-card);
+    background: var(--freshomill-color-hero);
   }
 
   .category-card__image img {
@@ -245,17 +231,13 @@
     line-height: 1;
   }
 
-  .category-card__placeholder--2 { color: #a36a2a; background: radial-gradient(ellipse at 30% 60%, #c68a39 0 9%, transparent 10%), radial-gradient(ellipse at 68% 40%, #7a5129 0 10%, transparent 11%), #f3e7d0; }
-  .category-card__placeholder--3 { color: #47743d; background: radial-gradient(ellipse at 50% 75%, #d6b85c 0 18%, transparent 19%), linear-gradient(145deg, #f7f2df, #e5eadb); }
-  .category-card__placeholder--4 { color: #a54c2e; background: radial-gradient(ellipse at 55% 65%, #c65f37 0 18%, transparent 19%), linear-gradient(145deg, #f8ebdc, #e8e8d6); }
-  .category-card__placeholder--5 { color: #8c6937; background: radial-gradient(ellipse at 50% 60%, #c8a46c 0 22%, transparent 23%), linear-gradient(145deg, #f9f2e4, #e8eadc); }
 
   .category-card__title {
     display: -webkit-box;
     min-height: 2.35em;
     overflow: hidden;
-    color: #181b17;
-    font-size: 13px;
+    color: var(--freshomill-color-ink);
+    font-size: var(--freshomill-font-size-small);
     font-weight: 650;
     line-height: 1.15;
     overflow-wrap: anywhere;
@@ -265,7 +247,7 @@
 
   @media screen and (min-width: 750px) {
     .category-track {
-      grid-auto-columns: calc((100% - 32px) / 4.25);
+      grid-auto-columns: 23.5%;
     }
   }
 
@@ -273,12 +255,12 @@
     .category-controls { display: none !important; }
 
     .category-section {
-      padding: 10px 0 0;
+      padding-top: var(--freshomill-space-3);
     }
 
     .category-panel {
-      padding: 12px 10px 12px;
-      border-radius: 11px;
+      padding: var(--freshomill-space-3);
+      border-radius: var(--freshomill-radius-panel);
     }
 
     .category-heading-row {
@@ -289,11 +271,11 @@
 
     .category-eyebrow {
       margin-bottom: 3px;
-      font-size: 10px;
+      font-size: var(--freshomill-font-size-caption);
     }
 
     .category-eyebrow span {
-      font-size: 13px;
+      font-size: var(--freshomill-font-size-small);
     }
 
     .category-heading-row h2 {
@@ -313,10 +295,10 @@
     }
 
     .category-track {
-      grid-auto-columns: calc((100vw - 38px) / 2.2);
-      gap: 6px;
-      margin-inline: -2px;
-      padding: 2px;
+      grid-auto-columns: 44%;
+      gap: var(--freshomill-space-2);
+      margin-inline: 0;
+      padding: var(--freshomill-space-1);
       touch-action: pan-x;
       -webkit-overflow-scrolling: touch;
     }
@@ -324,17 +306,17 @@
     .category-card {
       gap: 5px;
       padding: 4px;
-      border-radius: 8px;
+      border-radius: var(--freshomill-radius-card);
     }
 
     .category-card__image {
       aspect-ratio: 1.04;
-      border-radius: 5px;
+      border-radius: var(--freshomill-radius-control);
     }
 
     .category-card__title {
       min-height: 2.3em;
-      font-size: 10px;
+      font-size: var(--freshomill-font-size-caption);
       line-height: 1.12;
     }
   }
@@ -407,7 +389,7 @@
       "type": "collection_list",
       "id": "collection_list",
       "label": "Categories",
-      "limit": 12
+      "limit": 5
     }
   ],
   "presets": [
