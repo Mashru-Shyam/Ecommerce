@@ -1704,11 +1704,11 @@ input[type='radio'] {
 
 @keyframes backdropFilter {
   from {
-    backdrop-filter: brightness(1);
+    backdrop-filter: brightness(1) blur(5px);
   }
 
   to {
-    backdrop-filter: brightness(0.75);
+    backdrop-filter: brightness(0.75) blur(5px);
   }
 }
 

@@ -1530,9 +1530,9 @@
         "id": "cart_free_delivery_goal",
         "label": "Free delivery threshold",
         "min": 0,
-        "max": 10000,
-        "step": 1,
-        "default": 999,
+        "max": 9900,
+        "step": 100,
+        "default": 1000,
         "info": "Set to 0 to hide the free delivery progress in the cart."
       },
       {

@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "account-sign-in",
+      "settings": {
+        "hero_image": "shopify://shop_images/ChatGPT_Image_Oct_10_2026_02_36_34_AM.png"
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,232 @@
+{% liquid
+  assign account_preview_mode = false
+  if request.design_mode or request.visual_preview_mode
+    assign account_preview_mode = true
+  endif
+  assign sample_profile_preview = false
+  if account_preview_mode
+    if customer == blank or customer.addresses_count == 0
+      assign sample_profile_preview = true
+      assign account_display_name = customer.name | default: 'Ananya Sharma'
+      assign account_display_email = customer.email | default: 'ananya.sharma@example.com'
+    else
+      assign account_display_name = customer.name | default: customer.email
+      assign account_display_email = customer.email
+    endif
+  else
+    assign account_display_name = customer.name | default: customer.email
+    assign account_display_email = customer.email
+  endif
+  assign sample_orders_preview = false
+  if account_preview_mode and customer.orders.size == 0
+    assign sample_orders_preview = true
+  endif
+%}
+<section class="customer-hub" aria-label="My account">
+  <aside class="customer-hub__sidebar">
+    <div class="customer-hub__identity">
+      <span class="customer-hub__avatar" aria-hidden="true">{{ account_display_name | slice: 0 | upcase }}</span>
+      <strong>{{ account_display_name | escape }}</strong>
+      <span>{{ account_display_email | escape }}</span>
+    </div>
+    <nav class="customer-hub__nav" aria-label="Account sections">
+      <a class="is-active" href="#my-orders">{{ 'icon-orders.svg' | inline_asset_content }}<span><strong>My orders</strong><small>Track your orders</small></span></a>
+      <a href="#my-profile"><span class="customer-hub__nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 21c.5-4.2 2.8-6.3 7-6.3s6.5 2.1 7 6.3"/></svg></span><span><strong>Profile &amp; addresses</strong><small>Your details and delivery addresses</small></span></a>
+      <a href="{{ routes.account_logout_url }}"><span class="customer-hub__nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4H5v16h5M14 8l4 4-4 4M8 12h10"/></svg></span><span><strong>Log out</strong></span></a>
+    </nav>
+  </aside>
+
+  <div class="customer-hub__main">
+    <nav class="customer-hub__mobile-nav" aria-label="Account sections">
+      <a class="is-active" href="#my-profile"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 21c.5-4.2 2.8-6.3 7-6.3s6.5 2.1 7 6.3"/></svg><span>Profile &amp; addresses</span></a>
+      <a href="#my-orders">{{ 'icon-orders.svg' | inline_asset_content }}<span>My orders</span></a>
+      <a href="{{ routes.account_logout_url }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4H5v16h5M14 8l4 4-4 4M8 12h10"/></svg><span>Log out</span></a>
+    </nav>
+
+    <section class="customer-hub__panel customer-hub__profile" id="my-profile">
+      <header class="customer-hub__banner{% if section.settings.banner_image != blank %} has-image{% endif %}">
+        <div class="customer-hub__section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21c.5-4.2 2.8-6.3 7-6.3s6.5 2.1 7 6.3"/></svg></div>
+        <div><h1>My Profile</h1><p>Manage your details and saved delivery addresses.</p></div>
+        {% if section.settings.banner_image != blank %}
+          {{ section.settings.banner_image | image_url: width: 900 | image_tag: loading: 'lazy', class: 'customer-hub__banner-image', alt: '' }}
+        {% endif %}
+      </header>
+
+      <div class="customer-hub__card">
+        <div class="customer-hub__card-heading"><span class="customer-hub__section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21c.5-4.2 2.8-6.3 7-6.3s6.5 2.1 7 6.3"/></svg></span><div><h2>Basic Information</h2><p>Your saved contact and delivery details.</p></div></div>
+        {% if customer.default_address %}
+          {% assign profile_address = customer.default_address %}
+          {% form 'customer_address', profile_address, class: 'customer-hub__form' %}
+            <div class="customer-hub__form-grid">
+              <label>First name<input name="address[first_name]" type="text" value="{{ profile_address.first_name | escape }}" autocomplete="given-name" required></label>
+              <label>Last name<input name="address[last_name]" type="text" value="{{ profile_address.last_name | escape }}" autocomplete="family-name"></label>
+              <label>Phone number<input name="address[phone]" type="tel" value="{{ profile_address.phone | escape }}" autocomplete="tel"></label>
+              <label class="customer-hub__full">Email address<input type="email" value="{{ customer.email | escape }}" readonly><small>Managed by your Shopify account</small></label>
+            </div>
+            <button class="customer-hub__button customer-hub__button--primary" type="submit">Save Changes</button>
+          {% endform %}
+        {% elsif sample_profile_preview %}
+          <div class="customer-hub__sample-notice">Sample preview data · replaced by customer details when available</div>
+          <div class="customer-hub__form-grid customer-hub__sample-fields">
+            <label>Full name<input value="Ananya Sharma" readonly></label>
+            <label>Phone number<input value="+91 98765 43210" readonly></label>
+            <label class="customer-hub__full">Email address<input value="ananya.sharma@example.com" readonly></label>
+          </div>
+        {% else %}
+          <p class="customer-hub__empty-note">Add a delivery address to save your contact details for checkout.</p>
+          <a class="customer-hub__button customer-hub__button--primary" href="#saved-addresses">Add an address</a>
+        {% endif %}
+      </div>
+
+      <div class="customer-hub__card" id="saved-addresses">
+        <div class="customer-hub__card-heading customer-hub__card-heading--spread">
+          <div class="customer-hub__card-heading"><span class="customer-hub__section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 10c0 5-7 12-7 12S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div><h2>Saved Addresses</h2><p>Manage your delivery addresses for a faster checkout experience.</p></div></div>
+          {% if customer != blank and sample_profile_preview == false %}<details class="customer-hub__add-address"><summary class="customer-hub__button customer-hub__button--outline"> Add new address</summary>
+            {% form 'customer_address', customer.new_address, class: 'customer-hub__form customer-hub__address-form' %}
+              <h3>Add a delivery address</h3>
+              <div class="customer-hub__form-grid">
+                <label>First name<input name="address[first_name]" autocomplete="given-name" required></label>
+                <label>Last name<input name="address[last_name]" autocomplete="family-name"></label>
+                <label class="customer-hub__full">Address<input name="address[address1]" autocomplete="address-line1" required></label>
+                <label class="customer-hub__full">Apartment / suite<input name="address[address2]" autocomplete="address-line2"></label>
+                <label>City<input name="address[city]" autocomplete="address-level2" required></label>
+                <label>Postal code<input name="address[zip]" autocomplete="postal-code" required></label>
+                <label>Phone<input name="address[phone]" type="tel" autocomplete="tel"></label>
+                <label class="customer-hub__full">Country<select name="address[country]" autocomplete="country">{{ all_country_option_tags }}</select></label>
+              </div>
+              <label class="customer-hub__checkbox"><input type="checkbox" name="address[default]" value="1"> Set as default address</label>
+              <button class="customer-hub__button customer-hub__button--primary" type="submit">Save address</button>
+            {% endform %}
+          </details>{% elsif sample_profile_preview %}<span class="customer-hub__sample-pill">Preview only</span>{% endif %}
+        </div>
+
+        {% if customer.addresses_count > 0 %}
+          <div class="customer-hub__addresses">
+            {% for address in customer.addresses %}
+              <article class="customer-hub__address">
+                <span class="customer-hub__radio" aria-hidden="true">{% if address.id == customer.default_address.id %}{% else %}{% endif %}</span>
+                <div class="customer-hub__address-copy"><div class="customer-hub__pills"><strong>{{ address.first_name | default: 'Address' | escape }}</strong>{% if address.id == customer.default_address.id %}<span>Default</span>{% endif %}</div><p>{{ address.address1 | escape }}{% if address.address2 != blank %}, {{ address.address2 | escape }}{% endif %}, {{ address.city | escape }}, {{ address.province | escape }} {{ address.zip | escape }}</p><small>{{ address.country | escape }}{% if address.phone != blank %}  {{ address.phone | escape }}{% endif %}</small>
+                  <details class="customer-hub__edit-address"><summary>Edit</summary>
+                    {% form 'customer_address', address, class: 'customer-hub__form customer-hub__address-form' %}
+                      <div class="customer-hub__form-grid">
+                        <label>First name<input name="address[first_name]" value="{{ address.first_name | escape }}" required></label>
+                        <label>Last name<input name="address[last_name]" value="{{ address.last_name | escape }}"></label>
+                        <label class="customer-hub__full">Address<input name="address[address1]" value="{{ address.address1 | escape }}" required></label>
+                        <label class="customer-hub__full">Apartment / suite<input name="address[address2]" value="{{ address.address2 | escape }}"></label>
+                        <label>City<input name="address[city]" value="{{ address.city | escape }}" required></label>
+                        <label>Postal code<input name="address[zip]" value="{{ address.zip | escape }}" required></label>
+                        <label>Phone<input name="address[phone]" value="{{ address.phone | escape }}" type="tel"></label>
+                        <label class="customer-hub__full">Country<select name="address[country]">{{ all_country_option_tags }}</select></label>
+                      </div>
+                      <label class="customer-hub__checkbox"><input type="checkbox" name="address[default]" value="1"{% if address.id == customer.default_address.id %} checked{% endif %}> Set as default address</label>
+                      <button class="customer-hub__button customer-hub__button--primary" type="submit">Save address</button>
+                    {% endform %}
+                  </details>
+                </div>
+                <div class="customer-hub__address-actions">
+                  {% unless address.id == customer.default_address.id %}{% form 'customer_address', address %}<input type="hidden" name="address[first_name]" value="{{ address.first_name | escape }}"><input type="hidden" name="address[last_name]" value="{{ address.last_name | escape }}"><input type="hidden" name="address[company]" value="{{ address.company | escape }}"><input type="hidden" name="address[address1]" value="{{ address.address1 | escape }}"><input type="hidden" name="address[address2]" value="{{ address.address2 | escape }}"><input type="hidden" name="address[city]" value="{{ address.city | escape }}"><input type="hidden" name="address[province]" value="{{ address.province | escape }}"><input type="hidden" name="address[zip]" value="{{ address.zip | escape }}"><input type="hidden" name="address[country]" value="{{ address.country | escape }}"><input type="hidden" name="address[phone]" value="{{ address.phone | escape }}"><input type="hidden" name="address[default]" value="1"><button class="customer-hub__text-button" type="submit">Set as default</button>{% endform %}{% endunless %}
+                  {% form 'customer_address', address %}<input type="hidden" name="_method" value="delete"><button class="customer-hub__text-button customer-hub__text-button--danger" type="submit">Remove</button>{% endform %}
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        {% elsif sample_profile_preview %}
+          <article class="customer-hub__address customer-hub__address--sample">
+            <span class="customer-hub__radio" aria-hidden="true"></span>
+            <div class="customer-hub__address-copy"><div class="customer-hub__pills"><strong>Home</strong><span>Default</span></div><p>123 Green Street, Freshville, Vadodara, Gujarat 390007</p><small>India · +91 98765 43210</small></div>
+            <span class="customer-hub__sample-pill">Preview only</span>
+          </article>
+          <div class="customer-hub__sample-notice">Sample address · replaced by saved address data when available</div>
+        {% else %}
+          <p class="customer-hub__empty-note">No saved addresses yet. Add one to make checkout faster.</p>
+        {% endif %}
+      </div>
+    </section>
+
+    <section class="customer-hub__orders" id="my-orders">
+      <header class="customer-hub__orders-heading"><div class="customer-hub__section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 2 9 5v10l-9 5-9-5V7l9-5Z"/><path d="m3.5 7.3 8.5 4.8 8.5-4.8M12 12v10"/></svg></div><div><h2>My Orders</h2><p>Track the status of every order you placed.</p></div><label class="customer-hub__order-filter">All Orders<select aria-label="Filter orders" onchange="window.location.hash='my-orders'; document.querySelectorAll('.customer-hub__order').forEach(function(order){order.hidden=this.value !== 'all' && order.dataset.status !== this.value}.bind(this))"><option value="all">All Orders</option><option value="open">In progress</option><option value="fulfilled">Fulfilled</option></select></label></header>
+      {% if sample_orders_preview %}
+        <div class="customer-hub__sample-notice">Sample order preview · actual orders replace these cards when available</div>
+        <div class="customer-hub__order-list customer-hub__sample-order-list">
+          {% for sample_index in (1..2) %}
+            {% assign sample_total = 123700 %}
+            {% assign sample_status = 'open' %}
+            {% assign sample_order_name = '#FM12345678' %}
+            {% assign sample_order_date = '12 Oct 2024, 10:24 AM' %}
+            {% if sample_index == 2 %}
+              {% assign sample_total = 81200 %}
+              {% assign sample_status = 'fulfilled' %}
+              {% assign sample_order_name = '#FM12345677' %}
+              {% assign sample_order_date = '05 Oct 2024, 03:20 PM' %}
+            {% endif %}
+            <article class="customer-hub__order customer-hub__order--sample" data-status="{{ sample_status }}">
+              <header class="customer-hub__order-top"><div><h3>Order {{ sample_order_name }}</h3><p>Placed on {{ sample_order_date }}</p></div><div class="customer-hub__order-total"><span>Total</span><strong>{{ sample_total | money }}</strong></div><span class="customer-hub__status{% if sample_status == 'fulfilled' %} is-complete{% endif %}">{% if sample_status == 'fulfilled' %}Delivered{% else %}Preparing{% endif %}</span></header>
+              <div class="customer-hub__order-body"><div class="customer-hub__order-products">
+                {% for product in collections.all.products limit: 4 %}<span class="customer-hub__order-thumb">{% if product.featured_image %}{{ product.featured_image | image_url: width: 140 | image_tag: loading: 'lazy', alt: product.title }}{% else %}{{ product.title | slice: 0 }}{% endif %}</span>{% endfor %}
+                <span class="customer-hub__order-extra">+2<small>items</small></span>
+              </div><div class="customer-hub__timeline"><span class="is-done"><i></i><b>Order placed</b><small>{{ sample_order_date }}</small></span><span class="{% if sample_status == 'fulfilled' %}is-done{% else %}is-current{% endif %}"><i></i><b>{% if sample_status == 'fulfilled' %}Delivered{% else %}Preparing{% endif %}</b><small>Sample status</small></span><span class="{% if sample_status == 'fulfilled' %}is-current{% endif %}"><i></i><b>Delivery</b><small>{% if sample_status == 'fulfilled' %}Complete{% else %}Updates to follow{% endif %}</small></span></div></div>
+              <footer class="customer-hub__order-actions"><button class="customer-hub__button customer-hub__button--outline" type="button" disabled>View details</button><button class="customer-hub__button customer-hub__button--primary" type="button" disabled>Reorder</button></footer>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+      {% paginate customer.orders by 10 %}
+        {% if customer.orders.size > 0 %}
+          <div class="customer-hub__order-list">
+            {% for order in customer.orders %}
+              <article class="customer-hub__order" data-status="{% if order.fulfillment_status == 'fulfilled' %}fulfilled{% else %}open{% endif %}">
+                <header class="customer-hub__order-top"><div><h3>Order {{ order.name | escape }}</h3><p>Placed on {{ order.created_at | date: '%d %b %Y, %I:%M %p' }}</p></div><div class="customer-hub__order-total"><span>Total</span><strong>{{ order.total_price | money }}</strong></div><span class="customer-hub__status{% if order.cancelled %} is-cancelled{% elsif order.fulfillment_status == 'fulfilled' %} is-complete{% endif %}">{% if order.cancelled %}Cancelled{% elsif order.fulfillment_status_label != blank %}{{ order.fulfillment_status_label }}{% else %}Processing{% endif %}</span></header>
+                <div class="customer-hub__order-body"><div class="customer-hub__order-products">
+                  {% for line_item in order.line_items limit: 4 %}
+                    <a class="customer-hub__order-thumb" href="{{ line_item.product.url | default: order.customer_url }}" title="{{ line_item.title | escape }}">{% if line_item.image %}{{ line_item.image | image_url: width: 140 | image_tag: loading: 'lazy', alt: line_item.title }}{% else %}<span>{{ line_item.title | escape | slice: 0 }}</span>{% endif %}</a>
+                  {% endfor %}
+                  {% assign extra_items = order.line_items.size | minus: 4 %}{% if extra_items > 0 %}<span class="customer-hub__order-extra">+{{ extra_items }}<small>items</small></span>{% endif %}
+                </div><div class="customer-hub__timeline"><span class="is-done"><i></i><b>Order placed</b><small>{{ order.created_at | date: '%d %b, %I:%M %p' }}</small></span><span class="{% if order.fulfillment_status == 'fulfilled' %}is-done{% else %}is-current{% endif %}"><i></i><b>{% if order.fulfillment_status == 'fulfilled' %}Fulfilled{% else %}Processing{% endif %}</b><small>{{ order.fulfillment_status_label | default: 'Being prepared' }}</small></span><span class="{% if order.fulfillment_status == 'fulfilled' %}is-current{% endif %}"><i></i><b>Delivery</b><small>{% if order.fulfillment_status == 'fulfilled' %}Tracking available{% else %}Updates to follow{% endif %}</small></span></div></div>
+                <footer class="customer-hub__order-actions"><a class="customer-hub__button customer-hub__button--outline" href="{{ order.customer_url }}">View details</a><form action="{{ routes.cart_add_url }}" method="post"><div class="visually-hidden">{% for line_item in order.line_items %}<input name="items[{{ forloop.index0 }}][id]" value="{{ line_item.variant_id }}"><input name="items[{{ forloop.index0 }}][quantity]" value="{{ line_item.quantity }}">{% endfor %}</div><button class="customer-hub__button customer-hub__button--primary" type="submit"> Reorder</button></form></footer>
+              </article>
+            {% endfor %}
+          </div>
+          {% if paginate.pages > 1 %}<nav class="customer-hub__pagination" aria-label="Order pages">{% if paginate.previous %}<a href="{{ paginate.previous.url }}#my-orders">Previous</a>{% endif %}<span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>{% if paginate.next %}<a href="{{ paginate.next.url }}#my-orders">Next</a>{% endif %}</nav>{% endif %}
+        {% else %}
+          <div class="customer-hub__empty-orders"><span class="customer-hub__empty-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="m10 22 22-12 22 12v28L32 62 10 50V22Z"/><path d="m10 22 22 12 22-12M32 34v28"/></svg></span><h3>No orders yet</h3><p>Orders you place will show up here with their status.</p><a class="customer-hub__button customer-hub__button--primary" href="{{ routes.all_products_collection_url }}">Start Shopping</a></div>
+        {% endif %}
+      {% endpaginate %}
+      {% endif %}
+    </section>
+  </div>
+</section>
+
+{% stylesheet %}
+  .customer-hub__sample-notice { margin: 10px 0; padding: 8px 10px; border: 1px dashed #a7c695; border-radius: 7px; background: #f4f8ef; color: #4e654c; font-size: 10px; line-height: 1.4; }
+  .customer-hub__sample-fields input { background: #f8faf6; }
+  .customer-hub__sample-pill { display: inline-flex; align-items: center; align-self: start; padding: 5px 8px; border-radius: 999px; background: #eff4e9; color: #61705e; font-size: 9px; font-weight: 650; white-space: nowrap; }
+  .customer-hub__address--sample { border-style: dashed; }
+  .customer-hub__order--sample { border-style: dashed; }
+  .customer-hub__order--sample .customer-hub__order-actions button:disabled { cursor: not-allowed; opacity: .65; }
+  .customer-hub { --hub-green: #176b1c; --hub-ink: #1e2d22; --hub-muted: #6c756d; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 18px; width: min(1440px, calc(100% - 40px)); margin: 22px auto 56px; color: var(--hub-ink); }
+  .customer-hub__section-icon svg,.customer-hub__nav-icon svg,.customer-hub__mobile-nav svg,.customer-hub__empty-icon svg { display: block; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .customer-hub__empty-icon svg { width: 56px; height: 56px; }
+  .customer-hub__mobile-nav svg { width: 18px; height: 18px; }
+  .customer-hub__sidebar,.customer-hub__panel,.customer-hub__order,.customer-hub__empty-orders { border: 1px solid #edf0e9; border-radius: 12px; background: #fff; box-shadow: 0 4px 20px rgb(34 53 35 / .04); }
+  .customer-hub__sidebar { position: sticky; top: calc(var(--header-height, 72px) + 12px); align-self: start; padding: 20px 14px; }
+  .customer-hub__identity { display: grid; justify-items: center; gap: 5px; padding-bottom: 18px; border-bottom: 1px solid #e8ebe5; text-align: center; }
+  .customer-hub__avatar { display: grid; width: 74px; height: 74px; margin-bottom: 5px; place-items: center; border: 4px solid #e2efdc; border-radius: 50%; background: #f1f7eb; color: var(--hub-green); font-size: 30px; font-weight: 700; }
+  .customer-hub__identity strong { font-size: 14px; }.customer-hub__identity span:last-child { color: var(--hub-muted); font-size: 11px; }
+  .customer-hub__nav { display: grid; gap: 5px; padding-top: 12px; }.customer-hub__nav a { display: flex; min-height: 48px; align-items: center; gap: 10px; padding: 8px; border-radius: 8px; color: var(--hub-ink); text-decoration: none; }.customer-hub__nav a.is-active,.customer-hub__nav a:hover { background: #f0f6eb; color: var(--hub-green); }.customer-hub__nav-icon,.customer-hub__nav svg { width: 20px; height: 20px; flex: 0 0 20px; }.customer-hub__nav span span,.customer-hub__nav a > span:last-child { display: grid; gap: 3px; }.customer-hub__nav small { color: var(--hub-muted); font-size: 10px; }
+  .customer-hub__main { min-width: 0; }.customer-hub__profile { overflow: hidden; }.customer-hub__banner { position: relative; display: flex; min-height: 94px; align-items: center; gap: 12px; overflow: hidden; padding: 16px 22px; background: linear-gradient(100deg,#f4f8ef,#fbfcf8); }.customer-hub__banner h1,.customer-hub__banner p,.customer-hub__card h2,.customer-hub__card p,.customer-hub__orders-heading h2,.customer-hub__orders-heading p { position: relative; z-index: 1; margin: 0; }.customer-hub__banner h1 { font-size: 23px; line-height: 1.2; }.customer-hub__banner p,.customer-hub__card-heading p,.customer-hub__orders-heading p { margin-top: 4px; color: var(--hub-muted); font-size: 12px; }.customer-hub__banner-image { position: absolute; right: 0; bottom: -30px; width: min(34%,380px); height: 145px; object-fit: cover; object-position: 65% center; mask-image: linear-gradient(90deg,transparent,#000 30%); }
+  .customer-hub__section-icon { display: grid; width: 38px; height: 38px; flex: 0 0 38px; place-items: center; border-radius: 50%; background: #eff8e8; color: var(--hub-green); font-size: 20px; }.customer-hub__card { margin: 10px; padding: 18px; border: 1px solid #edf0e9; border-radius: 11px; background: #fff; }.customer-hub__card-heading { display: flex; align-items: center; gap: 11px; }.customer-hub__card-heading h2,.customer-hub__orders-heading h2 { font-size: 16px; }.customer-hub__card-heading--spread { justify-content: space-between; align-items: flex-start; }
+  .customer-hub__form { margin-top: 14px; }.customer-hub__form-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 11px 14px; }.customer-hub__form label { display: grid; gap: 5px; color: #26362c; font-size: 11px; font-weight: 600; }.customer-hub__form input,.customer-hub__form select { box-sizing: border-box; width: 100%; min-height: 38px; padding: 8px 10px; border: 1px solid #dce2dc; border-radius: 6px; background: #fff; color: #243329; font: inherit; font-size: 12px; font-weight: 400; }.customer-hub__form input[readonly] { background: #f4f5f4; color: #747b75; }.customer-hub__form label small { color: var(--hub-muted); font-weight: 400; }.customer-hub__full { grid-column: 1/-1; }.customer-hub__button { display: inline-flex; min-height: 36px; align-items: center; justify-content: center; padding: 8px 15px; border-radius: 6px; font: inherit; font-size: 11px; font-weight: 650; text-decoration: none; cursor: pointer; }.customer-hub__button--primary { border: 1px solid var(--hub-green); background: var(--hub-green); color: #fff; }.customer-hub__button--outline { border: 1px solid #82ad77; background: #fff; color: #24582b; }.customer-hub__profile .customer-hub__form > .customer-hub__button { display: flex; width: fit-content; margin: 12px 0 0 auto; }.customer-hub__checkbox { display: flex !important; grid-template-columns: auto 1fr; align-items: center; margin: 12px 0; }.customer-hub__checkbox input { width: 16px; min-height: 16px; }
+  .customer-hub__addresses { display: grid; gap: 8px; margin-top: 15px; }.customer-hub__address { display: grid; grid-template-columns: 22px minmax(0,1fr) auto; gap: 10px; align-items: center; padding: 12px; border: 1px solid #e5eddf; border-radius: 8px; background: linear-gradient(100deg,#f3f8ee,#fff); }.customer-hub__radio { color: var(--hub-green); font-size: 19px; }.customer-hub__address-copy p { margin-top: 6px; font-size: 12px; }.customer-hub__address-copy small { display: block; margin-top: 3px; color: var(--hub-muted); font-size: 10px; }.customer-hub__pills { display: flex; gap: 7px; align-items: center; }.customer-hub__pills strong,.customer-hub__pills span { padding: 3px 8px; border-radius: 99px; background: #e1f1d9; font-size: 10px; }.customer-hub__address-actions { display: flex; gap: 9px; align-items: center; }.customer-hub__address-actions form { margin: 0; }.customer-hub__text-button { border: 0; background: none; color: #54705a; font: inherit; font-size: 10px; cursor: pointer; }.customer-hub__text-button--danger { color: #bd3131; }.customer-hub__add-address summary,.customer-hub__edit-address summary { cursor: pointer; list-style: none; }.customer-hub__add-address summary::-webkit-details-marker,.customer-hub__edit-address summary::-webkit-details-marker { display: none; }.customer-hub__edit-address { margin-top: 9px; color: var(--hub-green); font-size: 11px; font-weight: 650; }.customer-hub__address-form { padding: 14px; border: 1px solid #e5eddf; border-radius: 8px; background: #fff; }.customer-hub__address-form h3 { margin: 0; font-size: 14px; }.customer-hub__empty-note { margin: 12px 0 0 !important; color: var(--hub-muted); font-size: 12px; }
+  .customer-hub__orders { display: grid; gap: 10px; margin-top: 14px; }.customer-hub__orders-heading { display: flex; min-height: 58px; align-items: center; gap: 11px; padding: 0 4px; }.customer-hub__orders-heading > div:nth-child(2) { flex: 1; }.customer-hub__order-filter { position: relative; display: grid; gap: 3px; color: var(--hub-muted); font-size: 9px; }.customer-hub__order-filter select { min-width: 125px; padding: 8px 25px 8px 10px; border: 1px solid #e1e6e0; border-radius: 6px; background: #fff; color: var(--hub-ink); font: inherit; font-size: 11px; }.customer-hub__order-list { display: grid; gap: 9px; }.customer-hub__order { padding: 13px 16px; }.customer-hub__order-top { display: flex; min-height: 38px; align-items: center; gap: 12px; border-bottom: 1px solid #edf0eb; padding-bottom: 9px; }.customer-hub__order-top > div:first-child { flex: 1; }.customer-hub__order h3 { margin: 0; font-size: 13px; }.customer-hub__order-top p { margin: 3px 0 0; color: var(--hub-muted); font-size: 10px; }.customer-hub__order-total { display: grid; min-width: 68px; padding-inline: 12px; border-inline: 1px solid #e8ebe6; font-size: 9px; }.customer-hub__order-total strong { color: var(--hub-ink); font-size: 12px; }.customer-hub__status { padding: 7px 10px; border-radius: 6px; background: #fff4e8; color: #a94d09; font-size: 10px; font-weight: 650; }.customer-hub__status.is-complete { background: #e9f5e7; color: #226328; }.customer-hub__status.is-cancelled { background: #fbecec; color: #aa2929; }.customer-hub__order-body { display: grid; grid-template-columns: minmax(210px,38%) 1fr; gap: 16px; align-items: center; padding: 12px 0; }.customer-hub__order-products { display: flex; gap: 6px; }.customer-hub__order-thumb,.customer-hub__order-extra { display: grid; width: clamp(44px,6vw,68px); aspect-ratio: 1; flex: 0 0 auto; place-items: center; overflow: hidden; border-radius: 6px; background: #f5f7ef; color: var(--hub-green); }.customer-hub__order-thumb img { width: 100%; height: 100%; object-fit: contain; }.customer-hub__order-extra { align-content: center; gap: 2px; font-weight: 700; }.customer-hub__order-extra small { font-size: 8px; font-weight: 400; }.customer-hub__timeline { display: flex; justify-content: space-between; }.customer-hub__timeline span { position: relative; display: grid; flex: 1; gap: 4px; color: #89918a; font-size: 9px; }.customer-hub__timeline span:not(:last-child)::after { position: absolute; top: 6px; left: 15px; width: calc(100% - 18px); height: 2px; background: #d9ded8; content: ''; }.customer-hub__timeline i { z-index: 1; width: 12px; height: 12px; border: 2px solid #cbd1ca; border-radius: 50%; background: #fff; }.customer-hub__timeline .is-done i,.customer-hub__timeline .is-current i { border-color: var(--hub-green); background: var(--hub-green); }.customer-hub__timeline b { color: #28372c; font-size: 9px; }.customer-hub__timeline small { font-size: 8px; }.customer-hub__order-actions { display: flex; justify-content: flex-end; gap: 8px; }.customer-hub__order-actions form { margin: 0; }.customer-hub__pagination { display: flex; justify-content: center; gap: 14px; align-items: center; font-size: 11px; }.customer-hub__pagination a { color: var(--hub-green); }.customer-hub__empty-orders { display: grid; min-height: 180px; justify-items: center; align-content: center; padding: 22px; text-align: center; }.customer-hub__empty-orders > span { font-size: 46px; }.customer-hub__empty-orders h3 { margin: 7px 0 3px; }.customer-hub__empty-orders p { margin: 0 0 13px; color: var(--hub-muted); font-size: 12px; }
+  .customer-hub__mobile-nav { display: none; }
+  @media screen and (max-width: 749px) { .customer-hub { display: block; width: auto; margin: 10px 12px 35px; }.customer-hub__sidebar { display: none; }.customer-hub__mobile-nav { position: sticky; z-index: 2; top: var(--header-height, 60px); display: grid; grid-template-columns: repeat(3,1fr); margin-bottom: 10px; padding: 6px; border: 1px solid #edf0e9; border-radius: 10px; background: #fff; }.customer-hub__mobile-nav a { display: grid; justify-items: center; gap: 4px; padding: 7px 2px; border-bottom: 2px solid transparent; color: #4d5a50; font-size: 16px; text-decoration: none; }.customer-hub__mobile-nav a span { font-size: 9px; }.customer-hub__mobile-nav a.is-active { border-color: var(--hub-green); color: var(--hub-green); font-weight: 700; }.customer-hub__banner { min-height: 72px; padding: 11px 13px; }.customer-hub__banner h1 { font-size: 18px; }.customer-hub__banner p { max-width: 210px; font-size: 10px; }.customer-hub__banner-image { width: 38%; height: 100px; bottom: -20px; }.customer-hub__section-icon { width: 30px; height: 30px; flex-basis: 30px; font-size: 16px; }.customer-hub__card { margin: 8px; padding: 12px; border-radius: 9px; }.customer-hub__card-heading h2,.customer-hub__orders-heading h2 { font-size: 13px; }.customer-hub__card-heading p,.customer-hub__orders-heading p { font-size: 9px; }.customer-hub__form { margin-top: 10px; }.customer-hub__form-grid { grid-template-columns: 1fr; gap: 8px; }.customer-hub__full { grid-column: auto; }.customer-hub__form label { font-size: 10px; }.customer-hub__form input,.customer-hub__form select { min-height: 34px; font-size: 11px; }.customer-hub__button { min-height: 34px; padding: 7px 10px; font-size: 10px; }.customer-hub__card-heading--spread { display: grid; }.customer-hub__add-address { width: 100%; }.customer-hub__add-address summary { width: 100%; }.customer-hub__address { grid-template-columns: 20px minmax(0,1fr); gap: 7px; padding: 9px; }.customer-hub__address-actions { grid-column: 2; justify-content: flex-end; }.customer-hub__address-copy p { font-size: 10px; }.customer-hub__address-copy small { font-size: 9px; }.customer-hub__orders { gap: 8px; margin-top: 12px; }.customer-hub__orders-heading { gap: 8px; }.customer-hub__order-filter select { min-width: 92px; font-size: 9px; }.customer-hub__order { padding: 10px; }.customer-hub__order-top { gap: 6px; flex-wrap: wrap; }.customer-hub__order h3 { font-size: 11px; }.customer-hub__order-top p { font-size: 8px; }.customer-hub__order-total { min-width: 49px; padding-inline: 5px; }.customer-hub__order-total strong { font-size: 10px; }.customer-hub__status { padding: 6px; font-size: 8px; }.customer-hub__order-body { grid-template-columns: 1fr; gap: 10px; padding: 9px 0; }.customer-hub__order-products { gap: 5px; }.customer-hub__order-thumb,.customer-hub__order-extra { width: min(18vw,60px); }.customer-hub__timeline { gap: 4px; }.customer-hub__timeline span { font-size: 8px; }.customer-hub__timeline b { font-size: 8px; }.customer-hub__timeline small { font-size: 7px; }.customer-hub__order-actions { display: grid; grid-template-columns: 1fr 1fr; }.customer-hub__order-actions .customer-hub__button { width: 100%; box-sizing: border-box; }.customer-hub__order-actions form { width: 100%; }.customer-hub__empty-orders { min-height: 150px; } }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Customer account",
+  "settings": [
+    { "type": "image_picker", "id": "banner_image", "label": "Account banner image" }
+  ]
+}
+{% endschema %}

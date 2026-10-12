@@ -27,28 +27,35 @@
     var drawerIds = (sessionStorage.getItem('theme-drawer-open') || '').split(',').filter(Boolean);
     if (!drawerIds.length) return;
 
-    // Only restore on wide viewports (squeeze mode). On narrow viewports the
-    // drawer is a modal overlay — let it start closed after navigation rather
-    // than re-opening a fullscreen dialog the user may have left behind.
+    // Only restore on wide viewports. Standard drawers use squeeze mode there;
+    // explicitly modal drawers (such as the cart) restore as modal overlays.
+    // On narrow viewports, let drawers start closed after navigation rather
+    // than re-opening a fullscreen panel the user may have left behind.
     if (!window.matchMedia('(min-width: 990px)').matches) return;
 
     var dialogs = [];
+    var shouldSqueeze = false;
     for (var i = 0; i < drawerIds.length; i++) {
       var drawer = document.getElementById(drawerIds[i]);
       if (!drawer) continue;
 
       drawer.setAttribute('open', '');
 
-      // Set [open] directly so the CSS slide-in applies without triggering
-      // the browser's dialog focusing steps — on wide viewports the drawer is
-      // a sidebar, not a modal, so focus should stay where it is.
+      // Set [open] directly for standard drawers so the CSS slide-in applies
+      // without triggering the browser's dialog focusing steps. Explicitly
+      // modal drawers use showModal() so their backdrops and focus behavior work.
       // The instant class suppresses the slide-in transition for the initial restore.
       // Set --drawer-stack-order so z-index layering matches the original order.
       drawer.style.setProperty('--drawer-stack-order', String(i + 1));
 
       var dialog = drawer.querySelector('dialog');
       if (dialog) {
-        dialog.setAttribute('open', '');
+        if (drawer.hasAttribute('modal') && typeof dialog.showModal === 'function') {
+          dialog.showModal();
+        } else {
+          dialog.setAttribute('open', '');
+          shouldSqueeze = true;
+        }
         dialog.classList.add('theme-drawer__dialog-instant');
         dialogs.push(dialog);
       }
@@ -62,7 +69,7 @@
     // Only squeeze if at least one drawer was actually restored — saved
     // drawer IDs may not exist on every page (e.g. cart-drawer on /cart).
     var pageWrapper = document.querySelector('.page-wrapper');
-    if (pageWrapper && dialogs.length > 0) {
+    if (pageWrapper && shouldSqueeze) {
       pageWrapper.style.transition = 'none';
       pageWrapper.classList.add('page-wrapper--drawer-open');
     }
@@ -87,14 +94,15 @@
 
   // ── Squeeze coordination ──
   // Listens to all drawers. Only squeezes on wide viewports.
-  document.addEventListener('theme-drawer:open', () => {
-    if (squeezeQuery.matches) {
+  document.addEventListener('theme-drawer:open', (event) => {
+    const drawer = event.target.closest('theme-drawer');
+    if (squeezeQuery.matches && !drawer?.hasAttribute('modal')) {
       pageWrapper?.classList.add('page-wrapper--drawer-open');
     }
   });
 
   document.addEventListener('theme-drawer:close', () => {
-    const openDrawer = document.querySelector('theme-drawer[open]');
+    const openDrawer = document.querySelector('theme-drawer[open]:not([modal])');
     if (!openDrawer) {
       pageWrapper?.classList.remove('page-wrapper--drawer-open');
     }

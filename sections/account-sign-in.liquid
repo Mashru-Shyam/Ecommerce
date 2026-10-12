@@ -1,0 +1,110 @@
+<section class="account-sign-in" aria-labelledby="account-sign-in-title">
+  {% if section.settings.hero_image != blank %}
+    {{ section.settings.hero_image | image_url: width: 2400 | image_tag: class: 'account-sign-in__image', widths: '750, 1100, 1600, 2000, 2400', sizes: '100vw', loading: 'eager', alt: '' }}
+  {% endif %}
+  <div class="account-sign-in__wash" aria-hidden="true"></div>
+  <div class="account-sign-in__layout">
+    <div class="account-sign-in__story">
+      {% assign account_heading_parts = section.settings.heading | split: ', ' %}
+      <p class="account-sign-in__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      <h1 id="account-sign-in-title">{{ account_heading_parts[0] | escape }}{% if account_heading_parts.size > 1 %}<br><span>{{ account_heading_parts[1] | escape }}</span>{% endif %}</h1>
+      <p class="account-sign-in__intro">{{ section.settings.description | escape }}</p>
+      <div class="account-sign-in__benefits" aria-label="Our promise">
+        <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4C10 4 5 8 5 15c0 3 2 5 5 5 7 0 10-8 10-16Z"/><path d="M4 21c3-6 7-9 12-12"/></svg><span>Farm<br>Fresh</span></div>
+        <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V3M12 8 7 4M12 13l6-5M12 18l-6-5M12 8l5-4M12 13l-5-5M12 18l5-5"/></svg><span>Pure &amp;<br>Natural</span></div>
+        <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.8c0 5.4-8.8 11.2-8.8 11.2S3.2 14.2 3.2 8.8A4.8 4.8 0 0 1 12 6a4.8 4.8 0 0 1 8.8 2.8Z"/></svg><span>Goodness<br>in Every Meal</span></div>
+      </div>
+    </div>
+
+    <div class="account-sign-in__card">
+      <h2>Sign in</h2>
+      <p class="account-sign-in__subheading">No password — we’ll email you a code.</p>
+      <div class="account-sign-in__auth">
+        {% if customer %}
+          <p class="account-sign-in__signed-in">You’re signed in as <strong>{{ customer.email | escape }}</strong>.</p>
+          <a class="account-sign-in__button" href="{{ routes.account_url }}">Go to your account <span aria-hidden="true">→</span></a>
+        {% else %}
+          <shopify-account menu="{{ section.settings.account_menu }}">
+            <button class="account-sign-in__button" type="button" slot="signed-out-avatar">
+              <span>{{ section.settings.button_label | escape }}</span><span aria-hidden="true">→</span>
+            </button>
+          </shopify-account>
+          <p class="account-sign-in__native-note">Shopify will securely send a one-time code to your email address.</p>
+        {% endif %}
+      </div>
+      <p class="account-sign-in__privacy"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3M12 14v3"/></svg><span>We only use your email for orders and delivery updates.</span></p>
+    </div>
+  </div>
+</section>
+
+{% style %}
+  body:has(.account-sign-in) #header-group,
+  body:has(.account-sign-in) .site-breadcrumb { display: none !important; }
+  body:has(.account-sign-in) .freshomill-footer { color: #17251d; background: linear-gradient(115deg, #fbfaf6, #f5f4ed); }
+  body:has(.account-sign-in) .freshomill-footer__column { border-color: #e7e5dc; }
+  body:has(.account-sign-in) .freshomill-footer__logo,
+  body:has(.account-sign-in) .freshomill-footer__social a,
+  body:has(.account-sign-in) .freshomill-footer__details summary { color: #15271e; }
+  body:has(.account-sign-in) .freshomill-footer__tagline,
+  body:has(.account-sign-in) .freshomill-footer__details a,
+  body:has(.account-sign-in) .freshomill-footer__bottom { color: #566159; }
+  .account-sign-in { --account-green: #145225; --account-ink: #10251b; --account-muted: #5a6470; position: relative; isolation: isolate; display: grid; min-height: min(760px, 100svh); align-items: center; overflow: hidden; padding: clamp(24px, 4vw, 56px) clamp(18px, 4vw, 64px); background: #f5f5ed; color: var(--account-ink); }
+  .account-sign-in__image { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  .account-sign-in__wash { position: absolute; z-index: -1; inset: 0; background: linear-gradient(90deg, rgb(249 249 241 / .94) 0%, rgb(249 249 241 / .83) 40%, rgb(249 249 241 / .2) 69%, rgb(249 249 241 / .16) 100%); }
+  .account-sign-in__layout { display: grid; width: min(1320px, 100%); grid-template-columns: minmax(0, 1.2fr) minmax(390px, .88fr); gap: clamp(28px, 5vw, 76px); align-items: center; margin: 0 auto; }
+  .account-sign-in__story { max-width: 650px; padding: 10px 0; }
+  .account-sign-in__eyebrow { margin: 0 0 12px; color: #477442; font-size: 12px; font-weight: 750; letter-spacing: .28em; }
+  .account-sign-in__story h1 { max-width: 630px; margin: 0; color: #08251a; font-size: clamp(54px, 6vw, 88px); font-weight: 780; letter-spacing: -.065em; line-height: .9; }
+  .account-sign-in__story h1 span { color: #32762b; }
+  .account-sign-in__intro { max-width: 540px; margin: 18px 0 24px; color: #27332f; font-size: clamp(16px, 1.45vw, 20px); line-height: 1.45; }
+  .account-sign-in__benefits { display: flex; flex-wrap: wrap; gap: 0; }
+  .account-sign-in__benefits > div { display: flex; min-height: 42px; align-items: center; gap: 10px; padding: 0 18px; border-right: 1px solid rgb(26 62 34 / .22); font-size: 12px; font-weight: 600; line-height: 1.2; }
+  .account-sign-in__benefits > div:first-child { padding-left: 0; }
+  .account-sign-in__benefits > div:last-child { border: 0; }
+  .account-sign-in__benefits svg { width: 28px; height: 28px; flex: 0 0 auto; fill: none; stroke: #357b2e; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .account-sign-in__card { width: 100%; padding: clamp(24px, 3vw, 40px); border: 1px solid rgb(255 255 255 / .8); border-radius: 18px; background: rgb(255 255 255 / .94); box-shadow: 0 16px 48px rgb(26 38 27 / .1); backdrop-filter: blur(10px); }
+  .account-sign-in__card h2 { margin: 0; font-size: clamp(34px, 3.2vw, 46px); font-weight: 760; letter-spacing: -.055em; line-height: 1.08; }
+  .account-sign-in__subheading { margin: 8px 0 24px; color: #4c5664; font-size: 16px; line-height: 1.4; }
+  .account-sign-in__auth { min-height: 104px; }
+  .account-sign-in__auth shopify-account { display: block; width: 100%; }
+  .account-sign-in__button { display: flex; width: 100%; min-height: 54px; align-items: center; justify-content: center; gap: 18px; padding: 12px 18px; border: 1px solid #154d22; border-radius: 9px; background: linear-gradient(100deg, #155326, #0d421b); color: #fff; font: inherit; font-size: 16px; font-weight: 700; text-align: center; text-decoration: none; cursor: pointer; }
+  .account-sign-in__button span:last-child { font-size: 24px; font-weight: 400; line-height: 1; }
+  .account-sign-in__button:hover { background: #0b3c1a; }
+  .account-sign-in__native-note { margin: 12px 0 0; color: var(--account-muted); font-size: 12px; text-align: center; }
+  .account-sign-in__signed-in { margin: 0 0 14px; font-size: 14px; }
+  .account-sign-in__privacy { display: flex; align-items: center; gap: 10px; margin: 22px 0 0; padding-top: 17px; border-top: 1px solid #e7eae4; color: #59616d; font-size: 12px; line-height: 1.45; }
+  .account-sign-in__privacy svg { width: 20px; height: 20px; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  @media (max-width: 749px) {
+    .account-sign-in { min-height: auto; padding: 22px 14px 26px; align-items: start; }
+    .account-sign-in__image { height: min(78vw, 340px); object-position: 67% center; }
+    .account-sign-in__wash { background: linear-gradient(180deg, rgb(249 249 241 / .55), rgb(249 249 241 / .85) 245px, #f6f7f1 350px); }
+    .account-sign-in__layout { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+    .account-sign-in__story { min-height: 250px; padding: 8px 5px 0; }
+    .account-sign-in__eyebrow { margin-bottom: 8px; font-size: 9px; letter-spacing: .2em; }
+    .account-sign-in__story h1 { max-width: 310px; font-size: clamp(38px, 11vw, 54px); }
+    .account-sign-in__intro { max-width: 310px; margin: 10px 0 12px; font-size: 13px; }
+    .account-sign-in__benefits > div { gap: 5px; padding: 0 9px; font-size: 9px; }
+    .account-sign-in__benefits svg { width: 21px; height: 21px; }
+    .account-sign-in__card { padding: 20px 18px; border-radius: 14px; }
+    .account-sign-in__card h2 { font-size: 32px; }
+    .account-sign-in__subheading { margin: 5px 0 20px; font-size: 14px; }
+    .account-sign-in__auth { min-height: 100px; }
+    .account-sign-in__button { min-height: 48px; font-size: 14px; }
+    .account-sign-in__privacy { margin-top: 16px; padding-top: 13px; font-size: 11px; }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Account sign in",
+  "settings": [
+    { "type": "image_picker", "id": "hero_image", "label": "Grains and milling image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "NATURAL INGREDIENTS" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Freshness, remembered." },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Wholesome grains. Pure ingredients. Freshly milled for a healthier tomorrow." },
+    { "type": "text", "id": "button_label", "label": "Sign in button", "default": "Continue with email" },
+    { "type": "text", "id": "account_menu", "label": "Account menu handle", "default": "customer-account-main-menu" }
+  ],
+  "presets": [{ "name": "Account sign in" }]
+}
+{% endschema %}
