@@ -1,6 +1,10 @@
 /*
  * ------------------------------------------------------------
- * IMPORTANT: This file is managed by the Shopify theme editor.
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
 {
@@ -8,12 +12,44 @@
     "contact": {
       "type": "contact-page",
       "settings": {
-        "hero_image": "shopify://shop_images/ChatGPT_Image_Oct_10_2026_02_36_34_AM.png",
-        "instagram_url": "",
+        "eyebrow": "We're here for a healthier you",
+        "heading": "Connect with Us",
+        "intro": "Have a question about our products, your order, or healthy living?\nWe'd love to hear from you and will respond as soon as possible.",
+        "form_title": "Send Us a Message",
+        "form_description": "Fill out the form below and we'll get back to you soon.",
+        "name_placeholder": "Your full name",
+        "email_placeholder": "you@example.com",
+        "phone_label": "Phone",
+        "optional_label": "optional",
+        "phone_placeholder": "Your phone number",
+        "message_placeholder": "Type your message here...",
+        "submit_label": "Send message",
+        "success_title": "Message sent!",
+        "success_message": "Thanks for reaching out — we'll get back to you shortly.",
+        "address_title": "Our Address",
+        "contact_address": "FreshOMill, GF 3/4 Nexus Complex, White House Lane, \nBhayli TP-1, Vadodara, \nGujarat - 391410",
+        "phone_title": "Phone / WhatsApp",
+        "phone": "7600062637",
+        "phone_note": "Chat or call us anytime.",
+        "email_title": "Email Us",
+        "email": "mashrushyam030303@outlook.com",
+        "email_note": "We typically respond within 24 hours.",
+        "hours_title": "Opening Hours",
+        "hours": "Everyday : 9:30 am to 8:00 pm",
+        "hours_note": "We're here to serve you fresh",
+        "location_title": "Our Location",
+        "social_title": "Follow Us",
+        "social_description": "Stay updated with fresh arrivals, healthy tips and more.",
+        "instagram_label": "Instagram",
+        "instagram_url": "https://www.instagram.com/freshomill/",
+        "youtube_label": "YouTube",
         "youtube_url": "",
+        "linkedin_label": "LinkedIn",
         "linkedin_url": ""
       }
     }
   },
-  "order": ["contact"]
+  "order": [
+    "contact"
+  ]
 }
