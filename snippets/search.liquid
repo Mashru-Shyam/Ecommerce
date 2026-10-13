@@ -10,6 +10,8 @@
 {%- enddoc -%}
 
 {% if style == 'inline' %}
+  {% assign header_search_term = search.terms | default: request.params.q %}
+  <script src="{{ 'header-search-clear.js' | asset_url }}" defer type="module"></script>
   <form
     class="header-search"
     action="{{ routes.search_url }}"
@@ -26,10 +28,18 @@
       id="HeaderSearch-{{ section.id }}"
       type="search"
       name="q"
-      value="{{ search.terms | escape }}"
+      value="{{ header_search_term | escape }}"
       placeholder="{{ 'content.search_input_placeholder' | t }}"
       autocomplete="off"
     >
+    <button
+      class="header-search__clear"
+      type="button"
+      aria-label="{{ 'accessibility.reset_search' | t }}"
+      {% if header_search_term == blank %}hidden{% endif %}
+    >
+      <span class="svg-wrapper" aria-hidden="true">{{ 'icon-close.svg' | inline_asset_content }}</span>
+    </button>
     <input name="type" type="hidden" value="product">
     <input name="options[prefix]" type="hidden" value="last">
     <button type="submit" aria-label="{{ 'content.search' | t }}">
@@ -112,6 +122,26 @@
   .header-search__icon svg {
     width: 20px;
     height: 20px;
+  }
+
+  .header-search .header-search__clear {
+    display: grid;
+    flex: 0 0 36px;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    color: var(--freshomill-color-muted);
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .header-search .header-search__clear svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .header-search .header-search__clear[hidden] {
+    display: none;
   }
 
   .header-search input::placeholder {

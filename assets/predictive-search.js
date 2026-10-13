@@ -70,6 +70,20 @@ class PredictiveSearchComponent extends Component {
    */
   #handleModalClick = (event) => {
     const target = /** @type {HTMLElement} */ (event.target);
+    const productLink = target.closest('.predictive-search-results__card--product a[href*="/products/"]');
+    if (productLink instanceof HTMLAnchorElement && this.refs.searchInput.value.trim()) {
+      const productUrl = new URL(productLink.href, window.location.origin);
+      productUrl.searchParams.set('q', this.refs.searchInput.value.trim());
+      productLink.href = productUrl.toString();
+    }
+
+    if (target.closest('.predictive-search__reset-button')) {
+      const currentUrl = new URL(window.location.href);
+      currentUrl.searchParams.delete('q');
+      currentUrl.searchParams.delete('catalog_category');
+      window.history.replaceState(window.history.state, '', currentUrl.toString());
+    }
+
     const isInteractiveElement =
       target instanceof HTMLButtonElement ||
       target instanceof HTMLAnchorElement ||

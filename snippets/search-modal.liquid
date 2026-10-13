@@ -77,6 +77,7 @@
               aria-haspopup="listbox"
               aria-autocomplete="list"
               autocomplete="off"
+              value="{{ request.params.q | escape }}"
               placeholder="{{ 'content.search_input_placeholder' | t }}"
               ref="searchInput"
               on:input="/search"

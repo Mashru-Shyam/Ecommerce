@@ -16,10 +16,12 @@ if (drawer && !drawer.dataset.categorySheetReady) {
     const categoryChanged = Boolean(pending && active && pending.href !== active.href);
     const filtersChanged = drawer.dataset.filtersDirty === 'true';
     const triggerCategory = drawer.querySelector('.facets-toggle__button [data-active-category-label]');
+    const triggerLabel = drawer.querySelector('.facets-toggle__button .facets-toggle__label');
     if (triggerCategory) {
       const activeName = active?.querySelector('.catalog-category__name')?.textContent.trim() || '';
       triggerCategory.textContent = activeName;
       triggerCategory.hidden = !activeName;
+      if (triggerLabel) triggerLabel.hidden = Boolean(activeName);
     }
     if (applyButton) applyButton.disabled = !(categoryChanged || filtersChanged);
     if (clearButton) clearButton.disabled = (!active || active.classList.contains('catalog-category--all')) && activeFilterCount() === 0;
