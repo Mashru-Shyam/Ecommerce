@@ -127,7 +127,7 @@
         "padding-inline-start": 0,
         "padding-inline-end": 0,
         "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 0,
+        "padding-block-start": 24,
         "padding-block-end": 32,
         "enable_infinite_scroll": false,
         "products_per_page": 8,

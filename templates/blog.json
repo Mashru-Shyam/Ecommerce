@@ -98,8 +98,8 @@
       ],
       "settings": {
         "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 0,
-        "padding-block-end": 48
+        "padding-block-start": 32,
+        "padding-block-end": 32
       }
     }
   },

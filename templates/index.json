@@ -263,8 +263,8 @@
         "horizontal_alignment": "flex-start",
         "gap": 16,
         "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 14,
-        "padding-block-end": 20
+        "padding-block-start": 24,
+        "padding-block-end": 24
       }
     },
     "why_freshomill_home": {

@@ -10,11 +10,9 @@
   <form class="catalog-filter-search" action="{{ routes.search_url }}" method="get" role="search">
     <label class="catalog-filter-links__title" for="CatalogSearch-{{ section.id }}-{{ context }}">{{ 'catalog.search_products' | t }}</label>
     <div class="catalog-filter-search__field">
-      <input id="CatalogSearch-{{ section.id }}-{{ context }}" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'catalog.search_products_placeholder' | t }}">
+      <input id="CatalogSearch-{{ section.id }}-{{ context }}" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'catalog.search_products_placeholder' | t }}" aria-label="{{ 'catalog.search_products' | t }}">
       <input type="hidden" name="type" value="product">
-      <button type="submit" aria-label="{{ 'catalog.search_products' | t }}">
-        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.8" cy="8.8" r="5.7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m13 13 4 4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"/></svg>
-      </button>
+      <button class="visually-hidden" type="submit" tabindex="-1" aria-hidden="true">{{ 'catalog.search_products' | t }}</button>
     </div>
   </form>
   <h2 class="catalog-filter-links__title">{{ 'catalog.categories' | t }}</h2>

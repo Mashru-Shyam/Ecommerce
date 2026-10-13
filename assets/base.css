@@ -52,7 +52,7 @@ body {
   --freshomill-hero-mobile-max-height: 240px;
   --freshomill-hero-desktop-height: min(33.333333vw, var(--freshomill-hero-max-height));
   --freshomill-hero-mobile-height: clamp(var(--freshomill-hero-mobile-min-height), calc(100vw / 1.85), var(--freshomill-hero-mobile-max-height));
-  --freshomill-page-gutter: clamp(12px, 2.5vw, 36px);
+  --freshomill-page-gutter: clamp(16px, 2.5vw, 40px);
   --freshomill-space-1: 4px;
   --freshomill-space-2: 8px;
   --freshomill-space-3: 12px;
@@ -411,16 +411,7 @@ p:empty {
 .page-width-normal,
 .page-width-narrow,
 .page-width-content {
-  --page-margin: max(16px, var(--safe-area-inset-left, 0px), var(--safe-area-inset-right, 0px));
-}
-
-@media screen and (min-width: 750px) {
-  .page-width-wide,
-  .page-width-normal,
-  .page-width-narrow,
-  .page-width-content {
-    --page-margin: max(40px, var(--safe-area-inset-left, 0px), var(--safe-area-inset-right, 0px));
-  }
+  --page-margin: max(var(--freshomill-page-gutter), var(--safe-area-inset-left, 0px), var(--safe-area-inset-right, 0px));
 }
 
 .page-width-wide {
