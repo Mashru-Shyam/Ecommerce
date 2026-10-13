@@ -12,6 +12,7 @@
     "contact": {
       "type": "contact-page",
       "settings": {
+        "hero_image": "shopify://shop_images/freshomill-contact-hero.png",
         "eyebrow": "We're here for a healthier you",
         "heading": "Connect with Us",
         "intro": "Have a question about our products, your order, or healthy living?\nWe'd love to hear from you and will respond as soon as possible.",
