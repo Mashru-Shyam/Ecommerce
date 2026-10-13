@@ -64,7 +64,28 @@
       "settings": {
         "eyebrow": "Shop by category",
         "heading": "Everything we mill, press and pack",
-        "collection_list": []
+        "collection_list": [
+          "coffee-tea",
+          "dry-fruits-dates",
+          "eco-friendly",
+          "flour-multigrain",
+          "fresh-nut-butters",
+          "health-foods",
+          "masalas",
+          "millets",
+          "natural-sweeteners",
+          "nuts-seeds",
+          "pasta-noodles",
+          "pickles",
+          "pulses-lentils",
+          "poha",
+          "quick-bites",
+          "rava",
+          "rice",
+          "skin-hair-care",
+          "spices",
+          "wood-pressed-oils"
+        ]
       }
     },
     "product_list_fa6P9H": {
