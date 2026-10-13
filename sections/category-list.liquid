@@ -3,9 +3,23 @@
   if categories == blank
     assign categories = collections
   endif
+
+  assign visible_category_count = 0
+  if categories != blank
+    for collection in categories
+      if collection.handle != 'all' and collection.products_count > 0
+        assign visible_category_count = visible_category_count | plus: 1
+      endif
+    endfor
+  endif
+
+  assign display_category_count = visible_category_count
+  if display_category_count > 5
+    assign display_category_count = 5
+  endif
 %}
 
-{% if categories != blank %}
+{% if visible_category_count > 0 %}
 {% assign visible_category_count = 0 %}
 <section class="category-section" aria-labelledby="category-heading-{{ section.id }}">
   <div class="category-panel">
@@ -14,12 +28,16 @@
         <p class="category-eyebrow"><span aria-hidden="true">✦</span> {{ section.settings.eyebrow | escape }}</p>
         <h2 id="category-heading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
       </div>
+      <a class="category-view-all" href="{{ routes.all_products_collection_url }}">
+        <span>View all products</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg>
+      </a>
     </div>
 
     <div class="category-carousel">
-      <div class="category-track" data-category-track tabindex="0" aria-label="Shop by category">
+      <div class="category-track" data-category-track style="--category-count: {{ display_category_count }};" tabindex="0" aria-label="Shop by category">
         {% for collection in categories %}
-          {% if collection.handle != 'all' and visible_category_count < 5 %}
+          {% if collection.handle != 'all' and collection.products_count > 0 and visible_category_count < 5 %}
           {% assign category_image = collection.featured_image | default: collection.image %}
           <a class="category-card" href="{{ collection.url }}" aria-label="Shop {{ collection.title | escape }}">
             <span class="category-card__image">
@@ -50,18 +68,17 @@
 
 {% stylesheet %}
   .category-section {
-    width: 100vw;
-    margin-inline: calc(50% - 50vw);
-    padding: var(--freshomill-space-4) var(--freshomill-page-gutter) 0;
+    width: min(100%, var(--page-width, 100%));
+    margin-inline: auto;
   }
 
   .category-panel {
     position: relative;
     width: 100%;
-    padding: var(--freshomill-space-4) var(--freshomill-space-4) var(--freshomill-space-5);
+    padding-inline: var(--freshomill-page-gutter);    
     overflow: hidden;
-    border-radius: var(--freshomill-radius-panel);
     background: var(--freshomill-color-brand-soft);
+    padding: var(--freshomill-space-6);
   }
 
   .category-heading-row {
@@ -74,6 +91,37 @@
 
   .category-heading-copy {
     min-width: 0;
+  }
+
+  .category-view-all {
+    display: inline-flex;
+    min-height: var(--freshomill-touch-target);
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: var(--freshomill-color-brand-deep);
+    font-size: var(--freshomill-font-size-small);
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .category-view-all:hover,
+  .category-view-all:focus-visible {
+    color: var(--freshomill-color-brand-hover);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .category-view-all svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
   }
 
   .category-eyebrow {
@@ -247,7 +295,18 @@
 
   @media screen and (min-width: 750px) {
     .category-track {
-      grid-auto-columns: 23.5%;
+      grid-template-columns: repeat(var(--category-count, 5), minmax(0, 1fr));
+      grid-auto-columns: auto;
+    }
+
+    .category-card {
+      width: 100%;
+      max-width: 280px;
+      justify-self: center;
+    }
+
+    .category-card__image {
+      aspect-ratio: 1.25;
     }
   }
 
@@ -259,7 +318,7 @@
     }
 
     .category-panel {
-      padding: var(--freshomill-space-3);
+      padding: var(--freshomill-space-3) var(--freshomill-page-gutter);
       border-radius: var(--freshomill-radius-panel);
     }
 
@@ -284,6 +343,16 @@
       letter-spacing: -0.04em;
     }
 
+    .category-view-all {
+      gap: 4px;
+      font-size: var(--freshomill-font-size-caption);
+    }
+
+    .category-view-all svg {
+      width: 14px;
+      height: 14px;
+    }
+
     .category-control {
       width: 29px;
       height: 29px;
@@ -295,7 +364,8 @@
     }
 
     .category-track {
-      grid-auto-columns: 44%;
+      grid-template-columns: none;
+      grid-auto-columns: 40%;
       gap: var(--freshomill-space-2);
       margin-inline: 0;
       padding: var(--freshomill-space-1);
@@ -310,7 +380,7 @@
     }
 
     .category-card__image {
-      aspect-ratio: 1.04;
+      aspect-ratio: 1.16;
       border-radius: var(--freshomill-radius-control);
     }
 

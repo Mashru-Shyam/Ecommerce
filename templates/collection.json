@@ -130,7 +130,7 @@
         "padding-block-start": 0,
         "padding-block-end": 32,
         "enable_infinite_scroll": false,
-        "products_per_page": 12,
+        "products_per_page": 8,
         "quick_add_position": "below"
       }
     }

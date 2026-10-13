@@ -10,6 +10,267 @@
   const url = new URL(window.location.href);
   const catalogWrapper = document.querySelector('.collection-wrapper--catalog');
   let catalogRequestId = 0;
+  let activeCatalogPagination = null;
+  let catalogHasInitialized = false;
+
+  const getCatalogPageUrl = (results, direction) => {
+    const items = results.querySelectorAll('.pagination:not(.catalog-pagination) .pagination__item');
+    const edgeItem = direction === 'next' ? items[items.length - 1] : items[0];
+    return edgeItem?.querySelector('.pagination__link--arrow[href]')?.href || null;
+  };
+
+  const getCatalogBaseUrl = (href) => {
+    const nextUrl = new URL(href, window.location.href);
+    nextUrl.searchParams.delete('page');
+    nextUrl.searchParams.delete('catalog_page');
+    return nextUrl.href;
+  };
+
+  const getCatalogColumns = (grid) => {
+    const columns = getComputedStyle(grid).gridTemplateColumns.trim().split(/\s+/).filter(Boolean).length;
+    if (columns > 0) return columns;
+
+    const cards = Array.from(grid.children).filter((card) => !card.hidden);
+    if (cards.length < 2) return 1;
+    const firstRowTop = cards[0].getBoundingClientRect().top;
+    const nextRowIndex = cards.findIndex((card) => Math.abs(card.getBoundingClientRect().top - firstRowTop) > 1);
+    return nextRowIndex > 0 ? nextRowIndex : cards.length;
+  };
+
+  const updateCatalogSourceKey = (state) => {
+    state.sourceKey = Array.from(state.grid.children).map((card) => card.dataset.productId || card.id).join('|');
+  };
+
+  const registerCatalogBatch = (state, sourceResults, direction) => {
+    const sourceGrid = sourceResults.querySelector('[data-testid="product-grid"]');
+    if (!sourceGrid) return false;
+
+    const serverPage = Number(sourceGrid.dataset.catalogServerPage) || 1;
+    const pageOffset = (serverPage - 1) * state.serverPageSize;
+    const fragment = document.createDocumentFragment();
+    const cards = Array.from(sourceGrid.querySelectorAll(':scope > .product-grid__item'));
+
+    cards.forEach((card, index) => {
+      const itemIndex = pageOffset + index;
+      if (state.itemsByIndex.has(itemIndex)) return;
+      card.dataset.catalogItemIndex = String(itemIndex);
+      state.itemsByIndex.set(itemIndex, card);
+      if (sourceGrid !== state.grid) fragment.append(card);
+    });
+
+    if (sourceGrid !== state.grid) {
+      if (direction === 'previous') state.grid.insertBefore(fragment, state.grid.firstElementChild);
+      else state.grid.append(fragment);
+    }
+
+    state.total = Number(sourceGrid.dataset.catalogTotalItems) || 0;
+    state.nativePages.set(serverPage, {
+      previous: getCatalogPageUrl(sourceResults, 'previous'),
+      next: getCatalogPageUrl(sourceResults, 'next'),
+    });
+    state.minServerPage = Math.min(state.minServerPage, serverPage);
+    state.maxServerPage = Math.max(state.maxServerPage, serverPage);
+    updateCatalogSourceKey(state);
+    return true;
+  };
+
+  const fetchCatalogBatch = async (state, direction) => {
+    if (state.batchRequest) await state.batchRequest;
+
+    const boundaryPage = direction === 'previous' ? state.minServerPage : state.maxServerPage;
+    const href = state.nativePages.get(boundaryPage)?.[direction];
+    if (!href) return false;
+
+    state.batchRequest = (async () => {
+      const response = await fetch(href, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+      if (!response.ok) throw new Error('More catalog products could not be loaded');
+      const page = new DOMParser().parseFromString(await response.text(), 'text/html');
+      const nextResults = page.querySelector('#ResultsList');
+      if (!nextResults || !registerCatalogBatch(state, nextResults, direction)) {
+        throw new Error('More catalog products were missing from the response');
+      }
+      return true;
+    })();
+
+    try {
+      return await state.batchRequest;
+    } finally {
+      state.batchRequest = null;
+    }
+  };
+
+  const ensureCatalogRange = async (state, start, end) => {
+    while (start < (state.minServerPage - 1) * state.serverPageSize) {
+      if (!(await fetchCatalogBatch(state, 'previous'))) break;
+    }
+    while (end > Math.min(state.total, state.maxServerPage * state.serverPageSize)) {
+      if (!(await fetchCatalogBatch(state, 'next'))) break;
+    }
+    for (let index = start; index < end; index += 1) {
+      if (!state.itemsByIndex.has(index)) return false;
+    }
+    return true;
+  };
+
+  const renderCatalogPagination = (state, currentPage, totalPages) => {
+    let nav = state.results.querySelector('.catalog-pagination');
+    if (totalPages <= 1) {
+      nav?.remove();
+      return;
+    }
+
+    if (!nav) {
+      nav = document.createElement('nav');
+      nav.className = 'pagination catalog-pagination';
+      nav.setAttribute('aria-label', state.grid.dataset.catalogNavLabel || 'Pagination');
+      const list = document.createElement('ul');
+      list.className = 'pagination__list';
+      list.setAttribute('role', 'list');
+      nav.append(list);
+      state.grid.insertAdjacentElement('afterend', nav);
+    }
+
+    const list = nav.querySelector('.pagination__list');
+    const previousLabel = state.grid.dataset.catalogPreviousLabel || 'Previous page';
+    const nextLabel = state.grid.dataset.catalogNextLabel || 'Next page';
+    const pageLabel = state.grid.dataset.catalogPageLabel || 'Page __PAGE__';
+    const pageHref = (page) => {
+      const nextUrl = new URL(state.baseUrl);
+      nextUrl.searchParams.set('catalog_page', String(page));
+      return nextUrl.href;
+    };
+    const makeItem = (content, label, page, className, current = false) => {
+      const item = document.createElement('li');
+      item.className = 'pagination__item';
+      if (className === 'pagination__link--gap') item.classList.add('pagination__item--gap');
+
+      if (current || page === null) {
+        const span = document.createElement('span');
+        const isGap = className === 'pagination__link--gap';
+        const isDisabled = page === null && !isGap;
+        span.className = `pagination__link ${className}${current ? ' pagination__link--current' : ''}${isDisabled ? ' pagination__link--disabled' : ''}`;
+        span.textContent = content;
+        if (current) span.setAttribute('aria-current', 'page');
+        if (isDisabled) {
+          span.setAttribute('aria-label', label);
+          span.setAttribute('aria-disabled', 'true');
+        }
+        if (isGap) span.setAttribute('aria-hidden', 'true');
+        item.append(span);
+        return item;
+      }
+
+      const link = document.createElement('a');
+      link.className = `pagination__link ${className}`;
+      link.href = pageHref(page);
+      link.dataset.catalogPage = String(page);
+      link.setAttribute('aria-label', label);
+      link.textContent = content;
+      item.append(link);
+      return item;
+    };
+
+    const pages = new Set([1, totalPages]);
+    for (let page = Math.max(1, currentPage - 1); page <= Math.min(totalPages, currentPage + 1); page += 1) pages.add(page);
+    const orderedPages = Array.from(pages).sort((a, b) => a - b);
+    const nodes = [makeItem('‹', previousLabel, currentPage > 1 ? currentPage - 1 : null, 'pagination__link--arrow')];
+    let previousPage = 0;
+
+    orderedPages.forEach((page) => {
+      if (previousPage && page - previousPage > 1) nodes.push(makeItem('…', '', null, 'pagination__link--gap'));
+      nodes.push(makeItem(String(page), pageLabel.replace('__PAGE__', String(page)), page, 'pagination__link--page', page === currentPage));
+      previousPage = page;
+    });
+
+    nodes.push(makeItem('›', nextLabel, currentPage < totalPages ? currentPage + 1 : null, 'pagination__link--arrow'));
+    list.replaceChildren(...nodes);
+  };
+
+  const showCatalogPage = async (state, requestedPage, historyMode = 'push') => {
+    if (!state || state !== activeCatalogPagination) return;
+
+    const renderRequestId = ++state.renderRequestId;
+    state.pageSize = Math.max(1, getCatalogColumns(state.grid) * 2);
+    const totalPages = Math.max(1, Math.ceil(state.total / state.pageSize));
+    const currentPage = Math.min(Math.max(1, requestedPage), totalPages);
+    const start = (currentPage - 1) * state.pageSize;
+    const end = Math.min(state.total, start + state.pageSize);
+
+    state.results.setAttribute('aria-busy', 'true');
+    renderCatalogPagination(state, currentPage, totalPages);
+
+    try {
+      const hasRange = await ensureCatalogRange(state, start, end);
+      if (state !== activeCatalogPagination || renderRequestId !== state.renderRequestId) return;
+      if (!hasRange) throw new Error('The requested catalog page could not be completed');
+
+      state.itemsByIndex.forEach((card, index) => {
+        card.hidden = index < start || index >= end;
+      });
+      state.currentPage = currentPage;
+      renderCatalogPagination(state, currentPage, totalPages);
+
+      const nextUrl = new URL(state.baseUrl);
+      if (currentPage > 1) nextUrl.searchParams.set('catalog_page', String(currentPage));
+      if (historyMode === 'push' && nextUrl.href !== window.location.href) history.pushState({}, '', nextUrl.href);
+      else if (historyMode === 'replace' && nextUrl.href !== window.location.href) history.replaceState({}, '', nextUrl.href);
+    } catch (error) {
+      if (state === activeCatalogPagination && renderRequestId === state.renderRequestId) console.error(error);
+    } finally {
+      if (state === activeCatalogPagination && renderRequestId === state.renderRequestId) state.results.removeAttribute('aria-busy');
+    }
+  };
+
+  const initializeCatalogPagination = (results) => {
+    const grid = results?.querySelector('[data-testid="product-grid"]');
+    if (!grid) return;
+    const firstInitialization = !catalogHasInitialized;
+    catalogHasInitialized = true;
+    const sourceKey = Array.from(grid.children).map((card) => card.dataset.productId || card.id).join('|');
+    if (activeCatalogPagination?.results === results && activeCatalogPagination?.grid === grid && activeCatalogPagination?.sourceKey === sourceKey) return;
+
+    const serverPageSize = Number(grid.dataset.catalogServerPageSize) || 8;
+    const serverPage = Number(grid.dataset.catalogServerPage) || 1;
+    const state = {
+      results,
+      grid,
+      baseUrl: getCatalogBaseUrl(window.location.href),
+      total: Number(grid.dataset.catalogTotalItems) || 0,
+      serverPageSize,
+      minServerPage: serverPage,
+      maxServerPage: serverPage,
+      nativePages: new Map(),
+      itemsByIndex: new Map(),
+      pageSize: Math.max(1, getCatalogColumns(grid) * 2),
+      currentPage: 1,
+      sourceKey: '',
+      batchRequest: null,
+      renderRequestId: 0,
+    };
+
+    activeCatalogPagination = state;
+    const nativeNav = results.querySelector('.pagination:not(.catalog-pagination)');
+    if (nativeNav) {
+      nativeNav.hidden = true;
+      nativeNav.setAttribute('aria-hidden', 'true');
+    }
+    registerCatalogBatch(state, results, 'initial');
+
+    const currentUrl = new URL(window.location.href);
+    const requestedPage = firstInitialization ? Number(currentUrl.searchParams.get('catalog_page')) || 1 : 1;
+    if (!firstInitialization && currentUrl.searchParams.has('catalog_page')) {
+      currentUrl.searchParams.delete('catalog_page');
+      history.replaceState({}, '', currentUrl.href);
+    }
+    const initialTotalPages = Math.max(1, Math.ceil(state.total / state.pageSize));
+    const initialPage = Math.min(Math.max(1, requestedPage), initialTotalPages);
+    const initialStart = (initialPage - 1) * state.pageSize;
+    const initialEnd = Math.min(state.total, initialStart + state.pageSize);
+    state.itemsByIndex.forEach((card, index) => {
+      card.hidden = index < initialStart || index >= initialEnd;
+    });
+    showCatalogPage(state, requestedPage, 'replace');
+  };
 
   if (catalogWrapper) {
     window.addEventListener('scroll', () => {
@@ -28,20 +289,28 @@
       const currentResults = document.querySelector('#ResultsList');
       if (!currentResults) return;
 
+      const resultsUrl = new URL(href, window.location.href);
+      resultsUrl.searchParams.delete('page');
+      resultsUrl.searchParams.delete('catalog_page');
+      const normalizedHref = resultsUrl.href;
+
       const requestId = ++catalogRequestId;
       currentResults.setAttribute('aria-busy', 'true');
 
       try {
-        const response = await fetch(href, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+        const response = await fetch(normalizedHref, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
         if (!response.ok) throw new Error('Catalog results could not be loaded');
         const page = new DOMParser().parseFromString(await response.text(), 'text/html');
         const nextResults = page.querySelector('#ResultsList');
         if (!nextResults) throw new Error('Catalog results were missing from the response');
         if (requestId !== catalogRequestId) return;
 
+        activeCatalogPagination = null;
         currentResults.replaceWith(nextResults);
+        history.pushState({}, '', normalizedHref);
         updateCount('.catalog-desktop-results-controls [data-testid="products-count"]', page);
         updateCount('.catalog-mobile-products-count', page);
+        initializeCatalogPagination(nextResults);
 
         if (selectedCategory) {
           document.querySelectorAll('.catalog-category').forEach((link) => {
@@ -52,7 +321,7 @@
           });
         }
       } catch (error) {
-        if (requestId === catalogRequestId) window.location.assign(href);
+        if (requestId === catalogRequestId) window.location.assign(normalizedHref);
       } finally {
         if (requestId === catalogRequestId) document.querySelector('#ResultsList')?.removeAttribute('aria-busy');
       }
@@ -61,13 +330,136 @@
     document.addEventListener('click', (event) => {
       if (!(event.target instanceof Element)) return;
       const categoryLink = event.target.closest('.catalog-category');
-      const pageLink = event.target.closest('#ResultsList .pagination a');
-      const link = categoryLink || pageLink;
-      if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const pageLink = event.target.closest('#ResultsList .catalog-pagination a[data-catalog-page]');
+      if (pageLink && !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+        event.preventDefault();
+        showCatalogPage(activeCatalogPagination, Number(pageLink.dataset.catalogPage));
+        return;
+      }
+      if (!categoryLink || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
       event.preventDefault();
-      loadCatalogResults(link.href, categoryLink);
+      loadCatalogResults(categoryLink.href, categoryLink);
     });
+
+    const catalogResultsObserver = new MutationObserver(() => {
+      const results = document.querySelector('#ResultsList');
+      const grid = results?.querySelector('[data-testid="product-grid"]');
+      const sourceKey = grid ? Array.from(grid.children).map((card) => card.dataset.productId || card.id).join('|') : '';
+      if (results && grid && (activeCatalogPagination?.results !== results || activeCatalogPagination?.grid !== grid || activeCatalogPagination?.sourceKey !== sourceKey)) {
+        initializeCatalogPagination(results);
+      }
+    });
+    catalogResultsObserver.observe(catalogWrapper, { childList: true, subtree: true });
+    initializeCatalogPagination(document.querySelector('#ResultsList'));
+
+    window.addEventListener('resize', () => {
+      const state = activeCatalogPagination;
+      if (!state) return;
+      const anchorIndex = (state.currentPage - 1) * state.pageSize;
+      const nextPageSize = Math.max(1, getCatalogColumns(state.grid) * 2);
+      if (nextPageSize === state.pageSize) return;
+      state.pageSize = nextPageSize;
+      showCatalogPage(state, Math.floor(anchorIndex / nextPageSize) + 1, 'replace');
+    }, { passive: true });
+
+    window.addEventListener('popstate', () => {
+      const state = activeCatalogPagination;
+      if (!state) return;
+      if (getCatalogBaseUrl(window.location.href) !== state.baseUrl) {
+        window.location.reload();
+        return;
+      }
+      const page = Number(new URL(window.location.href).searchParams.get('catalog_page')) || 1;
+      showCatalogPage(state, page, 'replace');
+    });
+  }
+
+  // Let shoppers dismiss the mobile filter sheet with a downward header swipe.
+  // The gesture starts in the header only, so scrolling filter options remains native.
+  if (!window.__freshomillFilterSheetSwipeBound) {
+    window.__freshomillFilterSheetSwipeBound = true;
+
+    let filterSheetSwipe = null;
+
+    document.addEventListener('pointerdown', (event) => {
+      if (!event.isPrimary || event.pointerType === 'mouse' || !window.matchMedia('(max-width: 749px)').matches) return;
+      if (!(event.target instanceof Element) || event.target.closest('.theme-drawer__close-button')) return;
+
+      const header = event.target.closest('#filters-drawer .theme-drawer__header');
+      const drawer = document.getElementById('filters-drawer');
+      const panel = drawer?.querySelector('.theme-drawer__dialog');
+      if (!header || !drawer?.isOpen || !panel) return;
+
+      filterSheetSwipe = {
+        drawer,
+        panel,
+        header,
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        lastY: event.clientY,
+        lastTime: event.timeStamp,
+        velocityY: 0,
+        dragging: false,
+      };
+    });
+
+    document.addEventListener('pointermove', (event) => {
+      const swipe = filterSheetSwipe;
+      if (!swipe || event.pointerId !== swipe.pointerId) return;
+
+      const deltaX = event.clientX - swipe.startX;
+      const deltaY = event.clientY - swipe.startY;
+      if (!swipe.dragging) {
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 8) {
+          filterSheetSwipe = null;
+          return;
+        }
+        if (deltaY < 8) return;
+        swipe.dragging = true;
+        try {
+          swipe.header.setPointerCapture(event.pointerId);
+        } catch (_) {
+          // Pointer capture is an enhancement; document listeners still handle the gesture.
+        }
+      }
+
+      event.preventDefault();
+      const now = event.timeStamp;
+      const elapsed = Math.max(1, now - swipe.lastTime);
+      swipe.velocityY = (event.clientY - swipe.lastY) / elapsed;
+      swipe.lastY = event.clientY;
+      swipe.lastTime = now;
+      swipe.panel.style.transform = `translateY(${Math.max(0, deltaY)}px)`;
+    }, { passive: false });
+
+    const finishFilterSheetSwipe = (event) => {
+      const swipe = filterSheetSwipe;
+      if (!swipe || event.pointerId !== swipe.pointerId) return;
+      filterSheetSwipe = null;
+      if (!swipe.dragging) return;
+
+      const deltaY = event.clientY - swipe.startY;
+      const dismissThreshold = Math.max(88, swipe.panel.getBoundingClientRect().height * 0.18);
+      const shouldDismiss = deltaY >= dismissThreshold || (deltaY >= 52 && swipe.velocityY >= 0.65);
+
+      if (shouldDismiss) {
+        swipe.panel.style.removeProperty('transform');
+        swipe.drawer.close();
+        return;
+      }
+
+      swipe.panel.style.transition = 'transform 180ms ease-out';
+      swipe.panel.style.transform = 'translateY(0px)';
+      window.setTimeout(() => {
+        swipe.panel.style.removeProperty('transition');
+        swipe.panel.style.removeProperty('transform');
+      }, 200);
+    };
+
+    document.addEventListener('pointerup', finishFilterSheetSwipe);
+    document.addEventListener('pointercancel', finishFilterSheetSwipe);
   }
 
   if (url.hash) {
@@ -102,7 +494,7 @@
 <section class="catalog-hero" aria-labelledby="catalog-heading-{{ section.id }}">
   {% if catalog_hero_image != blank %}
     <div class="catalog-hero__background" aria-hidden="true">
-      {{ catalog_hero_image | image_url: width: 2400 | image_tag: loading: 'eager', widths: '750, 1100, 1500, 1900, 2400', sizes: '100vw', alt: '' }}
+      {{ catalog_hero_image | image_url: width: 2400 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '750, 1100, 1500, 1900, 2400', sizes: '100vw', alt: '' }}
     </div>
   {% endif %}
   <div class="catalog-hero__content">
@@ -155,10 +547,10 @@
         results_size: collection.products_count
       %}
 
-      {% assign products_per_page = 12 %}
+      {% assign products_per_page = 8 %}
 
       {% if section.settings.enable_infinite_scroll == false %}
-        {% assign products_per_page = section.settings.products_per_page | default: 12 %}
+        {% assign products_per_page = section.settings.products_per_page | default: 8 %}
       {% endif %}
 
       {% paginate collection.products by products_per_page %}
@@ -201,9 +593,8 @@
     display: flex;
     align-items: center;
     width: 100%;
-    aspect-ratio: 3.5 / 1;
-    max-height: 360px;
-    min-height: clamp(220px, 24vw, 300px);
+    height: var(--freshomill-hero-desktop-height);
+    min-height: 0;
     margin-block-start: 6px;
     overflow: hidden;
     background: var(--freshomill-color-hero);
@@ -262,6 +653,8 @@
   .catalog-category__count { display: grid; min-width: 20px; height: 20px; place-items: center; border-radius: 20px; background: rgb(0 0 0 / .07); font-size: var(--freshomill-font-size-caption); }
   .catalog-category.is-active .catalog-category__count { background: rgb(255 255 255 / .2); }
   .collection-wrapper--catalog .product-grid { --product-grid-gap-mobile: 10px 8px; --product-grid-gap-desktop: 14px 8px; }
+  .collection-wrapper--catalog .product-grid__item[hidden] { display: none !important; }
+  .collection-wrapper--catalog .pagination:not(.catalog-pagination)[hidden] { display: none !important; }
   .collection-wrapper--catalog .product-card__content {
     display: flex !important;
     flex-direction: column !important;
@@ -387,7 +780,7 @@
   .collection-wrapper--catalog :is(.facets--vertical, .facets--drawer) .price-facet__inputs-wrapper { flex-wrap: nowrap; gap: 6px; padding: 0; }
   .collection-wrapper--catalog :is(.facets--vertical, .facets--drawer) .price-facet__field { min-width: 0; min-height: var(--freshomill-touch-target); }
   .collection-wrapper--catalog :is(.facets--vertical, .facets--drawer) .price-facet__input { height: var(--freshomill-touch-target); min-height: var(--freshomill-touch-target); padding-block: 4px; font-size: var(--freshomill-font-size-caption); }
-  .collection-wrapper--catalog :is(.facets--vertical, .facets--drawer) .price-facet__label { padding: 7px 8px; font-size: var(--freshomill-font-size-caption); }
+  .collection-wrapper--catalog :is(.facets--vertical, .facets--drawer) .price-facet__label { top: 50%; display: flex; height: auto; align-items: center; padding: 0 8px; transform: translateY(-50%); font-size: var(--freshomill-font-size-caption); line-height: 1; }
   .collection-wrapper--catalog :is(.facets--vertical, .facets--drawer) .price-facet__highest-price { padding: 3px 0 5px; font-size: var(--freshomill-font-size-caption); }
   .collection-wrapper--catalog .facets--vertical .facets-remove .facets__clear-all-link { display: none; }
   .collection-wrapper--catalog .catalog-clear-filters { display: block; width: 100%; margin-block-start: 10px; }
@@ -411,7 +804,7 @@
   .collection-wrapper--catalog .price { font-size: .82rem; font-weight: 650; }
 
   @media screen and (max-width: 749px) {
-    .catalog-hero { aspect-ratio: 2.3 / 1; max-height: 180px; min-height: 145px; }
+    .catalog-hero { height: var(--freshomill-hero-mobile-height); min-height: 0; }
     .catalog-hero__content { width: 84%; padding: 10px 10px 8px; }
     .catalog-hero .hero__home-heading { font-size: clamp(18px, 5.2vw, 25px); }
     .catalog-hero .hero__home-description { display: -webkit-box; margin-block-start: 6px; overflow: hidden; font-size: clamp(12px, 3vw, 14px); line-height: 1.25; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
@@ -476,13 +869,16 @@
     #filters-drawer .theme-drawer__dialog[open] { inset: auto 0 0 !important; }
     #filters-drawer .theme-drawer__dialog--opening { animation: catalog-sheet-in .24s ease-out; }
     #filters-drawer .theme-drawer__dialog--closing { animation: catalog-sheet-out .2s ease-in forwards; }
-    #filters-drawer .theme-drawer__header { padding: 16px 16px 10px; border: 0; }
+    #filters-drawer .theme-drawer__header { position: relative; padding: 20px 16px 10px; border: 0; touch-action: pan-x; }
+    #filters-drawer .theme-drawer__header::before { position: absolute; top: 7px; left: 50%; width: 36px; height: 4px; border-radius: 999px; background: var(--freshomill-color-border); content: ''; transform: translateX(-50%); }
     #filters-drawer .facets-drawer__filters { max-height: calc(86dvh - 112px); overflow: auto; padding: 16px 16px 8px; }
     #filters-drawer .catalog-filter-search { margin: 0 0 22px; }
     #filters-drawer .catalog-filter-search .catalog-filter-links__title { display: block; margin: 0 0 10px; color: var(--freshomill-color-ink); font-size: var(--freshomill-font-size-caption); font-weight: 700; line-height: 1.3; }
-    #filters-drawer .catalog-filter-search__field { position: relative; width: 100%; }
-    #filters-drawer .catalog-filter-search input[type='search'] { box-sizing: border-box; display: block; width: 100%; min-height: 44px; padding: 10px 44px 10px 12px; border: 1px solid var(--freshomill-color-border); border-radius: var(--freshomill-radius-control); background: var(--freshomill-color-surface); font-size: var(--freshomill-font-size-caption); line-height: 1.35; }
-    #filters-drawer .catalog-filter-search button { position: absolute; z-index: 2; top: 50%; right: 0; display: grid; width: var(--freshomill-touch-target); height: var(--freshomill-touch-target); min-width: var(--freshomill-touch-target); min-height: var(--freshomill-touch-target); align-items: center; justify-content: center; padding: 0; transform: translateY(-50%); border: 0; background: transparent; color: var(--freshomill-color-ink); line-height: 0; box-shadow: none; }
+    #filters-drawer .catalog-filter-search__field { position: relative; display: flex; width: 100%; min-height: var(--freshomill-touch-target); align-items: center; }
+    #filters-drawer .catalog-filter-search input[type='search'] { box-sizing: border-box; display: block; width: 100%; height: var(--freshomill-touch-target); min-height: var(--freshomill-touch-target); padding: 8px 48px 8px 12px; appearance: none; border: 1px solid var(--freshomill-color-border); border-radius: var(--freshomill-radius-control); background: var(--freshomill-color-surface); color: var(--freshomill-color-ink); font-size: 16px; line-height: 1.25; }
+    #filters-drawer .catalog-filter-search input[type='search']::-webkit-search-cancel-button,
+    #filters-drawer .catalog-filter-search input[type='search']::-webkit-search-decoration { display: none; }
+    #filters-drawer .catalog-filter-search button { position: absolute; z-index: 2; inset-block-start: 50%; inset-inline-end: 2px; display: grid; box-sizing: border-box; width: calc(var(--freshomill-touch-target) - 4px); height: calc(var(--freshomill-touch-target) - 4px); min-width: 0; min-height: 0; margin: 0; padding: 0; place-items: center; transform: translateY(-50%); border: 0; border-radius: var(--freshomill-radius-control); background: transparent; color: var(--freshomill-color-ink); line-height: 0; box-shadow: none; cursor: pointer; }
     #filters-drawer .catalog-filter-search button svg { display: block; width: 18px; height: 18px; fill: none; stroke: currentColor; }
     #filters-drawer .catalog-filter-search button svg circle,
     #filters-drawer .catalog-filter-search button svg path { fill: none; stroke: currentColor; stroke-width: 1.7; }
@@ -703,7 +1099,7 @@
       "min": 8,
       "max": 36,
       "step": 2,
-      "default": 12,
+      "default": 8,
       "visible_if": "{{ section.settings.enable_infinite_scroll == false }}"
     },
     {

@@ -48,15 +48,27 @@
     assign product_has_media = false
   endif
 
+  # Keep the product-page media column in the layout before its images are added.
+  assign reserve_product_media = false
+  if product_has_media == false and request.page_type == 'product'
+    assign reserve_product_media = true
+  endif
+
   # Build product grid class
   assign product_grid_class = 'product-information__grid'
 
-  if product_has_media == false
+  if product_has_media == false and reserve_product_media == false
     assign product_grid_class = product_grid_class | append: ' product-information--media-none'
-  elsif settings.desktop_media_position == 'right'
-    assign product_grid_class = product_grid_class | append: ' product-information--media-right'
   else
-    assign product_grid_class = product_grid_class | append: ' product-information--media-left'
+    if reserve_product_media
+      assign product_grid_class = product_grid_class | append: ' product-information--media-reserved'
+    endif
+
+    if settings.desktop_media_position == 'right'
+      assign product_grid_class = product_grid_class | append: ' product-information--media-right'
+    else
+      assign product_grid_class = product_grid_class | append: ' product-information--media-left'
+    endif
   endif
 
   if settings.equal_columns
@@ -106,14 +118,19 @@
       <div
         class="product-information__media"
         data-testid="product-information-media"
+        {% if reserve_product_media %}aria-hidden="true"{% endif %}
       >
-        {{ media_gallery }}
+        {% if product_has_media %}
+          {{ media_gallery }}
+        {% endif %}
       </div>
     {% endcapture %}
 
     {% for block in render_order_array %}
-      {% if block == 'media' and product_has_media %}
-        {{ media }}
+      {% if block == 'media' %}
+        {% if product_has_media or reserve_product_media %}
+          {{ media }}
+        {% endif %}
       {% elsif block == 'product-details' %}
         {{ product_details }}
       {% endif %}
@@ -156,6 +173,14 @@
 
   /* Mobile styles */
   @media screen and (max-width: 749px) {
+    .product-information__grid.product-information--media-reserved .product-information__media {
+      display: none;
+    }
+
+    .product-information__grid.product-information--media-reserved .product-details {
+      grid-column: 1 / -1;
+    }
+
     .product-information__media {
       grid-column: 1 / -1;
     }

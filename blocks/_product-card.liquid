@@ -10,8 +10,17 @@
 
 {% capture children %}
   {% content_for 'blocks', closest.product: product %}
-  {% if section.settings.quick_add_position == 'below' and product != blank and product.available %}
-    {% render 'quick-add', product: product, section_id: section.id, block: block %}
+  {% if section.settings.quick_add_position == 'below' and product != blank %}
+    {% if product.available %}
+      {% render 'quick-add', product: product, section_id: section.id, block: block %}
+    {% else %}
+      <div class="freshomill-quick-add-unavailable">
+        <button class="button quick-add__button" type="button" disabled aria-disabled="true">
+          <span aria-hidden="true" class="svg-wrapper add-to-cart-icon">{{- 'icon-add-to-cart.svg' | inline_asset_content -}}</span>
+          <span>{{ 'products.product.sold_out' | t }}</span>
+        </button>
+      </div>
+    {% endif %}
   {% endif %}
 {% endcapture %}
 

@@ -99,10 +99,6 @@
 
         assign featured_media_loading = 'lazy'
         assign featured_media_sizes = 'auto, ' | append: image_sizes
-        if section.index == null or section.index < 5
-          assign featured_media_loading = 'eager'
-          assign featured_media_sizes = image_sizes
-        endif
 
         # The class differs per media only by media_type; the base template and the
         # constrain-height suffix are the same for every slide, so build them once.

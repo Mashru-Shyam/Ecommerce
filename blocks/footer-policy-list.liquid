@@ -1,5 +1,10 @@
 
 {% if shop.policies.size > 0 %}
+  <script
+    src="{{ 'anchored-popover.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
   <anchored-popover-component
     data-hover-triggered="true"
   >

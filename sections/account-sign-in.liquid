@@ -1,6 +1,6 @@
 <section class="account-sign-in" aria-labelledby="account-sign-in-title">
   {% if section.settings.hero_image != blank %}
-    {{ section.settings.hero_image | image_url: width: 2400 | image_tag: class: 'account-sign-in__image', widths: '750, 1100, 1600, 2000, 2400', sizes: '100vw', loading: 'eager', alt: '' }}
+    {{ section.settings.hero_image | image_url: width: 2400 | image_tag: class: 'account-sign-in__image', widths: '750, 1100, 1600, 2000, 2400', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: '' }}
   {% endif %}
   <div class="account-sign-in__wash" aria-hidden="true"></div>
   <div class="account-sign-in__layout">
@@ -32,13 +32,12 @@
           <p class="account-sign-in__native-note">Shopify will securely send a one-time code to your email address.</p>
         {% endif %}
       </div>
-      <p class="account-sign-in__privacy"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3M12 14v3"/></svg><span>We only use your email for orders and delivery updates.</span></p>
+      <p class="account-sign-in__privacy"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3M12 14v3"/></svg><span>Your email is used to securely access your account.</span></p>
     </div>
   </div>
 </section>
 
 {% style %}
-  body:has(.account-sign-in) #header-group,
   body:has(.account-sign-in) .site-breadcrumb { display: none !important; }
   .account-sign-in { --account-green: var(--freshomill-color-brand-strong); --account-ink: var(--freshomill-color-ink); --account-muted: var(--freshomill-color-muted); position: relative; isolation: isolate; display: grid; min-height: min(560px, 80svh); align-items: center; overflow: hidden; padding: clamp(24px, 4vw, 56px) var(--freshomill-page-gutter); background: var(--freshomill-color-hero); color: var(--account-ink); }
   .account-sign-in__image { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }

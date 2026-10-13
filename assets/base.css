@@ -47,6 +47,11 @@ body {
   --freshomill-radius-pill: 999px;
   --freshomill-shadow-card: 0 2px 10px rgb(39 59 42 / 4.5%);
   --freshomill-touch-target: 44px;
+  --freshomill-hero-max-height: 360px;
+  --freshomill-hero-mobile-min-height: 220px;
+  --freshomill-hero-mobile-max-height: 240px;
+  --freshomill-hero-desktop-height: min(33.333333vw, var(--freshomill-hero-max-height));
+  --freshomill-hero-mobile-height: clamp(var(--freshomill-hero-mobile-min-height), calc(100vw / 1.85), var(--freshomill-hero-mobile-max-height));
   --freshomill-page-gutter: clamp(12px, 2.5vw, 36px);
   --freshomill-space-1: 4px;
   --freshomill-space-2: 8px;

@@ -103,21 +103,16 @@
     href="{{ 'paginated-list.js' | asset_url }}"
     fetchpriority="low"
   >
+  <link
+    rel="modulepreload"
+    href="{{ 'scrolling.js' | asset_url }}"
+    fetchpriority="low"
+  >
 {% endif %}
 
 <link
   rel="modulepreload"
   href="{{ 'focus.js' | asset_url }}"
-  fetchpriority="low"
->
-<link
-  rel="modulepreload"
-  href="{{ 'recently-viewed-products.js' | asset_url }}"
-  fetchpriority="low"
->
-<link
-  rel="modulepreload"
-  href="{{ 'scrolling.js' | asset_url }}"
   fetchpriority="low"
 >
 <link
@@ -198,47 +193,12 @@
   fetchpriority="low"
 ></script>
 <script
-  src="{{ 'product-inventory.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-<script
-  src="{{ 'show-more.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-<script
   src="{{ 'slideshow.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
 <script
-  src="{{ 'layered-slideshow.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-<script
-  src="{{ 'anchored-popover.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-<script
-  src="{{ 'floating-panel.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-<script
-  src="{{ 'video-background.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-<script
   src="{{ 'component-quantity-selector.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-<script
-  src="{{ 'media-gallery.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
@@ -257,12 +217,6 @@
   type="module"
   fetchpriority="low"
 ></script>
-<script
-  src="{{ 'volume-pricing-info.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-
 {% if localization.available_countries.size > 1 or localization.available_languages.size > 1 %}
   <script
     src="{{ 'localization.js' | asset_url }}"
@@ -272,6 +226,11 @@
 {% endif %}
 
 {% if template == 'product' or template.name == 'product' or request.page_type == 'product' %}
+  <link
+    rel="modulepreload"
+    href="{{ 'recently-viewed-products.js' | asset_url }}"
+    fetchpriority="low"
+  >
   <script
     src="{{ 'sticky-add-to-cart.js' | asset_url }}"
     type="module"

@@ -1124,7 +1124,7 @@
             "label": "t:options.wide"
           }
         ],
-        "default": "narrow"
+        "default": "wide"
       }
     ]
   },

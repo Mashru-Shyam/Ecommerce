@@ -666,8 +666,7 @@
 
   .hero--home {
     width: 100%;
-    aspect-ratio: 3 / 1;
-    max-height: 360px;
+    height: var(--freshomill-hero-desktop-height);
     min-height: 0;
     margin-block-start: 6px;
     background: var(--freshomill-color-hero);
@@ -985,10 +984,9 @@
 
   @media screen and (max-width: 749px) {
     .hero--home {
-      aspect-ratio: 1.85 / 1;
-      min-height: 220px;
-      max-height: 240px;
+      height: var(--freshomill-hero-mobile-height);
       margin-block-start: 6px;
+      min-height: 0;
     }
 
     .hero-wrapper {

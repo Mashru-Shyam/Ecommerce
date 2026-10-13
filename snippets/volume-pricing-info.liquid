@@ -30,6 +30,11 @@
 -%}
 
 {%- if has_quantity_rules or has_volume_pricing -%}
+  <script
+    src="{{ 'anchored-popover.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
   {%- liquid
     assign popover_id = 'VolumePricingInfo-' | append: variant.id
     assign anchor_name = '--volume-pricing-trigger-' | append: variant.id

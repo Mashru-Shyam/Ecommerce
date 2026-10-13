@@ -24,6 +24,11 @@
 -%}
 
 {%- if product != empty -%}
+  <script
+    src="{{ 'anchored-popover.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
   {%- liquid
     assign disclosures = product.metafields.shopify.disclosure.value | applicable_disclosures
     assign filter_by_cart_surface = true

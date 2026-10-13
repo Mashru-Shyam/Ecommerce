@@ -15,6 +15,13 @@
 {%- enddoc -%}
 
 {% if background_media == 'video' %}
+  {% if background_video != blank %}
+    <script
+      src="{{ 'video-background.js' | asset_url }}"
+      type="module"
+      fetchpriority="low"
+    ></script>
+  {% endif %}
   {% liquid
     assign video_classes = 'video-background video-background--' | append: background_video_position
   %}
