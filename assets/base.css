@@ -1990,3 +1990,121 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
     margin-top: calc(var(--header-height) * var(--transparent-header-offset-boolean) * -1);
   }
 }
+
+/* FreshOMill shared catalog category rows and product status chips */
+.collection-wrapper--catalog .catalog-filter-links {
+  display: block;
+  padding: 0 0 var(--freshomill-space-3, 12px);
+  border-bottom: 1px solid var(--freshomill-color-border, #e4e9df);
+}
+
+.collection-wrapper--catalog .catalog-filter-links__title {
+  margin: 0 0 10px;
+  color: var(--freshomill-color-brand-deep, #073f26);
+  font-size: var(--freshomill-font-size-body, .9375rem);
+  font-weight: 700;
+}
+
+.collection-wrapper--catalog .catalog-filter-links__list {
+  display: grid;
+  gap: 7px;
+}
+
+.collection-wrapper--catalog .catalog-category {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) 16px;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 72px;
+  padding: 7px;
+  border: 1px solid var(--freshomill-color-border, #e4e9df);
+  border-radius: var(--freshomill-radius-card, 10px);
+  color: var(--freshomill-color-ink, #1d2a20);
+  background: var(--freshomill-color-surface, #fff);
+  text-decoration: none;
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.collection-wrapper--catalog .catalog-category:hover,
+.collection-wrapper--catalog .catalog-category:focus-visible {
+  border-color: var(--freshomill-color-brand, #267326);
+  color: var(--freshomill-color-brand-deep, #073f26);
+  background: var(--freshomill-color-brand-soft, #edf5e8);
+}
+
+.collection-wrapper--catalog .catalog-category.is-active {
+  border-color: var(--freshomill-color-brand, #267326);
+  color: var(--freshomill-color-brand-deep, #073f26);
+  background: var(--freshomill-color-brand-soft, #edf5e8);
+}
+
+.collection-wrapper--catalog .catalog-category__image {
+  display: grid;
+  width: 56px;
+  height: 56px;
+  place-items: center;
+  overflow: hidden;
+  border-radius: var(--freshomill-radius-control, 7px);
+  color: var(--freshomill-color-brand, #267326);
+  background: var(--freshomill-color-hero, #f7f4e9);
+}
+
+.collection-wrapper--catalog .catalog-category__image img,
+.collection-wrapper--catalog .catalog-category__image svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.collection-wrapper--catalog .catalog-category__image svg { width: 24px; height: 24px; }
+.collection-wrapper--catalog .catalog-category__copy { display: grid; gap: 4px; min-width: 0; }
+.collection-wrapper--catalog .catalog-category__name { overflow: hidden; color: inherit; font-size: var(--freshomill-font-size-small, .8125rem); font-weight: 650; line-height: 1.25; text-overflow: ellipsis; }
+.collection-wrapper--catalog .catalog-category__count { color: var(--freshomill-color-muted, #68736b); font-size: var(--freshomill-font-size-caption, .75rem); line-height: 1.2; }
+.collection-wrapper--catalog .catalog-category__indicator { position: relative; width: 14px; height: 14px; justify-self: center; }
+.collection-wrapper--catalog .catalog-category__indicator::before { position: absolute; inset: 3px; border-top: 1.5px solid currentColor; border-right: 1.5px solid currentColor; content: ''; transform: rotate(45deg); }
+
+/* Compact, consistent spacing for the catalog availability and price facets. */
+.collection-wrapper--catalog .facets--vertical .facets__summary { min-height: 40px; padding-block: 4px; }
+.collection-wrapper--catalog .facets--vertical .facets__inputs-wrapper { margin-block: 0 4px; padding-block: 0 4px; }
+.collection-wrapper--catalog .facets--vertical .facets__inputs-list { gap: 3px; }
+.collection-wrapper--catalog .facets--vertical .facets__label { min-height: 32px; }
+.collection-wrapper--catalog .facets--vertical .price-facet__highest-price,
+.collection-wrapper--catalog .facets--drawer .price-facet__highest-price { padding-block: 2px 4px; }
+
+.freshomill-product-card .product-card__content { position: relative; gap: 8px !important; padding: 9px !important; border-radius: var(--freshomill-radius-card, 10px); }
+.freshomill-product-card .card-gallery { aspect-ratio: 1 / 1; border-radius: var(--freshomill-radius-control, 7px); }
+.freshomill-product-card .product-card__content > a.contents { min-height: 2.5em; }
+.freshomill-product-card .product-card__content > a.contents :is(.text-block, p) { font-size: var(--freshomill-font-size-small, .8125rem); }
+.freshomill-product-card .product-card__content product-price :is(.price, .price-item__group) { font-size: var(--freshomill-font-size-body, .9375rem); }
+.freshomill-product-card .freshomill-product-stock { position: absolute; z-index: 3; top: 15px; inset-inline-end: 15px; display: inline-flex; align-items: center; gap: 5px; max-width: calc(100% - 30px); padding: 5px 8px; border: 1px solid transparent; border-radius: 999px; color: var(--freshomill-color-brand-strong, #145b35); background: rgb(237 245 232 / .96); font-size: var(--freshomill-font-size-caption, .75rem); line-height: 1.1; pointer-events: none; }
+.freshomill-product-card .freshomill-product-stock::before { width: 8px; height: 8px; flex: 0 0 8px; border-radius: 50%; background: #68a648; content: ''; }
+.freshomill-product-card .freshomill-product-stock--out { color: #9b3429; background: rgb(255 241 239 / .96); }
+.freshomill-product-card .freshomill-product-stock--out::before { background: #c85a4d; }
+
+.category-card__count { color: var(--freshomill-color-muted); font-size: var(--freshomill-font-size-caption); line-height: 1.2; }
+.catalog-category-apply { display: flex; width: 100%; min-height: var(--freshomill-touch-target, 44px); align-items: center; justify-content: center; margin-block-start: 12px; padding: 8px 14px; border: 1px solid var(--freshomill-color-brand, #267326); border-radius: var(--freshomill-radius-control, 7px); color: var(--freshomill-color-surface, #fff); background: var(--freshomill-color-brand, #267326); font-size: var(--freshomill-font-size-small, .8125rem); font-weight: 650; }
+.catalog-category-apply:hover:not(:disabled) { background: var(--freshomill-color-brand-hover, #0d5415); }
+.catalog-category-apply:disabled { cursor: not-allowed; opacity: .48; }
+
+@media screen and (max-width: 749px) {
+  .collection-wrapper--catalog .facets-toggle__button { width: auto; min-width: 118px; padding-inline: 12px; }
+  #filters-drawer .catalog-filter-links { margin: 0 0 var(--freshomill-space-4, 16px); padding: 0; border: 0; }
+  #filters-drawer .catalog-filter-links__title { margin: 0 0 12px; font-size: var(--freshomill-font-size-body, .9375rem); }
+  #filters-drawer .catalog-filter-links__list { gap: 8px; }
+  #filters-drawer .catalog-category { grid-template-columns: 56px minmax(0, 1fr) 20px; min-height: 70px; padding: 7px; }
+  #filters-drawer .catalog-category__indicator { width: 20px; height: 20px; border: 1.5px solid var(--freshomill-color-muted, #68736b); border-radius: 50%; }
+  #filters-drawer .catalog-category__indicator::before { display: none; }
+  #filters-drawer .catalog-category.is-active .catalog-category__indicator { border: 2px solid var(--freshomill-color-brand, #267326); }
+  #filters-drawer .catalog-category.is-active .catalog-category__indicator::after { position: absolute; inset: 4px; border-radius: 50%; background: var(--freshomill-color-brand, #267326); content: ''; }
+  #filters-drawer .catalog-category.is-pending { border-color: var(--freshomill-color-brand, #267326); background: var(--freshomill-color-brand-soft, #edf5e8); }
+  #filters-drawer .catalog-category-apply { margin-block-start: 14px; }
+  #filters-drawer .facets__drawer-actions:has(.catalog-category-apply) { display: flex !important; }
+  #filters-drawer .facets--drawer .facets__summary { min-height: var(--freshomill-touch-target, 44px); padding-block: 6px; }
+  #filters-drawer .facets--drawer .facets__inputs-wrapper { margin-block: 0 5px; padding-block: 2px 4px; }
+  #filters-drawer .facets--drawer .facets__inputs-list { gap: 4px; }
+  .freshomill-product-card .product-card__content { gap: 6px !important; padding: 7px !important; }
+  .freshomill-product-card .freshomill-product-stock { top: 12px; inset-inline-end: 12px; padding: 4px 6px; font-size: 10px; }
+  .category-card__count { font-size: 10px; }
+}

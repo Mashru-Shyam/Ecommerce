@@ -112,6 +112,11 @@
       {% if block_settings.padding-block-end > 0 %}--zoom-out-padding-block-end: min(var(--padding-xs), {{ block_settings.padding-block-end | times: 0.7}}px);{% endif %}
     "
   >
+    {% unless onboarding %}
+      <span class="freshomill-product-stock{% unless product.available %} freshomill-product-stock--out{% endunless %}" aria-label="{% if product.available %}{{ 'content.inventory_in_stock' | t }}{% else %}{{ 'content.inventory_out_of_stock' | t }}{% endif %}">
+        {% if product.available %}{{ 'content.inventory_in_stock' | t }}{% else %}{{ 'content.inventory_out_of_stock' | t }}{% endif %}
+      </span>
+    {% endunless %}
     {{ children }}
   </div>
 </product-card>

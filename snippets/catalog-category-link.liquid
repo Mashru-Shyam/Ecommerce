@@ -1,18 +1,29 @@
 {% doc %}
-  Renders a collection link for the catalog category navigation.
+  Renders an image, title and product count row for a catalog collection.
 
   @param {collection} category - Collection to link to
-  @param {collection} active_collection - Current collection
+  @param {collection} active_collection - Current collection, when available
 {% enddoc %}
 
-<a class="catalog-category{% if active_collection.handle == category.handle %} is-active{% endif %}" href="{{ category.url }}">
-  <span class="catalog-category__icon" aria-hidden="true">
-    {% if category.image != blank %}
-      {{ category.image | image_url: width: 48 | image_tag: width: 18, height: 18, loading: 'lazy', alt: '' }}
+{% assign category_image = category.featured_image | default: category.image %}
+{% if category_image == blank %}
+  {% assign category_image = category.products.first.featured_image %}
+{% endif %}
+{% assign category_is_active = false %}
+{% if active_collection.handle == category.handle or matched_category_handle == category.handle %}
+  {% assign category_is_active = true %}
+{% endif %}
+<a class="catalog-category{% if category_is_active %} is-active{% endif %}" href="{{ category.url }}"{% if category_is_active %} aria-current="page"{% endif %}>
+  <span class="catalog-category__image" aria-hidden="true">
+    {% if category_image != blank %}
+      {{ category_image | image_url: width: 160 | image_tag: width: 56, height: 56, loading: 'lazy', alt: '' }}
     {% else %}
-      <svg viewBox="0 0 20 20" focusable="false"><path d="M10 2.5c-3.6 0-6.5 2.9-6.5 6.5s2.9 6.5 6.5 6.5 6.5-2.9 6.5-6.5S13.6 2.5 10 2.5Zm0 3.2v5.1m-2.6-2.5h5.2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.4"/></svg>
+      <svg viewBox="0 0 24 24" focusable="false"><path d="M4 18 8 6h8l4 12H4Zm2-4h12M8 9h8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"/></svg>
     {% endif %}
   </span>
-  <span>{{ category.title | escape }}</span>
-  <span class="catalog-category__count">{{ category.products_count }}</span>
+  <span class="catalog-category__copy">
+    <span class="catalog-category__name">{{ category.title | escape }}</span>
+    <span class="catalog-category__count">{{ category.products_count }} products</span>
+  </span>
+  <span class="catalog-category__indicator" aria-hidden="true"></span>
 </a>

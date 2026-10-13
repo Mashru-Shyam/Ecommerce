@@ -1,39 +1,43 @@
 {% doc %}
-  Renders catalog search and collection links in the catalog filter panel.
+  Renders image based category links for collection and search filters.
 
-  @param {collection} active_collection - Current collection
-  @param {string} context - Unique search field ID suffix
+  @param {collection} active_collection - Current collection, when on a collection page
 {% enddoc %}
 
-{% assign catalog_categories = section.settings.catalog_categories %}
+{% liquid
+  assign catalog_categories = section.settings.catalog_categories
+  if catalog_categories == blank
+    assign catalog_categories = collections
+  endif
+%}
+
 <div class="catalog-filter-links">
-  <form class="catalog-filter-search" action="{{ routes.search_url }}" method="get" role="search">
-    <label class="catalog-filter-links__title" for="CatalogSearch-{{ section.id }}-{{ context }}">{{ 'catalog.search_products' | t }}</label>
-    <div class="catalog-filter-search__field">
-      <input id="CatalogSearch-{{ section.id }}-{{ context }}" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'catalog.search_products_placeholder' | t }}" aria-label="{{ 'catalog.search_products' | t }}">
-      <input type="hidden" name="type" value="product">
-      <button class="visually-hidden" type="submit" tabindex="-1" aria-hidden="true">{{ 'catalog.search_products' | t }}</button>
-    </div>
-  </form>
   <h2 class="catalog-filter-links__title">{{ 'catalog.categories' | t }}</h2>
   <nav class="catalog-filter-links__list" aria-label="{{ 'catalog.categories' | t }}">
-    <a class="catalog-category{% if active_collection.handle == 'all' %} is-active{% endif %}" href="{{ routes.all_products_collection_url }}">
-      <span class="catalog-category__icon" aria-hidden="true">&#9638;</span>
-      <span>{{ 'catalog.all_categories' | t }}</span>
-      <span class="catalog-category__count">{{ collections.all.products_count }}</span>
-    </a>
-    {% if catalog_categories != blank %}
-      {% for category in catalog_categories %}
-        {% render 'catalog-category-link', category: category, active_collection: active_collection %}
-      {% endfor %}
-    {% else %}
-      {% assign visible_catalog_categories = 0 %}
-      {% for category in collections %}
-        {% if category.handle != 'all' and visible_catalog_categories < 5 %}
-          {% render 'catalog-category-link', category: category, active_collection: active_collection %}
-          {% assign visible_catalog_categories = visible_catalog_categories | plus: 1 %}
+    <a class="catalog-category catalog-category--all{% if active_collection.handle == 'all' %} is-active{% endif %}" href="{{ routes.all_products_collection_url }}"{% if active_collection.handle == 'all' %} aria-current="page"{% endif %}>
+      <span class="catalog-category__image" aria-hidden="true">
+        {% assign all_category_image = collections.all.featured_image | default: collections.all.image %}
+        {% if all_category_image == blank %}
+          {% assign all_category_image = collections.all.products.first.featured_image %}
         {% endif %}
-      {% endfor %}
-    {% endif %}
+        {% if all_category_image != blank %}
+          {{ all_category_image | image_url: width: 160 | image_tag: width: 56, height: 56, loading: 'lazy', alt: '' }}
+        {% else %}
+          <svg viewBox="0 0 24 24" focusable="false"><path d="M4 4h6v6H4zm10 0h6v6h-6zM4 14h6v6H4zm10 0h6v6h-6z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        {% endif %}
+      </span>
+      <span class="catalog-category__copy">
+        <span class="catalog-category__name">{{ 'catalog.all_categories' | t }}</span>
+        <span class="catalog-category__count">{{ collections.all.products_count }} products</span>
+      </span>
+      <span class="catalog-category__indicator" aria-hidden="true"></span>
+    </a>
+    {% assign visible_catalog_categories = 0 %}
+    {% for category in catalog_categories %}
+      {% if category.handle != 'all' and category.products_count > 0 and visible_catalog_categories < 12 %}
+        {% render 'catalog-category-link', category: category, active_collection: active_collection, matched_category_handle: matched_category_handle %}
+        {% assign visible_catalog_categories = visible_catalog_categories | plus: 1 %}
+      {% endif %}
+    {% endfor %}
   </nav>
 </div>

@@ -236,12 +236,25 @@
 
 {% capture visit_store_action %}
   {% assign visit_store_label = section.settings.visit_store_label | default: 'Visit Our Store' %}
-  {% assign visit_store_link = section.settings.visit_store_link | default: routes.root_url %}
-  <a class="header-visit-store" href="{{ visit_store_link }}">
-    <span>{{ visit_store_label | escape }}</span>
-    <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-      <path d="M3.5 10h12M10.5 4.5 16 10l-5.5 5.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/>
+  {% if section.settings.visit_store_address != blank %}
+    {% assign visit_store_address = section.settings.visit_store_address %}
+  {% else %}
+    {% assign visit_store_address = shop.address | format_address %}
+  {% endif %}
+  {% assign visit_store_map_query = visit_store_address | url_encode %}
+  {% if section.settings.visit_store_link != blank %}
+    {% assign visit_store_link = section.settings.visit_store_link %}
+  {% elsif visit_store_map_query != blank %}
+    {% assign visit_store_link = 'https://www.google.com/maps/search/?api=1&query=' | append: visit_store_map_query %}
+  {% else %}
+    {% assign visit_store_link = routes.root_url %}
+  {% endif %}
+  <a class="header-visit-store" href="{{ visit_store_link }}"{% unless visit_store_link == routes.root_url %} target="_blank" rel="noopener noreferrer"{% endunless %}>
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M19 10.2c0 5.1-7 11.1-7 11.1s-7-6-7-11.1a7 7 0 1 1 14 0Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/>
+      <circle cx="12" cy="10" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/>
     </svg>
+    <span>{{ visit_store_label | escape }}</span>
   </a>
 {% endcapture %}
 {% assign actions = actions | append: visit_store_action %}
@@ -1312,26 +1325,30 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    min-height: 42px;
-    padding: 0 18px;
-    border-radius: var(--freshomill-radius-card);
-    color: var(--freshomill-color-surface);
-    background: var(--freshomill-color-brand);
+    gap: 6px;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    color: var(--freshomill-color-ink);
+    background: transparent;
     font-size: 0.875rem;
-    font-weight: 600;
+    font-weight: 500;
     text-decoration: none;
     white-space: nowrap;
-    transition: background-color 160ms ease, box-shadow 160ms ease;
+    transition: color 160ms ease;
   }
 
   .header-visit-store:hover {
-    color: var(--freshomill-color-surface);
-    background: var(--freshomill-color-brand-hover);
-    box-shadow: 0 3px 9px rgb(6 75 49 / 0.18);
+    color: var(--freshomill-color-brand-strong);
+    background: transparent;
+    box-shadow: none;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   .header-visit-store svg {
+    color: #f3a3b5;
     width: 18px;
     height: 18px;
   }
@@ -1557,10 +1574,10 @@
       grid-area: visit;
       align-self: center;
       justify-self: end;
-      min-height: var(--freshomill-touch-target);
+      min-height: 0;
       margin-block: 0;
-      gap: 5px;
-      padding-inline: 7px;
+      gap: 6px;
+      padding: 0;
       font-size: var(--freshomill-font-size-caption);
     }
 
@@ -2106,9 +2123,16 @@
       "default": "Visit Our Store"
     },
     {
+      "type": "text",
+      "id": "visit_store_address",
+      "label": "Visit our store map address",
+      "info": "Leave blank to use the store address from Shopify settings."
+    },
+    {
       "type": "url",
       "id": "visit_store_link",
-      "label": "Visit our store button link"
+      "label": "Visit our store button link",
+      "info": "Optional. When set, this link overrides the address and map link."
     },
     {
       "type": "select",

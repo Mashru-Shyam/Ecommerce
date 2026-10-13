@@ -30,15 +30,6 @@
             "padding-inline-end": 0
           },
           "blocks": {}
-        },
-        "search": {
-          "type": "_search-input",
-          "static": true,
-          "settings": {
-            "width": "custom",
-            "custom_width": 50
-          },
-          "blocks": {}
         }
       },
       "settings": {
@@ -56,7 +47,7 @@
           "static": true,
           "settings": {
             "enable_filtering": true,
-            "filter_style": "horizontal",
+            "filter_style": "vertical",
             "filter_width": "centered",
             "text_label_case": "default",
             "show_swatch_label": false,
@@ -91,7 +82,7 @@
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
-                "image_ratio": "adapt",
+                "image_ratio": "portrait",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -112,7 +103,7 @@
                 "alignment": "left",
                 "type_preset": "rte",
                 "font": "var(--font-body--family)",
-                "font_size": "1rem",
+                "font_size": "0.75rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
@@ -138,7 +129,7 @@
                 "width": "100%",
                 "alignment": "left",
                 "font": "var(--font-body--family)",
-                "font_size": "1rem",
+                "font_size": "0.82rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
