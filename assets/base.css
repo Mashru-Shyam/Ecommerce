@@ -2084,12 +2084,7 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
 .freshomill-product-card .freshomill-product-stock--out::before { background: #c85a4d; }
 
 .category-card__count { color: var(--freshomill-color-muted); font-size: var(--freshomill-font-size-caption); line-height: 1.2; }
-.catalog-category-apply { display: flex; width: 100%; min-height: var(--freshomill-touch-target, 44px); align-items: center; justify-content: center; margin-block-start: 12px; padding: 8px 14px; border: 1px solid var(--freshomill-color-brand, #267326); border-radius: var(--freshomill-radius-control, 7px); color: var(--freshomill-color-surface, #fff); background: var(--freshomill-color-brand, #267326); font-size: var(--freshomill-font-size-small, .8125rem); font-weight: 650; }
-.catalog-category-apply:hover:not(:disabled) { background: var(--freshomill-color-brand-hover, #0d5415); }
-.catalog-category-apply:disabled { cursor: not-allowed; opacity: .48; }
-
 @media screen and (max-width: 749px) {
-  .collection-wrapper--catalog .facets-toggle__button { width: auto; min-width: 118px; padding-inline: 12px; }
   #filters-drawer .catalog-filter-links { margin: 0 0 var(--freshomill-space-4, 16px); padding: 0; border: 0; }
   #filters-drawer .catalog-filter-links__title { margin: 0 0 12px; font-size: var(--freshomill-font-size-body, .9375rem); }
   #filters-drawer .catalog-filter-links__list { gap: 8px; }
@@ -2098,9 +2093,6 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
   #filters-drawer .catalog-category__indicator::before { display: none; }
   #filters-drawer .catalog-category.is-active .catalog-category__indicator { border: 2px solid var(--freshomill-color-brand, #267326); }
   #filters-drawer .catalog-category.is-active .catalog-category__indicator::after { position: absolute; inset: 4px; border-radius: 50%; background: var(--freshomill-color-brand, #267326); content: ''; }
-  #filters-drawer .catalog-category.is-pending { border-color: var(--freshomill-color-brand, #267326); background: var(--freshomill-color-brand-soft, #edf5e8); }
-  #filters-drawer .catalog-category-apply { margin-block-start: 14px; }
-  #filters-drawer .facets__drawer-actions:has(.catalog-category-apply) { display: flex !important; }
   #filters-drawer .facets--drawer .facets__summary { min-height: var(--freshomill-touch-target, 44px); padding-block: 6px; }
   #filters-drawer .facets--drawer .facets__inputs-wrapper { margin-block: 0 5px; padding-block: 2px 4px; }
   #filters-drawer .facets--drawer .facets__inputs-list { gap: 4px; }

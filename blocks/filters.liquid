@@ -95,7 +95,7 @@
   assign collection_id = results.id | default: collection.id
 
   assign matched_category_handle = blank
-  if template.name == 'search' and results.terms != blank
+  if template.name == 'search' and results.terms != blank and request.params.catalog_category != 'all'
     assign search_categories = section.settings.catalog_categories
     if search_categories == blank
       assign search_categories = collections
@@ -402,18 +402,15 @@
         >
           <span class="svg-wrapper">
             {% if template.name == 'collection' or template.name == 'search' %}
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M3.5 4.5h2l2.1 10.2h10.2l2.1-7.3H6.2M8 18.8h.1m9.1 0h.1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/>
-                <circle cx="8.1" cy="19" r="1.3" fill="currentColor"/>
-                <circle cx="17.2" cy="19" r="1.3" fill="currentColor"/>
-              </svg>
+              {{ 'icon-filter.svg' | inline_asset_content }}
             {% else %}
               {{ 'icon-filter.svg' | inline_asset_content }}
             {% endif %}
           </span>
 
           {% if template.name == 'collection' or template.name == 'search' %}
-            {{ 'catalog.categories' | t }}
+            <span class="facets-toggle__label">{{ 'accessibility.filters' | t }}</span>
+            <span class="facets-toggle__category" data-active-category-label aria-live="polite"></span>
           {% else %}
             {{ 'actions.show_filters' | t }}
           {% endif %}
@@ -543,10 +540,7 @@
               </span>
             {% endif %}
           {% endcapture %}
-          {% assign filters_drawer_title = 'blocks.filter' | t %}
-          {% if template.name == 'collection' or template.name == 'search' %}
-            {% assign filters_drawer_title = 'catalog.categories' | t %}
-          {% endif %}
+          {% assign filters_drawer_title = 'accessibility.filters' | t %}
           {% render 'theme-drawer-header',
             title: filters_drawer_title,
             drawer_id: 'filters-drawer',
@@ -616,43 +610,30 @@
         class="facets__drawer-actions"
       >
         {% if template.name == 'collection' or template.name == 'search' %}
-          <button class="catalog-category-apply" type="button" data-catalog-category-apply disabled>
-            Apply category
-          </button>
-        {% endif %}
-        <facet-remove-component
-          data-url="{{ results_url }}"
-          active-class="facets__clear-all--active"
-        >
+          {% assign clear_filters_disabled = false %}
+          {% if is_active == false %}
+            {% if collection.handle == 'all' or request.params.catalog_category == 'all' %}
+              {% assign clear_filters_disabled = true %}
+            {% elsif collection == blank and matched_category_handle == blank %}
+              {% assign clear_filters_disabled = true %}
+            {% endif %}
+          {% endif %}
           <button
             type="button"
-            class="button-secondary facets__clear-all{% if is_active %} facets__clear-all--active{% endif %}"
-            ref="clearButton"
-            on:click="/removeFilter?form={{ form_component }}"
-            on:keydown="/removeFilter?form={{ form_component }}"
+            class="button catalog-apply-filters"
+            data-catalog-apply-filters
+            disabled
           >
-            {% if template.name == 'collection' %}
-              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.1 7.5A6.5 6.5 0 1 0 16.2 12" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"/><path d="M16 3.8v4.4h-4.4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/></svg>
-            {% endif %}
-            {% if template.name == 'collection' %}
-              {{- 'catalog.clear_filters' | t -}}
-            {% else %}
-              {{- 'actions.clear_all' | t -}}
-            {% endif %}
+            {{- 'catalog.apply_filters' | t -}}
           </button>
-        </facet-remove-component>
-
-        {% if products_count > 0 and template.name != 'collection' %}
           <button
-            class="button facets__see-results"
             type="button"
-            on:click="#filters-drawer/close"
+            class="button-secondary facets__clear-all catalog-clear-all"
+            data-catalog-clear-all
+            {% if clear_filters_disabled %}disabled{% endif %}
           >
-            {% if template.name == 'collection' %}
-              {{- 'catalog.apply_filters' | t -}}
-            {% else %}
-              {{- 'actions.see_items' | t: count: products_count -}}
-            {% endif %}
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.1 7.5A6.5 6.5 0 1 0 16.2 12" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"/><path d="M16 3.8v4.4h-4.4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/></svg>
+            {{- 'catalog.clear_filters' | t -}}
           </button>
         {% endif %}
       </div>

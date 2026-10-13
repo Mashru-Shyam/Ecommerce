@@ -98,7 +98,10 @@ class FacetsFormComponent extends Component {
   /**
    * Updates filters and renders the section
    */
-  updateFilters = () => {
+  updateFilters = ({ applyDraft = false } = {}) => {
+    // Keep mobile drawer changes local until the shopper confirms them.
+    if (this.closest('#filters-drawer') && !applyDraft) return;
+
     this.#updateURLHash();
     const renderPromise = this.#updateSection();
     if (this.dataset.pageType === 'search') {
