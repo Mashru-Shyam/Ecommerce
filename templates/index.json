@@ -269,12 +269,6 @@
     },
     "why_freshomill_home": {
       "type": "why-freshomill",
-      "name": "Why FreshOMill",
-      "settings": {
-        "eyebrow": "Why FreshOMill",
-        "heading": "More than a store",
-        "description": "We bring you honest, nutritious food made the traditional way — from trusted farmers to your home."
-      },
       "blocks": {
         "local_sourcing": {
           "type": "feature",
@@ -304,16 +298,24 @@
           }
         }
       },
-      "block_order": ["local_sourcing", "washed_cleaned", "freshly_prepared"]
+      "block_order": [
+        "local_sourcing",
+        "washed_cleaned",
+        "freshly_prepared"
+      ],
+      "name": "Why FreshOMill",
+      "settings": {
+        "eyebrow": "Why FreshOMill",
+        "heading": "More than a store",
+        "description": "We bring you honest, nutritious food made the traditional way — from trusted farmers to your home."
+      }
     },
     "customer_stories_home": {
       "type": "customer-stories",
       "name": "Customer stories",
       "settings": {
         "heading": "Our customers, healthier homes"
-      },
-      "blocks": {},
-      "block_order": []
+      }
     }
   },
   "order": [
