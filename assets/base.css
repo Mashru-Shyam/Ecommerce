@@ -83,6 +83,10 @@ body {
 }
 
 @media (max-width: 749px) {
+  :root {
+    --freshomill-page-gutter: max(16px, var(--safe-area-inset-left, 0px), var(--safe-area-inset-right, 0px));
+  }
+
   html,
   body {
     scrollbar-width: none;
