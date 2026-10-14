@@ -15,9 +15,9 @@
           "type": "_cart-title",
           "static": true,
           "settings": {
-            "title": "Cart",
-            "show_count": true,
-            "type_preset": "h4",
+            "title": "Your cart",
+            "show_count": false,
+            "type_preset": "h2",
             "alignment": "left",
             "padding-block-start": 0,
             "padding-block-end": 0,
