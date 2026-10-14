@@ -9,6 +9,181 @@
 {% render 'dialog-styles' %}
 
 {% stylesheet %}
+  #quick-add-modal-content[aria-busy='true'] {
+    position: relative;
+    display: block;
+    min-height: 260px;
+  }
+
+  #quick-add-modal-content[aria-busy='true']::before {
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    border: 3px solid var(--freshomill-color-border, #dce5d8);
+    border-top-color: var(--freshomill-color-brand, #205b35);
+    border-radius: 50%;
+    content: '';
+    animation: quick-add-modal-loading .65s linear infinite;
+    translate: -50% -50%;
+  }
+
+  @keyframes quick-add-modal-loading { to { rotate: 360deg; } }
+
+  .quick-add-modal .add-to-cart__label { transition: opacity 160ms ease; }
+  .quick-add-modal .quick-add-modal__added-label { display: none; }
+  .quick-add-modal .add-to-cart-button[data-added='true'] { color: var(--button-color); }
+  .quick-add-modal .add-to-cart-button[data-added='true'] .add-to-cart__label { display: none; }
+  .quick-add-modal .add-to-cart-button[data-added='true'] .quick-add-modal__added-label { display: inline; }
+  .quick-add-modal .add-to-cart-button .add-to-cart__added {
+    position: static;
+    translate: none;
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+  }
+  .quick-add-modal .add-to-cart-button[data-added='true'] .add-to-cart__added { display: flex; }
+  .quick-add-modal .product-form-buttons .buy-buttons-block,
+  .quick-add-modal .product-form-buttons add-to-cart-component {
+    display: block;
+    width: 100%;
+    height: var(--height-buy-buttons, var(--freshomill-touch-target, var(--button-size-md)));
+    min-height: var(--height-buy-buttons, var(--freshomill-touch-target, var(--button-size-md)));
+  }
+  .quick-add-modal .product-form-buttons {
+    display: grid;
+    grid-template-columns: minmax(0, 2.25fr) minmax(0, 1fr);
+    align-items: stretch;
+    gap: var(--gap-sm, 10px);
+  }
+  .quick-add-modal .product-form-buttons .accelerated-checkout-block {
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    height: var(--height-buy-buttons, var(--freshomill-touch-target, var(--button-size-md)));
+    min-height: var(--height-buy-buttons, var(--freshomill-touch-target, var(--button-size-md)));
+    align-items: stretch;
+  }
+  .quick-add-modal .product-form-buttons > .product-form-text__error,
+  .quick-add-modal .product-form-buttons > .quantity-rules,
+  .quick-add-modal .product-form-buttons > .quantity-label,
+  .quick-add-modal .product-form-buttons > .volume-pricing {
+    grid-column: 1 / -1;
+  }
+  .quick-add-modal .product-form-buttons > span:has(add-to-cart-component),
+  .quick-add-modal .product-form-buttons > .accelerated-checkout-block {
+    box-sizing: border-box;
+    display: flex;
+    min-width: 0;
+    width: 100%;
+    height: var(--height-buy-buttons, var(--freshomill-touch-target, var(--button-size-md)));
+    min-height: var(--height-buy-buttons, var(--freshomill-touch-target, var(--button-size-md)));
+    align-items: stretch;
+  }
+  .quick-add-modal .product-form-buttons add-to-cart-component > .add-to-cart-button {
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    height: var(--height-buy-buttons, var(--freshomill-touch-target, var(--button-size-md)));
+    min-height: var(--height-buy-buttons, var(--freshomill-touch-target, var(--button-size-md)));
+    justify-content: center;
+    padding: var(--padding-lg);
+    border: 1px solid var(--freshomill-color-border, #dce5d8);
+    border-radius: var(--freshomill-radius-control, 8px);
+    background: var(--freshomill-color-surface, #fff);
+    color: var(--freshomill-color-brand-strong, #174b2a);
+    font-family: var(--button-font-family-primary, var(--font-body--family));
+    font-size: .875rem;
+    font-weight: 600;
+    line-height: 1.2;
+    opacity: 1;
+    transform: none;
+    backdrop-filter: none;
+  }
+  .quick-add-modal .product-form-buttons add-to-cart-component > .add-to-cart-button[hidden] {
+    display: none !important;
+  }
+  .quick-add-modal .quick-add__cart-controls {
+    box-sizing: border-box;
+    position: relative;
+    inset: auto;
+    display: grid;
+    width: 100%;
+    max-width: 100%;
+    height: var(--height-buy-buttons, var(--freshomill-touch-target, var(--button-size-md)));
+    min-height: var(--height-buy-buttons, var(--freshomill-touch-target, var(--button-size-md)));
+    grid-template-columns: 42px minmax(32px, 1fr) 42px;
+    align-items: stretch;
+    gap: 4px;
+    padding: 3px;
+    border: 1px solid var(--freshomill-color-border, #dce5d8);
+    border-radius: var(--freshomill-radius-control, 8px);
+    background: var(--freshomill-color-surface, #fff);
+    color: var(--freshomill-color-brand-strong, #174b2a);
+  }
+  .quick-add-modal .quick-add__cart-step {
+    box-sizing: border-box;
+    display: grid;
+    width: 100%;
+    min-width: 42px;
+    height: 100%;
+    min-height: 100%;
+    place-items: center;
+    padding: 0;
+    border-radius: 5px;
+    background: var(--freshomill-color-brand-soft, #eff6e9);
+    color: var(--freshomill-color-brand-strong, #174b2a);
+    font-size: 20px;
+    line-height: 1;
+    text-align: center;
+  }
+  .quick-add-modal .quick-add__cart-count {
+    background: var(--freshomill-color-surface, #fff);
+    color: var(--freshomill-color-brand-strong, #174b2a);
+    font-size: var(--freshomill-font-size-caption, .75rem);
+    font-weight: 650;
+  }
+  .quick-add-modal .quick-add__cart-controls[hidden] { display: none !important; }
+  .quick-add-modal add-to-cart-component:has(.quick-add__cart-controls:not([hidden])) {
+    display: block;
+    width: 100%;
+  }
+  .quick-add-modal shopify-accelerated-checkout {
+    --shopify-accelerated-checkout-button-block-size: var(--height-buy-buttons, var(--freshomill-touch-target, var(--button-size-md)));
+    --shopify-accelerated-checkout-button-border-radius: var(--freshomill-radius-control, 8px);
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+
+  .quick-add-modal .accelerated-checkout-block :is(.shopify-payment-button, .shopify-payment-button__button),
+  .quick-add-modal .accelerated-checkout-block button.shopify-payment-button__button--unbranded {
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    height: var(--height-buy-buttons, var(--freshomill-touch-target, var(--button-size-md)));
+    min-height: var(--height-buy-buttons, var(--freshomill-touch-target, var(--button-size-md)));
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--freshomill-radius-control, 8px);
+    font-family: var(--button-font-family-primary, var(--font-body--family));
+    font-size: .875rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .quick-add-modal__content product-price :is(.price, .price-item__group) {
+    font-family: var(--font-h3--family, var(--font-paragraph--family));
+    font-style: var(--font-h3--style, normal);
+    font-size: 1.75rem;
+    font-weight: var(--font-h3--weight, 600);
+    letter-spacing: var(--font-h3--letter-spacing, normal);
+    line-height: 1.15;
+  }
+
   #quick-add-dialog {
     display: contents;
   }
@@ -16,6 +191,7 @@
   /* Inputs inside the quick-add modal use the global Input Fields settings,
      not any per-block overrides set on the product page. */
   .quick-add-modal .quantity-selector-wrapper {
+    display: none;
     --color-input-background: inherit;
     --color-input-text: inherit;
     --color-input-text-rgb: inherit;
@@ -128,6 +304,10 @@
     overflow-y: auto;
     max-height: 100vh;
     flex-grow: 1;
+    font-family: var(--font-paragraph--family, var(--font-body--family));
+    font-style: var(--font-paragraph--style, normal);
+    font-weight: var(--font-paragraph--weight, 400);
+    color: var(--color-foreground);
 
     @media screen and (max-width: 749px) {
       grid-template-columns: repeat(4, 1fr);
@@ -298,6 +478,7 @@
     margin-top: auto;
     position: sticky;
     bottom: 0;
+    padding-top: var(--gap-md, 12px);
     padding-bottom: var(--padding-3xl);
     background-color: var(--color-background);
     z-index: var(--layer-raised);
@@ -417,9 +598,13 @@
     color: inherit;
     text-decoration: none;
     text-align: start;
-    font-size: var(--font-size--2xl);
-    font-weight: 600;
-    line-height: 1.2;
+    font-family: var(--font-h3--family, var(--font-paragraph--family));
+    font-style: var(--font-h3--style, normal);
+    font-size: var(--font-h3--size, var(--font-size--2xl));
+    font-weight: var(--font-h3--weight, 600);
+    letter-spacing: var(--font-h3--letter-spacing, normal);
+    line-height: var(--font-h3--line-height, 1.2);
+    text-transform: var(--font-h3--case, none);
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
@@ -455,6 +640,16 @@
       .view-product-title *,
       .freshomill-product-description,
       .freshomill-product-description *,
+      .quick-add-description,
+      .quick-add-description *,
+      .shopify-block:has(.freshomill-product-description),
+      .shopify-block:has(.freshomill-product-description) *,
+      .shopify-block:has(.quick-add-description),
+      .shopify-block:has(.quick-add-description) *,
+      .accordion,
+      .accordion *,
+      accordion-custom,
+      accordion-custom *,
       variant-picker,
       variant-picker *,
       product-price,
@@ -483,6 +678,12 @@
           product-price *,
           product-inventory,
           product-inventory *,
+          .accordion,
+          .accordion *,
+          .freshomill-product-description,
+          .freshomill-product-description *,
+          accordion-custom,
+          accordion-custom *,
           .view-more-details__wrapper,
           .view-more-details__wrapper *
         ),
@@ -520,6 +721,8 @@
 
   .quick-add-modal__content .product-information__media {
     width: 100%;
+    box-sizing: border-box;
+    padding-inline-start: 5px;
     grid-column: 1 / span 1;
     grid-row: 1;
     position: relative;
@@ -596,7 +799,32 @@
   .quick-add-modal__content .product-information__media :is(slideshow-controls, slideshow-controls[thumbnails]) {
     display: flex;
     width: 100%;
+    justify-content: center;
     pointer-events: auto;
+  }
+
+  /* Keep a multi-image gallery centered in quick add at every breakpoint,
+     including products whose theme settings use a side thumbnail rail. */
+  .quick-add-modal__content .product-information__media slideshow-controls[thumbnails] {
+    height: auto;
+    min-height: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    inset: auto;
+  }
+
+  .quick-add-modal__content .product-information__media slideshow-controls[thumbnails] .slideshow-controls__thumbnails-container {
+    position: static;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .quick-add-modal__content .product-information__media slideshow-controls[thumbnails] .slideshow-controls__thumbnails {
+    flex-direction: row;
+    justify-content: center;
+    margin-inline: auto;
   }
 
   .quick-add-modal__content .sticky-content,
@@ -609,18 +837,57 @@
   }
 
   .quick-add-modal__content .freshomill-product-description {
-    display: block !important;
-  }
-
-  .quick-add-modal__content .freshomill-product-description * {
-    display: revert !important;
-  }
-
-  .quick-add-modal__content .freshomill-product-description {
+    display: block;
     min-width: 0;
     color: var(--color-foreground);
+    font-family: var(--font-paragraph--family, var(--font-body--family));
+    font-style: var(--font-paragraph--style, normal);
+    font-size: var(--font-paragraph--size, var(--font-size--md, 1rem));
+    font-weight: var(--font-paragraph--weight, 400);
+    line-height: var(--font-paragraph--line-height, 1.45);
+    letter-spacing: var(--font-paragraph--letter-spacing, normal);
     overflow-wrap: anywhere;
   }
+
+  .quick-add-modal__content .accordion {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-block: 8px;
+  }
+
+  .quick-add-modal__content .accordion .details__header {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    border: 0;
+    border-radius: var(--freshomill-radius-control, 8px);
+    background: var(--freshomill-color-brand-strong, #174b2a);
+    color: var(--freshomill-color-surface, #fff);
+    font-size: var(--freshomill-font-size-body, .875rem);
+    font-weight: 650;
+    line-height: 1.25;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .quick-add-modal__content .accordion .details__header::-webkit-details-marker { display: none; }
+
+  .quick-add-modal__content .accordion .details__header > .svg-wrapper {
+    color: currentColor;
+  }
+
+  .quick-add-modal__content .accordion .details__header > .details__icon,
+  .quick-add-modal__content .accordion .details__header > .icon-plus { display: none; }
+
+  .quick-add-modal__content .accordion .details-content {
+    padding: 12px 4px 4px;
+    color: var(--color-foreground);
+  }
+
+  .quick-add-modal__content .accordion accordion-custom + accordion-custom { margin-block-start: 10px; }
 
   .quick-add-modal__content .freshomill-product-description :is(img, video, iframe) {
     display: block;
@@ -629,10 +896,153 @@
     object-fit: contain;
   }
 
-  .quick-add-modal__content .quick-add-product-description {
+  .quick-add-modal__content .freshomill-product-description :is(h1, h2, h3) {
+    margin-block: 8px;
+    color: inherit;
+    font-family: var(--font-h3--family, var(--font-paragraph--family));
+    font-style: var(--font-h3--style, normal);
+    font-size: var(--font-h3--size, var(--font-size--2xl));
+    font-weight: var(--font-h3--weight, 600);
+    letter-spacing: var(--font-h3--letter-spacing, normal);
+    line-height: var(--font-h3--line-height, 1.2);
+    text-transform: var(--font-h3--case, none);
+  }
+
+  .quick-add-modal__content .quick-add-description {
     grid-column: 1 / -1;
     width: 100%;
-    padding-block-start: var(--padding-xs);
+    min-width: 0;
+    padding-block-start: 0;
+  }
+
+  .quick-add-modal__content .quick-add-description-body--clamped {
+    display: -webkit-box;
+    max-height: calc(1.45em * 3);
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .quick-add-modal__content .quick-add-description-toggle {
+    position: relative;
+    z-index: 1;
+    float: right;
+    margin-block-start: -1.45em;
+    padding: 0 0 0 .3em;
+    border: 0;
+    background: var(--color-background);
+    color: var(--freshomill-color-brand-strong, #174b2a);
+    font: inherit;
+    line-height: inherit;
+    cursor: pointer;
+  }
+
+  .quick-add-modal__content .quick-add-description-toggle::before {
+    content: '... ';
+    color: var(--color-foreground);
+  }
+
+  .quick-add-modal__content .quick-add-description-toggle[hidden] {
+    display: none !important;
+  }
+
+  .quick-add-modal__content .quick-add-description-toggle[aria-expanded='true'] {
+    float: none;
+    margin-block-start: 0;
+  }
+
+  .quick-add-modal__content .quick-add-description-toggle[aria-expanded='true']::before {
+    content: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .quick-add-modal__content {
+      align-content: start;
+      gap: var(--gap-md, 16px);
+      padding-block: 5px calc(var(--height-buy-buttons, 48px) + var(--padding-2xl, 24px) + var(--safe-area-inset-bottom));
+      scroll-padding-block-end: calc(var(--height-buy-buttons, 48px) + var(--padding-2xl, 24px) + var(--safe-area-inset-bottom));
+    }
+
+    .quick-add-modal__content .product-information__media {
+      grid-column: 1 / -1;
+      grid-row: auto;
+      width: 100%;
+      height: min(30vh, 240px);
+      overflow: hidden;
+      border-radius: var(--freshomill-radius-card, 12px);
+    }
+
+    .quick-add-modal__content .product-information__media :is(media-gallery, slideshow-component, slideshow-container, slideshow-slides, slideshow-slide, .product-media-container, .product-media) {
+      height: 100%;
+    }
+
+    .quick-add-modal__content .product-information__media .product-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .quick-add-modal__content .product-header {
+      grid-column: 1 / -1;
+      grid-row: auto;
+      padding-inline-end: calc(var(--padding-2xl) + var(--minimum-touch-target) / 2);
+    }
+
+    .quick-add-modal__content .product-header a:not(product-price *) {
+      font-family: var(--font-h3--family, var(--font-paragraph--family));
+      font-style: var(--font-h3--style, normal);
+      font-size: var(--font-h3--size, var(--font-size--2xl));
+      font-weight: var(--font-h3--weight, 600);
+      letter-spacing: var(--font-h3--letter-spacing, normal);
+      line-height: var(--font-h3--line-height, 1.2);
+      text-transform: var(--font-h3--case, none);
+    }
+
+    .quick-add-modal__content > product-price {
+      grid-column: 1 / -1;
+    }
+
+    .quick-add-modal__content product-price :is(.price, .price-item__group) {
+      font-size: 1.5rem;
+    }
+
+    .quick-add-modal .product-form-buttons {
+      grid-template-columns: minmax(0, 2.25fr) minmax(0, 1fr);
+      gap: var(--gap-sm, 10px);
+    }
+
+    .quick-add-modal .product-form-buttons .quick-add__cart-controls,
+    .quick-add-modal .product-form-buttons add-to-cart-component > .add-to-cart-button,
+    .quick-add-modal .product-form-buttons .accelerated-checkout-block {
+      height: var(--height-buy-buttons, var(--freshomill-touch-target, var(--button-size-md)));
+      min-height: var(--height-buy-buttons, var(--freshomill-touch-target, var(--button-size-md)));
+      border-radius: var(--freshomill-radius-control, 8px);
+    }
+
+    .quick-add-modal__content product-form-component {
+      position: sticky;
+      z-index: var(--layer-raised);
+      bottom: 0;
+      display: block;
+      width: 100%;
+      padding-block: var(--gap-md, 12px) max(var(--padding-xs), var(--safe-area-inset-bottom));
+      background: var(--color-background);
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .quick-add-modal__content {
+      padding-block-start: 5px;
+    }
+
+    .quick-add-modal__content .product-details > .group-block {
+      padding-block-start: 5px;
+    }
+
+    .quick-add-modal.dialog-modal > .quick-add-modal__close {
+      top: 5px;
+      inset-inline-end: 5px;
+    }
   }
 
   @keyframes fadeSlideIn {

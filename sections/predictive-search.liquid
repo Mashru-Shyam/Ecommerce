@@ -123,31 +123,6 @@
         -%}
       {% endif %}
 
-      {% if predictive_search.performed %}
-        {%- if search_results_count > 0 -%}
-          {% assign total_results = predictive_search.resources.products.size
-            | plus: predictive_search.resources.collections.size
-            | plus: predictive_search.resources.pages.size
-            | plus: predictive_search.resources.articles.size
-          %}
-          {% assign single_result_url = null %}
-          {% if total_results == 1 %}
-            {% if predictive_search.resources.products.size == 1 %}
-              {% assign single_result_url = predictive_search.resources.products.first.url %}
-            {% elsif predictive_search.resources.collections.size == 1 %}
-              {% assign single_result_url = predictive_search.resources.collections.first.url %}
-            {% elsif predictive_search.resources.pages.size == 1 %}
-              {% assign single_result_url = predictive_search.resources.pages.first.url %}
-            {% elsif predictive_search.resources.articles.size == 1 %}
-              {% assign single_result_url = predictive_search.resources.articles.first.url %}
-            {% endif %}
-          {% endif %}
-
-          {% if single_result_url %}
-            <div data-single-result-url="{{ single_result_url }}"></div>
-          {% endif %}
-        {% endif %}
-      {% endif %}
     </div>
   </div>
 {%- endif -%}

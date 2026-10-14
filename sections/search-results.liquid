@@ -14,17 +14,6 @@
 
 {% render 'collection-wrapper-styles' %}
 
-{% if search.performed and search.results_count == 1 %}
-  {% assign single_search_result = search.results.first %}
-  {% if single_search_result.object_type == 'product' %}
-    <script>
-      const productUrl = new URL({{ single_search_result.url | json }}, window.location.origin);
-      productUrl.searchParams.set('q', {{ search.terms | json }});
-      window.location.replace(productUrl.toString());
-    </script>
-  {% endif %}
-{% endif %}
-
 <div
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 ></div>
@@ -79,25 +68,22 @@
   </div>
 </results-list>
 
-{% if search.performed and search.terms != blank %}
-  <script>
-    document.addEventListener('click', (event) => {
-      if (!(event.target instanceof Element)) return;
-      const link = event.target.closest('.collection-wrapper--search-catalog #ResultsList a[href*="/products/"]');
-      if (!link) return;
-      const productUrl = new URL(link.href, window.location.origin);
-      productUrl.searchParams.set('q', {{ search.terms | json }});
-      link.href = productUrl.toString();
-    }, true);
-  </script>
-{% endif %}
-
 {% style %}
   .collection-wrapper--search-catalog {
     column-gap: 16px;
     row-gap: 8px;
     padding-inline: clamp(12px, 2vw, 28px);
     margin-block-start: 8px;
+  }
+
+  .collection-wrapper--search-catalog .catalog-filter-links__title,
+  #filters-drawer .catalog-filter-links__title {
+    display: block;
+    margin: 0 0 7px;
+    color: var(--freshomill-color-brand-strong, #174b2a);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25;
   }
 
   .collection-wrapper--search-catalog > .facets--horizontal.facets-controls-wrapper { display: none; }

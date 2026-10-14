@@ -12,6 +12,18 @@
   assign product = closest.product
   assign block_settings = block.settings
   assign image_sizes = '(min-width: 750px) 50vw, 100vw'
+  assign fallback_collection = blank
+
+  if product != blank and product.media.size == 0
+    for candidate_collection in product.collections
+      unless candidate_collection.handle == 'all' or candidate_collection.handle == 'frontpage'
+        if candidate_collection.image != blank
+          assign fallback_collection = candidate_collection
+          break
+        endif
+      endunless
+    endfor
+  endif
 
   # Check if product has badges and determine position
   assign has_badges = false
@@ -119,21 +131,13 @@
       </div>
     </a>
   {% elsif product != blank and product.media.size == 0 %}
-    {% if section.settings.quick_add_position == 'below' %}
-      <a class="best-seller-sample-image" href="{{ product.url }}" ref="cardGalleryLink" aria-label="{{ product.title | escape }}">
+    <a class="best-seller-sample-image" href="{{ product.url }}" ref="cardGalleryLink" aria-label="{{ product.title | escape }}">
+      {% if fallback_collection != blank %}
+        {{ fallback_collection.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: product.title, widths: '240, 360, 540, 720, 900', sizes: image_sizes }}
+      {% else %}
         <img src="{{ 'best-seller-sample.svg' | asset_url }}" alt="{{ product.title | escape }}" loading="lazy" width="320" height="400">
-      </a>
-    {% else %}
-      <div class="product-card-gallery__title-placeholder">
-        <a
-          class="contents"
-          ref="cardGalleryLink"
-          href="{{ product.url }}"
-        >
-          <span class="title-text">{{- product.title -}}</span>
-        </a>
-      </div>
-    {% endif %}
+      {% endif %}
+    </a>
   {% elsif product == blank %}
     {% liquid
       capture placeholder_image

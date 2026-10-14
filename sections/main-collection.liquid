@@ -57,7 +57,13 @@
       if (state.itemsByIndex.has(itemIndex)) return;
       card.dataset.catalogItemIndex = String(itemIndex);
       state.itemsByIndex.set(itemIndex, card);
-      if (sourceGrid !== state.grid) fragment.append(card);
+      if (sourceGrid !== state.grid) {
+        // Keep newly fetched cards out of the live grid until showCatalogPage
+        // has selected the requested range. Otherwise they can flash below the
+        // current page for a frame before the visibility pass runs.
+        card.hidden = true;
+        fragment.append(card);
+      }
     });
 
     if (sourceGrid !== state.grid) {

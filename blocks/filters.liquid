@@ -95,30 +95,6 @@
   assign collection_id = results.id | default: collection.id
 
   assign matched_category_handle = blank
-  if template.name == 'search' and results.terms != blank and request.params.catalog_category != 'all'
-    assign search_categories = section.settings.catalog_categories
-    if search_categories == blank
-      assign search_categories = collections
-    endif
-
-    for search_result in results.results
-      if search_result.object_type == 'product' and matched_category_handle == blank
-        for category in search_categories
-          if matched_category_handle == blank
-            for product_collection in search_result.collections
-              if product_collection.id == category.id
-                assign matched_category_handle = category.handle
-                break
-              endif
-            endfor
-          endif
-        endfor
-      endif
-      if matched_category_handle != blank
-        break
-      endif
-    endfor
-  endif
 -%}
 
 {%- liquid
@@ -187,7 +163,7 @@
         %}
       {% endif %}
 
-      {% if block_settings.enable_grid_density %}
+      {% if block_settings.enable_grid_density and template.name != 'search' %}
         {% render 'grid-density-controls', viewport: 'desktop' %}
       {% endif %}
       {% if template.name == 'collection' or template.name == 'search' %}
@@ -357,7 +333,7 @@
                 %}
               {% endif %}
 
-              {% if block_settings.enable_grid_density %}
+              {% if block_settings.enable_grid_density and template.name != 'search' %}
                 {% render 'grid-density-controls', viewport: 'desktop' %}
               {% endif %}
             {% endif %}
@@ -487,7 +463,7 @@
         </facets-form-component>
         {% endif %}
       {% endif %}
-      {% if block_settings.enable_grid_density %}
+      {% if block_settings.enable_grid_density and template.name != 'search' %}
         {% render 'grid-density-controls', viewport: 'mobile' %}
       {% endif %}
     </div>

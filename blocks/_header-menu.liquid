@@ -161,7 +161,7 @@
                     aria-current="page"
                   {% endif %}
                 >
-                  {{- link.title -}}
+                  {% if link.type == 'catalog_link' %}{{ 'catalog.store_title' | t }}{% else %}{{- link.title -}}{% endif %}
                 </a>
               </li>
             {% endfor %}
@@ -218,7 +218,7 @@
             {% endif %}
             ref="menuitem"
           >
-            <span class="menu-list__link-title">{{- link.title -}}</span>
+            <span class="menu-list__link-title">{% if link.type == 'catalog_link' %}{{ 'catalog.store_title' | t }}{% else %}{{- link.title -}}{% endif %}</span>
           </a>
           {%- if link.links != blank -%}
             <button

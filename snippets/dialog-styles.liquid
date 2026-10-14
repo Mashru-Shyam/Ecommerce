@@ -32,6 +32,35 @@
     }
   }
 
+  /* Keep modal close controls anchored and sized consistently across dialogs. */
+  .dialog-modal > .close-button,
+  .dialog-modal .predictive-search__close-modal-button {
+    position: absolute;
+    top: max(var(--margin-sm), var(--safe-area-inset-top, 0px));
+    inset-inline-end: max(var(--margin-sm), var(--safe-area-inset-right, 0px));
+    z-index: var(--layer-raised);
+    display: flex;
+    width: var(--minimum-touch-target);
+    height: var(--minimum-touch-target);
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    background: transparent;
+  }
+
+  .dialog-modal > .close-button svg,
+  .dialog-modal .predictive-search__close-modal-button :is(svg, .svg-wrapper) {
+    width: var(--icon-size-xs);
+    height: var(--icon-size-xs);
+  }
+
+  [dir='rtl'] .dialog-modal > .close-button,
+  [dir='rtl'] .dialog-modal .predictive-search__close-modal-button {
+    inset-inline-end: max(var(--margin-sm), var(--safe-area-inset-left, 0px));
+  }
+
   .dialog-modal::backdrop {
     transition: backdrop-filter var(--animation-speed) var(--animation-easing);
     backdrop-filter: brightness(1) blur(5px);

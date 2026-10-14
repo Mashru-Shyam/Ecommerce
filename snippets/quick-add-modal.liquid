@@ -6,7 +6,11 @@
 
 {% render 'dialog-styles' %}
 
-<quick-add-dialog id="quick-add-dialog">
+<quick-add-dialog
+  id="quick-add-dialog"
+  data-read-more-label="{{ 'actions.read_more' | t | escape }}"
+  data-show-less-label="{{ 'actions.show_less' | t | escape }}"
+>
   <dialog
     class="quick-add-modal dialog-modal color-custom-popover"
     ref="dialog"

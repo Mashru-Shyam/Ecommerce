@@ -177,6 +177,12 @@
     }
   }
 
+  .theme-drawer__close-button .svg-wrapper,
+  .theme-drawer__close-button svg {
+    width: var(--icon-size-xs);
+    height: var(--icon-size-xs);
+  }
+
   @supports (color: oklch(from red l c h)) {
     .theme-drawer__close-button {
       --contrast-color: oklch(from var(--color-background) clamp(0, (0.6 / l - 1) * infinity, 1) 0 0);

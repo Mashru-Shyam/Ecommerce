@@ -7,6 +7,8 @@
 {%- enddoc -%}
 
 {% stylesheet %}
+  .quick-add-modal__added-label { display: none; }
+
   /* Add to cart button */
   .button[id^='BuyButtons-ProductSubmitButton-'] {
     position: relative;
@@ -68,6 +70,7 @@
     left: 50%; /* stylelint-disable-line csstools/use-logical -- centring pair with a physical translate(-50%) */
     translate: -50% -50%;
     display: flex;
+    z-index: 2;
     align-items: center;
     justify-content: center;
     gap: 0.3rem;
@@ -78,9 +81,19 @@
     height: 32px;
   }
 
+  .add-to-cart__label {
+    position: relative;
+    z-index: 1;
+  }
+
   [data-added='true'] .add-to-cart-text,
   [data-added='true'] .add-to-cart__added {
     animation-name: atc-slide;
+  }
+
+  .add-to-cart-button[data-added='true'] .add-to-cart__label {
+    opacity: 0;
+    visibility: hidden;
   }
 
   .checkmark-burst {

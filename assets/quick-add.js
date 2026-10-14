@@ -12,6 +12,8 @@ export class QuickAddComponent extends Component {
   #cachedContent = new Map();
   /** @type {AbortController} */
   #cartUpdateAbortController = new AbortController();
+  #cartActionPending = false;
+  #addedAnimationTimeout = null;
 
   get productPageUrl() {
     const productCard = /** @type {import('./product-card').ProductCard | null} */ (this.closest('product-card'));
@@ -41,6 +43,9 @@ export class QuickAddComponent extends Component {
     document.addEventListener(StandardEvents.cartLinesUpdate, this.#handleCartUpdate, {
       signal: this.#cartUpdateAbortController.signal,
     });
+    document.addEventListener(StandardEvents.cartLinesUpdate, this.#syncCardCartState, {
+      signal: this.#cartUpdateAbortController.signal,
+    });
     document.addEventListener(StandardEvents.productSelect, this.#handleProductSelectUpdate);
   }
 
@@ -50,6 +55,7 @@ export class QuickAddComponent extends Component {
     mediaQueryLarge.removeEventListener('change', this.#closeQuickAddModal);
     this.#abortController?.abort();
     this.#cartUpdateAbortController.abort();
+    if (this.#addedAnimationTimeout) clearTimeout(this.#addedAnimationTimeout);
     document.removeEventListener(StandardEvents.productSelect, this.#handleProductSelectUpdate);
   }
 
@@ -62,20 +68,39 @@ export class QuickAddComponent extends Component {
     if (event.target.closest('product-card') !== this.closest('product-card')) return;
     if (this.dataset.usesSellingPlans === 'true') return;
 
-    // Only flip choose <-> add when both buttons were rendered.
-    // Otherwise the flip would hide the sole rendered button and reveal nothing.
-    if (this.dataset.rendersBothButtons !== 'true') return;
-
-    const productOptionsCount = this.dataset.productOptionsCount;
-    let quickAddButton = productOptionsCount === '1' ? 'add' : 'choose';
-
-    // A single-option card can resolve to an unavailable variant (e.g. re-selecting a
-    // sold-out swatch). Keep "Choose" so shoppers reach the picker, not a dead-end disabled "Add".
-    if (quickAddButton === 'add' && this.#isSelectedVariantUnavailable()) {
-      quickAddButton = 'choose';
+    const selectedForm = event.detail?.html?.querySelector('product-form-component');
+    const selectedPrice = Number(event.detail?.resource?.price ?? selectedForm?.dataset.cartUnitPrice);
+    const productForm = this.querySelector('product-form-component');
+    if (Number.isFinite(selectedPrice) && productForm) {
+      productForm.dataset.cartUnitPrice = String(selectedPrice);
     }
 
-    this.setAttribute('data-quick-add-button', quickAddButton);
+    const selectedVariantId = this.#getSelectedVariantId();
+    const cartVariantId = this.dataset.cartVariantId;
+    if (selectedVariantId && String(selectedVariantId).split('/').pop() !== cartVariantId) {
+      const normalizedVariantId = String(selectedVariantId).split('/').pop();
+      const variantInput = this.querySelector('input[name="id"]');
+      if (variantInput instanceof HTMLInputElement) {
+        variantInput.value = normalizedVariantId;
+        variantInput.disabled = this.#isSelectedVariantUnavailable();
+      }
+      this.dataset.cartVariantId = normalizedVariantId;
+      this.dataset.cartQuantity = '0';
+      this.#setInCartState(0);
+      fetch(`${Theme.routes.cart_url}.js`, { credentials: 'same-origin' })
+        .then((response) => response.json())
+        .then((cart) => {
+          const quantity = (cart.items || [])
+            .filter((item) => String(item.variant_id) === normalizedVariantId)
+            .reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+          this.dataset.cartVariantId = normalizedVariantId;
+          this.dataset.cartQuantity = String(quantity);
+          const count = this.querySelector('.quick-add__cart-count');
+          if (count) count.textContent = String(quantity);
+          this.#setInCartState(quantity);
+        })
+        .catch((error) => console.warn('[quick-add] Could not sync selected variant:', error));
+    }
   };
 
   /**
@@ -97,6 +122,162 @@ export class QuickAddComponent extends Component {
     this.#cachedContent.clear();
   };
 
+  /** @param {import('@shopify/events').CartLinesUpdateEvent} event */
+  #syncCardCartState = (event) => {
+    const detail = event.detail || {};
+    const normalizedProductId = String(detail.productId || '').split('/').pop();
+    const isThisProduct = normalizedProductId && normalizedProductId === String(this.dataset.productId).split('/').pop();
+    const eventLines = event.lines || detail.lines || [];
+    const eventLine = Array.isArray(eventLines) ? eventLines[0] : null;
+    const merchandiseId = eventLine?.merchandiseId || eventLine?.variantId || eventLine?.variant_id;
+    const eventVariantId = merchandiseId ? String(merchandiseId).split('/').pop() : '';
+
+    if (event.action === 'add' && eventVariantId === this.dataset.cartVariantId) {
+      const addedQuantity = Number(eventLine?.quantity) || 1;
+      const currentQuantity = Number(this.dataset.cartQuantity) || 0;
+      const optimisticQuantity = currentQuantity + addedQuantity;
+      this.dataset.cartQuantity = String(optimisticQuantity);
+      const count = this.querySelector('.quick-add__cart-count');
+      if (count) count.textContent = String(optimisticQuantity);
+      this.#setInCartState(optimisticQuantity);
+    }
+
+    event.promise?.then(({ detail: resultDetail }) => {
+      const items = resultDetail?.items;
+      if (!Array.isArray(items)) return;
+
+      let variantId = this.dataset.cartVariantId || '';
+      if (isThisProduct && eventVariantId) variantId = eventVariantId;
+      if (!variantId && normalizedProductId === String(this.dataset.productId).split('/').pop()) {
+        const productItem = items.find((item) => String(item.product_id) === String(this.dataset.productId));
+        if (productItem) variantId = String(productItem.variant_id);
+      }
+      if (!variantId) return;
+
+      const matches = items.filter((item) => String(item.variant_id) === variantId);
+      const quantity = matches.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+      this.dataset.cartVariantId = variantId;
+      this.dataset.cartLineKey = matches[0]?.key || '';
+      this.dataset.cartQuantity = String(quantity);
+
+      const count = this.querySelector('.quick-add__cart-count');
+      if (count) count.textContent = String(quantity);
+
+      this.#setInCartState(quantity);
+    }).catch((error) => {
+      if (error?.name !== 'AbortError') console.warn('[quick-add] Cart state sync failed:', error);
+    });
+  };
+
+  #setInCartState(quantity) {
+    this.dataset.inCart = quantity > 0 ? 'true' : 'false';
+    this.setAttribute('data-in-cart', quantity > 0 ? 'true' : 'false');
+    const controls = this.querySelector('.quick-add__cart-controls');
+    if (controls) controls.hidden = quantity <= 0;
+    this.dataset.cartQuantity = String(quantity);
+  }
+
+  /** @param {number} delta */
+  async #changeCartQuantity(delta) {
+    if (this.#cartActionPending) return;
+    const variantId = this.dataset.cartVariantId;
+    if (!variantId) return;
+    const previousQuantity = Number(this.dataset.cartQuantity) || 0;
+    const optimisticQuantity = Math.max(0, previousQuantity + delta);
+    const optimisticCount = this.querySelector('.quick-add__cart-count');
+    if (optimisticCount) optimisticCount.textContent = String(optimisticQuantity);
+    this.#setInCartState(optimisticQuantity);
+    const unitPrice = Number(this.querySelector('product-form-component')?.dataset.cartUnitPrice);
+    document.dispatchEvent(new CustomEvent('freshomill:cart-optimistic', {
+      detail: {
+        itemCountDelta: delta,
+        totalPriceDelta: Number.isFinite(unitPrice) ? unitPrice * delta : 0,
+      },
+    }));
+    this.#cartActionPending = true;
+    this.toggleAttribute('aria-busy', true);
+
+    let pendingUpdatePromise = null;
+    try {
+      const cartResponse = await fetch(`${Theme.routes.cart_url}.js`, { credentials: 'same-origin' });
+      if (!cartResponse.ok) throw new Error(`Cart request failed (${cartResponse.status})`);
+      const cart = await cartResponse.json();
+      const matchingLines = (cart.items || []).filter((item) => String(item.variant_id) === variantId);
+      const line = matchingLines[0];
+      if (!line?.key) {
+        const count = this.querySelector('.quick-add__cart-count');
+        if (count) count.textContent = String(previousQuantity);
+        this.#setInCartState(previousQuantity);
+        return;
+      }
+
+      const nextLineQuantity = Math.max(0, (Number(line.quantity) || 0) + delta);
+      const sectionIds = [...document.querySelectorAll('cart-items-component[data-section-id]')]
+        .map((element) => element.dataset.sectionId)
+        .filter(Boolean);
+      /** @type {Record<string, unknown>} */
+      const changePayload = { id: line.key, quantity: nextLineQuantity };
+      if (sectionIds.length) {
+        changePayload.sections = sectionIds.join(',');
+        changePayload.sections_url = window.location.pathname;
+      }
+      const updatePromise = CartLinesUpdateEvent.createPromise();
+      pendingUpdatePromise = updatePromise;
+      this.dispatchEvent(new CartLinesUpdateEvent({
+        action: nextLineQuantity > 0 ? 'update' : 'remove',
+        context: 'cart',
+        productId: this.dataset.productId,
+        lines: [{ id: line.key, variantId, merchandiseId: `gid://shopify/ProductVariant/${variantId}`, quantity: nextLineQuantity }],
+        promise: updatePromise.promise,
+      }));
+
+      const updateResponse = await fetch(Theme.routes.cart_change_url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(changePayload),
+      });
+      if (!updateResponse.ok) throw new Error(`Cart update failed (${updateResponse.status})`);
+      const updatedCart = await updateResponse.json();
+      updatePromise.resolve({
+        cart: CartLinesUpdateEvent.createCartFromAjaxResponse(updatedCart),
+        detail: {
+          items: updatedCart.items,
+          sections: updatedCart.sections,
+          itemCount: updatedCart.item_count,
+          source: 'quick-add-component',
+          didError: false,
+        },
+      });
+      const actualQuantity = (updatedCart.items || [])
+        .filter((item) => String(item.variant_id) === variantId)
+        .reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+      this.dataset.cartQuantity = String(actualQuantity);
+      const count = this.querySelector('.quick-add__cart-count');
+      if (count) count.textContent = String(actualQuantity);
+      this.#setInCartState(actualQuantity);
+    } catch (error) {
+      pendingUpdatePromise?.reject(error);
+      const count = this.querySelector('.quick-add__cart-count');
+      if (count) count.textContent = String(previousQuantity);
+      this.#setInCartState(previousQuantity);
+      console.error('[quick-add] Could not update cart quantity:', error);
+    } finally {
+      this.#cartActionPending = false;
+      this.removeAttribute('aria-busy');
+    }
+  }
+
+  increaseCartQuantity = (event) => {
+    event.preventDefault();
+    this.#changeCartQuantity(1);
+  };
+
+  decreaseCartQuantity = (event) => {
+    event.preventDefault();
+    this.#changeCartQuantity(-1);
+  };
+
   /**
    * Re-renders the variant picker in the quick-add modal.
    * @param {Element} newHtml - The element to re-render.
@@ -116,37 +297,44 @@ export class QuickAddComponent extends Component {
   handleClick = async (event) => {
     event.preventDefault();
 
-    const currentUrl = this.productPageUrl;
+    return this.openQuickAddModal();
+  };
 
-    if (this.dataset.usesSellingPlans === 'true') {
-      if (currentUrl) window.location.href = currentUrl;
-      return;
+  openQuickAddModal = async () => {
+    const currentUrl = this.productPageUrl;
+    const modalContent = document.getElementById('quick-add-modal-content');
+    this.#openQuickAddModal();
+    if (modalContent) {
+      modalContent.replaceChildren();
+      modalContent.setAttribute('aria-busy', 'true');
     }
 
     // Check if we have cached content for this URL
     let productGrid = this.#cachedContent.get(currentUrl);
 
-    if (!productGrid) {
-      // Fetch and cache the content
-      const html = await this.fetchProductPage(currentUrl);
-      if (html) {
-        const gridElement = html.querySelector('[data-product-grid-content]');
-        if (gridElement) {
-          // Cache the cloned element to avoid modifying the original
-          productGrid = /** @type {Element} */ (gridElement.cloneNode(true));
-          this.#cachedContent.set(currentUrl, productGrid);
+    try {
+      if (!productGrid) {
+        // Fetch and cache the content
+        const html = await this.fetchProductPage(currentUrl);
+        if (html) {
+          const gridElement = html.querySelector('[data-product-grid-content]');
+          if (gridElement) {
+            // Cache the cloned element to avoid modifying the original
+            productGrid = /** @type {Element} */ (gridElement.cloneNode(true));
+            this.#cachedContent.set(currentUrl, productGrid);
+          }
         }
       }
-    }
 
-    if (productGrid) {
-      // Use a fresh clone from the cache
-      const freshContent = /** @type {Element} */ (productGrid.cloneNode(true));
-      await this.updateQuickAddModal(freshContent);
-      this.#updateVariantPicker(productGrid);
+      if (productGrid) {
+        // Use a fresh clone from the cache
+        const freshContent = /** @type {Element} */ (productGrid.cloneNode(true));
+        await this.updateQuickAddModal(freshContent);
+        this.#updateVariantPicker(productGrid);
+      }
+    } finally {
+      modalContent?.removeAttribute('aria-busy');
     }
-
-    this.#openQuickAddModal();
   };
 
   #resetScroll() {
@@ -270,23 +458,27 @@ export class QuickAddComponent extends Component {
       productHeader.classList.add('product-header');
 
       productHeader.appendChild(productTitle);
-      if (productPrice) {
-        productHeader.appendChild(productPrice);
-      }
       productGrid.appendChild(productHeader);
-
-      if (variantPicker) {
-        productGrid.appendChild(variantPicker);
-      }
-      if (productFormComponent) {
-        productGrid.appendChild(productFormComponent);
-      }
 
       if (productDescription) {
         const mobileDescription = productDescription.cloneNode(true);
         mobileDescription.classList.add('quick-add-product-description');
         productGrid.appendChild(mobileDescription);
       }
+
+      if (variantPicker) {
+        productGrid.appendChild(variantPicker);
+      }
+      if (productPrice) {
+        productGrid.appendChild(productPrice);
+      }
+      if (productFormComponent) {
+        productGrid.appendChild(productFormComponent);
+      }
+
+      const detailAccordions = [...(productDetails?.querySelectorAll('.accordion') || [])]
+        .filter((accordion) => !accordion.parentElement?.closest('.accordion'));
+      for (const accordion of detailAccordions) productGrid.appendChild(accordion);
 
       productDetails?.remove();
     }
@@ -297,7 +489,125 @@ export class QuickAddComponent extends Component {
 
     morph(modalContent, productGrid);
 
+    this.#setupModalDescription(modalContent);
     this.#syncVariantSelection(modalContent);
+    this.#syncModalAddedState();
+  }
+
+  #setupModalDescription(modalContent) {
+    const description = modalContent.querySelector('.quick-add-product-description, .freshomill-product-description');
+    if (!(description instanceof HTMLElement)) return;
+    if (description.parentElement?.classList.contains('quick-add-description')) return;
+
+    description.querySelectorAll('h1, h2, h3').forEach((heading) => {
+      const headingText = heading.textContent?.trim() || '';
+      if (/^product details(?:\.{1,}|\u2026)+$/i.test(headingText)) {
+        heading.textContent = headingText.replace(/(?:\.{1,}|\u2026)+$/, '');
+      }
+    });
+
+    const dialog = document.getElementById('quick-add-dialog');
+    const readMoreLabel = (dialog?.dataset.readMoreLabel || 'Read more').replace(/(?:\.{2,}|\u2026)+$/, '').trim();
+    const wrapper = document.createElement('div');
+    wrapper.className = 'quick-add-description';
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'quick-add-description-toggle';
+    toggle.textContent = readMoreLabel;
+    toggle.setAttribute('aria-expanded', 'false');
+
+    const detailsHeading = [...description.querySelectorAll('h1, h2, h3')].find((heading) =>
+      /^product details\.?$/i.test(heading.textContent?.trim() || '')
+    );
+    let detailBody = description;
+    if (detailsHeading) {
+      let headingBlock = detailsHeading;
+      while (headingBlock.parentElement && headingBlock.parentElement !== description) {
+        headingBlock = headingBlock.parentElement;
+      }
+
+      const children = [...description.childNodes];
+      const headingIndex = children.indexOf(headingBlock);
+      if (headingIndex >= 0) {
+        const intro = document.createElement('div');
+        intro.className = 'quick-add-description-intro';
+        detailBody = document.createElement('div');
+        detailBody.className = 'quick-add-description-body';
+        for (const node of children.slice(0, headingIndex)) intro.appendChild(node);
+        for (const node of children.slice(headingIndex + 1)) detailBody.appendChild(node);
+        description.replaceChildren(intro, headingBlock, detailBody);
+      }
+    }
+
+    description.before(wrapper);
+    wrapper.append(description, toggle);
+    detailBody.classList.add('quick-add-description-body--clamped');
+
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') !== 'true';
+      toggle.setAttribute('aria-expanded', String(expanded));
+      detailBody.classList.toggle('quick-add-description-body--clamped', !expanded);
+      toggle.textContent = expanded
+        ? dialog?.dataset.showLessLabel || 'Show less'
+        : readMoreLabel;
+    });
+
+    requestAnimationFrame(() => {
+      detailBody.classList.remove('quick-add-description-body--clamped');
+      const fullHeight = detailBody.scrollHeight;
+      detailBody.classList.add('quick-add-description-body--clamped');
+      toggle.hidden = fullHeight <= detailBody.clientHeight + 1;
+    });
+  }
+
+  async #syncModalAddedState() {
+    const modalContent = document.getElementById('quick-add-modal-content');
+    const variantInput = modalContent?.querySelector('product-form-component input[name="id"]');
+    const addButton = modalContent?.querySelector('add-to-cart-component button[type="submit"]');
+    if (!(variantInput instanceof HTMLInputElement) || !(addButton instanceof HTMLButtonElement)) return;
+
+    const cardVariantId = String(this.dataset.cartVariantId || '').split('/').pop();
+    const selectedVariantId = String(variantInput.value).split('/').pop();
+    if (cardVariantId === selectedVariantId) {
+      const cardQuantity = Number(this.dataset.cartQuantity) || 0;
+      this.#setModalVariantCartState(modalContent, addButton, variantInput, cardQuantity);
+    }
+
+    try {
+      const response = await fetch(`${Theme.routes.cart_url}.js`, { credentials: 'same-origin' });
+      if (!response.ok) return;
+      const cart = await response.json();
+      const variantId = String(variantInput.value).split('/').pop();
+      const quantity = (cart.items || [])
+        .filter((item) => String(item.variant_id) === variantId)
+        .reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+      this.#setModalVariantCartState(modalContent, addButton, variantInput, quantity);
+    } catch (error) {
+      console.warn('[quick-add] Could not sync popup cart state:', error);
+    }
+  }
+
+  #setModalVariantCartState(modalContent, addButton, variantInput, quantity) {
+    addButton.dataset.inCartQuantity = String(quantity);
+    let controls = addButton.parentElement?.querySelector('.quick-add__cart-controls');
+    if (!controls && addButton.parentElement) {
+      controls = document.createElement('div');
+      controls.className = 'quick-add__cart-controls';
+      controls.innerHTML = '<button class="quick-add__cart-step" type="button" data-popup-quantity-delta="-1" aria-label="Decrease quantity">−</button><span class="quick-add__cart-count" aria-live="polite"></span><button class="quick-add__cart-step" type="button" data-popup-quantity-delta="1" aria-label="Increase quantity">+</button>';
+      addButton.parentElement.appendChild(controls);
+    }
+    if (controls) {
+      controls.hidden = quantity <= 0;
+      const count = controls.querySelector('.quick-add__cart-count');
+      if (count) count.textContent = String(quantity);
+    }
+    addButton.hidden = quantity > 0;
+
+    const quantityInput = modalContent.querySelector('quantity-selector-component input[name="quantity"]');
+    if (quantityInput instanceof HTMLInputElement) {
+      quantityInput.setAttribute('data-cart-quantity', String(quantity));
+      quantityInput.value = String(quantity || Number(quantityInput.min) || 1);
+    }
   }
 
   /**
@@ -334,6 +644,7 @@ class QuickAddDialog extends DialogComponent {
       signal: this.#abortController.signal,
     });
     this.addEventListener(StandardEvents.productSelect, this.#handleProductSelect);
+    this.addEventListener('click', this.#handlePopupQuantityClick);
 
     this.addEventListener(DialogCloseEvent.eventName, this.#handleDialogClose);
   }
@@ -343,6 +654,7 @@ class QuickAddDialog extends DialogComponent {
 
     this.#abortController.abort();
     this.removeEventListener(DialogCloseEvent.eventName, this.#handleDialogClose);
+    this.removeEventListener('click', this.#handlePopupQuantityClick);
   }
 
   /**
@@ -350,15 +662,122 @@ class QuickAddDialog extends DialogComponent {
    * @param {CartLinesUpdateEvent} event - The cart lines update event
    */
   handleCartUpdate = (event) => {
+    const modalContent = document.getElementById('quick-add-modal-content');
+    const target = event.target instanceof Element ? event.target : null;
+    if (modalContent && target && modalContent.contains(target) && event.action === 'add') {
+      const variantInput = modalContent.querySelector('product-form-component input[name="id"]');
+      const addButton = modalContent.querySelector('add-to-cart-component button[type="submit"]');
+      const line = (event.lines || event.detail?.lines || [])[0];
+      const lineVariantId = String(line?.merchandiseId || line?.variantId || '').split('/').pop();
+      if (variantInput instanceof HTMLInputElement && addButton instanceof HTMLButtonElement && lineVariantId === variantInput.value) {
+        const quantity = (Number(addButton.dataset.inCartQuantity) || 0) + (Number(line?.quantity) || 1);
+        this.#setModalVariantCartState(modalContent, addButton, variantInput, quantity);
+      }
+    }
+
     event.promise
       ?.then(({ detail }) => {
         if (detail?.didError) return;
-        this.closeDialog();
+        const modalContent = document.getElementById('quick-add-modal-content');
+        const variantInput = modalContent?.querySelector('product-form-component input[name="id"]');
+        const addButton = modalContent?.querySelector('add-to-cart-component button[type="submit"]');
+        if (!(variantInput instanceof HTMLInputElement) || !(addButton instanceof HTMLButtonElement)) return;
+
+        const variantId = String(variantInput.value).split('/').pop();
+        const quantity = (detail?.items || [])
+          .filter((item) => String(item.variant_id) === variantId)
+          .reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+        this.#setModalVariantCartState(modalContent, addButton, variantInput, quantity);
       })
       .catch((error) => {
         if (error?.name !== 'AbortError') console.warn('[quick-add] Event promise rejected:', error);
       });
   };
+
+  #handlePopupQuantityClick = (event) => {
+    if (!(event.target instanceof Element)) return;
+    const step = event.target.closest('[data-popup-quantity-delta]');
+    if (!step) return;
+    event.preventDefault();
+    this.#changePopupQuantity(Number(step.dataset.popupQuantityDelta));
+  };
+
+  async #changePopupQuantity(delta) {
+    const modalContent = document.getElementById('quick-add-modal-content');
+    const variantInput = modalContent?.querySelector('product-form-component input[name="id"]');
+    const addButton = modalContent?.querySelector('add-to-cart-component button[type="submit"]');
+    if (!(variantInput instanceof HTMLInputElement) || !(addButton instanceof HTMLButtonElement)) return;
+    const variantId = variantInput.value;
+    const previousQuantity = Number(addButton.dataset.inCartQuantity) || 0;
+    const nextQuantity = Math.max(0, previousQuantity + delta);
+    this.#setModalVariantCartState(modalContent, addButton, variantInput, nextQuantity);
+    const unitPrice = Number(modalContent.querySelector('product-form-component')?.dataset.cartUnitPrice);
+    document.dispatchEvent(new CustomEvent('freshomill:cart-optimistic', {
+      detail: { itemCountDelta: delta, totalPriceDelta: Number.isFinite(unitPrice) ? unitPrice * delta : 0 },
+    }));
+
+    let updatePromise;
+    try {
+      const cartResponse = await fetch(`${Theme.routes.cart_url}.js`, { credentials: 'same-origin' });
+      if (!cartResponse.ok) throw new Error(`Cart request failed (${cartResponse.status})`);
+      const cart = await cartResponse.json();
+      const line = (cart.items || []).find((item) => String(item.variant_id) === variantId);
+      if (!line?.key) throw new Error('Cart line was not found');
+      const targetQuantity = Math.max(0, (Number(line.quantity) || 0) + delta);
+      updatePromise = CartLinesUpdateEvent.createPromise();
+      this.dispatchEvent(new CartLinesUpdateEvent({
+        action: targetQuantity > 0 ? 'update' : 'remove',
+        context: 'cart',
+        productId: addButton.closest('product-form-component')?.dataset.productId,
+        lines: [{ id: line.key, variantId, merchandiseId: `gid://shopify/ProductVariant/${variantId}`, quantity: targetQuantity }],
+        promise: updatePromise.promise,
+      }));
+      const response = await fetch(Theme.routes.cart_change_url, {
+        method: 'POST', credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ id: line.key, quantity: targetQuantity }),
+      });
+      if (!response.ok) throw new Error(`Cart update failed (${response.status})`);
+      const updatedCart = await response.json();
+      updatePromise.resolve({
+        cart: CartLinesUpdateEvent.createCartFromAjaxResponse(updatedCart),
+        detail: { items: updatedCart.items, itemCount: updatedCart.item_count, source: 'quick-add-dialog', didError: false },
+      });
+      const actualQuantity = (updatedCart.items || []).filter((item) => String(item.variant_id) === variantId)
+        .reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+      this.#setModalVariantCartState(modalContent, addButton, variantInput, actualQuantity);
+    } catch (error) {
+      updatePromise?.reject(error);
+      this.#setModalVariantCartState(modalContent, addButton, variantInput, previousQuantity);
+      document.dispatchEvent(new CustomEvent('freshomill:cart-optimistic', {
+        detail: { itemCountDelta: -delta, totalPriceDelta: Number.isFinite(unitPrice) ? -unitPrice * delta : 0 },
+      }));
+      console.error('[quick-add-dialog] Could not update cart quantity:', error);
+    }
+  }
+
+  #setModalVariantCartState(modalContent, addButton, variantInput, quantity) {
+    addButton.dataset.inCartQuantity = String(quantity);
+    let controls = addButton.parentElement?.querySelector('.quick-add__cart-controls');
+    if (!controls && addButton.parentElement) {
+      controls = document.createElement('div');
+      controls.className = 'quick-add__cart-controls';
+      controls.innerHTML = '<button class="quick-add__cart-step" type="button" data-popup-quantity-delta="-1" aria-label="Decrease quantity">−</button><span class="quick-add__cart-count" aria-live="polite"></span><button class="quick-add__cart-step" type="button" data-popup-quantity-delta="1" aria-label="Increase quantity">+</button>';
+      addButton.parentElement.appendChild(controls);
+    }
+    if (controls) {
+      controls.hidden = quantity <= 0;
+      const count = controls.querySelector('.quick-add__cart-count');
+      if (count) count.textContent = String(quantity);
+    }
+    addButton.hidden = quantity > 0;
+
+    const quantityInput = modalContent.querySelector('quantity-selector-component input[name="quantity"]');
+    if (quantityInput instanceof HTMLInputElement) {
+      quantityInput.setAttribute('data-cart-quantity', String(quantity));
+      quantityInput.value = String(quantity || Number(quantityInput.min) || 1);
+    }
+  }
 
   /** @param {ProductSelectEvent} event - The product select event */
   #handleProductSelect = (event) => {
@@ -376,11 +795,32 @@ class QuickAddDialog extends DialogComponent {
 
         if (viewMoreDetailsLink) viewMoreDetailsLink.href = anchorElement.href;
         if (mobileProductTitle) mobileProductTitle.href = anchorElement.href;
+        this.#syncPopupCartState();
       })
       .catch((error) => {
         if (error?.name !== 'AbortError') console.warn('[quick-add] Event promise rejected:', error);
       });
   };
+
+  async #syncPopupCartState() {
+    const modalContent = document.getElementById('quick-add-modal-content');
+    const variantInput = modalContent?.querySelector('product-form-component input[name="id"]');
+    const addButton = modalContent?.querySelector('add-to-cart-component button[type="submit"]');
+    if (!(variantInput instanceof HTMLInputElement) || !(addButton instanceof HTMLButtonElement)) return;
+
+    try {
+      const response = await fetch(`${Theme.routes.cart_url}.js`, { credentials: 'same-origin' });
+      if (!response.ok) return;
+      const cart = await response.json();
+      const variantId = String(variantInput.value).split('/').pop();
+      const quantity = (cart.items || [])
+        .filter((item) => String(item.variant_id) === variantId)
+        .reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+      this.#setModalVariantCartState(modalContent, addButton, variantInput, quantity);
+    } catch (error) {
+      console.warn('[quick-add] Could not sync selected popup variant:', error);
+    }
+  }
 
   #handleDialogClose = () => {
     const iosVersion = getIOSVersion();

@@ -67,7 +67,7 @@ if (drawer && !drawer.dataset.categorySheetReady) {
 
       if (isSearch) {
         url.pathname = `${root}search`;
-        url.searchParams.set('catalog_category', 'all');
+        url.searchParams.delete('catalog_category');
       } else {
         url.pathname = `${root}collections/all`;
       }

@@ -170,25 +170,6 @@ export class ProductCard extends ProductCardLink {
     this.refs.quickAdd?.fetchProductPage(this.productPageUrl);
   };
 
-  /**
-   * Navigates to a URL link. Respects modifier keys for opening in new tab/window.
-   * @param {Event} event - The event that triggered the navigation.
-   * @param {URL} url - The URL to navigate to.
-   */
-  #navigateToURL = (event, url) => {
-    // Check for modifier keys that should open in new tab/window (only for mouse events)
-    const shouldOpenInNewTab =
-      event instanceof MouseEvent && (event.metaKey || event.ctrlKey || event.shiftKey || event.button === 1);
-
-    if (shouldOpenInNewTab) {
-      event.preventDefault();
-      window.open(url.href, '_blank');
-      return;
-    } else {
-      window.location.href = url.href;
-    }
-  };
-
   connectedCallback() {
     super.connectedCallback();
 
@@ -565,32 +546,8 @@ export class ProductCard extends ProductCardLink {
       return;
     }
 
-    const link = this.refs.productCardLink;
-    if (!link.href) return;
-    const linkURL = new URL(link.href);
-
-    const productCardAnchor = link.getAttribute('id');
-    if (!productCardAnchor) return;
-
-    const infiniteResultsList = this.closest('results-list[infinite-scroll="true"]');
-    if (!window.Shopify.designMode && infiniteResultsList) {
-      const url = new URL(window.location.href);
-      const parent = this.closest('li');
-      url.hash = productCardAnchor;
-      if (parent && parent.dataset.page) {
-        url.searchParams.set('page', parent.dataset.page);
-      }
-
-      yieldToMainThread().then(() => {
-        history.replaceState({}, '', url.toString());
-      });
-    }
-
-    const targetLink = event.target.closest('a');
-    // Let the native navigation handle the click if it was on a link.
-    if (!targetLink) {
-      this.#navigateToURL(event, linkURL);
-    }
+    event.preventDefault();
+    this.refs.quickAdd?.openQuickAddModal();
   };
 
   /**

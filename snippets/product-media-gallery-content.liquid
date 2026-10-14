@@ -917,9 +917,28 @@
   }
 
   .dialog-zoomed-gallery__close-button {
+    position: absolute;
+    top: max(var(--margin-sm), var(--safe-area-inset-top, 0px));
+    inset-inline-end: max(var(--margin-sm), var(--safe-area-inset-right, 0px));
+    display: flex;
+    width: var(--minimum-touch-target);
+    height: var(--minimum-touch-target);
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 50%;
     color: var(--freshomill-color-surface);
     mix-blend-mode: difference;
     z-index: var(--layer-raised);
+
+    svg {
+      width: var(--icon-size-xs);
+      height: var(--icon-size-xs);
+    }
+  }
+
+  [dir='rtl'] .dialog-zoomed-gallery__close-button {
+    inset-inline-end: max(var(--margin-sm), var(--safe-area-inset-left, 0px));
   }
 
   /* Mobile thumbnails styling */

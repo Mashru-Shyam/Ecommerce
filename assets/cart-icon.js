@@ -35,6 +35,7 @@ class CartIcon extends Component {
     super.connectedCallback();
 
     document.addEventListener(StandardEvents.cartLinesUpdate, this.onCartUpdate);
+    document.addEventListener('freshomill:cart-optimistic', this.onOptimisticCartChange);
     window.addEventListener('pageshow', this.onPageShow);
     this.ensureCartBubbleIsCorrect();
 
@@ -48,6 +49,7 @@ class CartIcon extends Component {
     super.disconnectedCallback();
 
     document.removeEventListener(StandardEvents.cartLinesUpdate, this.onCartUpdate);
+    document.removeEventListener('freshomill:cart-optimistic', this.onOptimisticCartChange);
     window.removeEventListener('pageshow', this.onPageShow);
     this.#historyCartController?.abort();
     this.#historyCartController = null;
@@ -68,18 +70,59 @@ class CartIcon extends Component {
    * @param {CartLinesUpdateEvent} event - The cart update event.
    */
   onCartUpdate = (event) => {
+    // Reflect adds immediately while the cart request is still in flight. The
+    // resolved cart below remains authoritative and corrects this optimistic count.
+    if (event.action === 'add') {
+      const addedLines = event.lines || event.detail?.lines || [];
+      const addedQuantity = addedLines.reduce((sum, line) => sum + (Number(line.quantity) || 0), 0);
+      if (addedQuantity > 0) {
+        this.#cartRenderRevision += 1;
+        this.#historyCartController?.abort();
+        this.renderCartBubble(this.currentCartCount + addedQuantity, true);
+
+        const source = event.target instanceof Element ? event.target.closest('product-form-component') : null;
+        const unitPrice = Number(source?.dataset.cartUnitPrice);
+        const totalElement = this.parentElement?.querySelector('[data-cart-total]');
+        const currentTotal = Number(totalElement?.dataset.cartTotalCents);
+        if (totalElement && Number.isFinite(unitPrice) && Number.isFinite(currentTotal)) {
+          this.#renderCartTotal(currentTotal + unitPrice * addedQuantity);
+        }
+      }
+    }
+
     event.promise
       ?.then(({ cart, detail }) => {
         const itemCount = cart?.totalQuantity ?? detail?.itemCount ?? 0;
 
         this.#cartRenderRevision += 1;
         this.#historyCartController?.abort();
-        this.renderCartBubble(itemCount, true, cart?.total_price);
+        this.renderCartBubble(itemCount, itemCount !== this.currentCartCount, cart?.total_price);
       })
       .catch((error) => {
         if (error?.name !== 'AbortError') console.warn('[cart-icon] Event promise rejected:', error);
       });
   };
+
+  onOptimisticCartChange = (event) => {
+    const { itemCountDelta = 0, totalPriceDelta = 0 } = event.detail || {};
+    const totalElement = this.parentElement?.querySelector('[data-cart-total]');
+    const currentTotal = Number(totalElement?.dataset.cartTotalCents);
+    if (itemCountDelta) this.renderCartBubble(Math.max(0, this.currentCartCount + itemCountDelta), true);
+    if (totalElement && Number.isFinite(currentTotal) && totalPriceDelta) {
+      this.#renderCartTotal(Math.max(0, currentTotal + totalPriceDelta));
+    }
+  };
+
+  #renderCartTotal(totalPrice) {
+    const totalElement = this.parentElement?.querySelector('[data-cart-total]');
+    if (!totalElement) return;
+    totalElement.dataset.cartTotalCents = String(totalPrice);
+    totalElement.textContent = formatMoney(
+      totalPrice,
+      this.dataset.moneyFormat || '{{amount}}',
+      this.dataset.currency || ''
+    );
+  }
 
   /**
    * Renders the cart bubble.
@@ -97,11 +140,7 @@ class CartIcon extends Component {
 
     const totalElement = this.parentElement?.querySelector('[data-cart-total]');
     if (totalElement && totalPrice !== null && totalPrice !== undefined) {
-      totalElement.textContent = formatMoney(
-        Number(totalPrice),
-        this.dataset.moneyFormat || '{{amount}}',
-        this.dataset.currency || ''
-      );
+      this.#renderCartTotal(Number(totalPrice));
     }
 
     sessionStorage.setItem(

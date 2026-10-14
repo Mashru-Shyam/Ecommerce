@@ -1,27 +1,65 @@
 {%- liquid
-  assign breadcrumb_title = page_title
-  case template.name
-    when 'collection'
-      assign breadcrumb_title = collection.title
-      if collection.handle == 'all'
-        assign breadcrumb_title = 'catalog.store_title' | t
-      endif
-    when 'product'
-      assign breadcrumb_title = product.title
-    when 'page'
-      assign breadcrumb_title = page.title
-    when 'blog'
-      assign breadcrumb_title = blog.title
-    when 'article'
-      assign breadcrumb_title = article.title
-  endcase
+  assign breadcrumb_product_collection = collection
+  if template.name == 'product' and breadcrumb_product_collection == blank
+    for candidate_collection in product.collections
+      unless candidate_collection.handle == 'all' or candidate_collection.handle == 'frontpage'
+        assign breadcrumb_product_collection = candidate_collection
+        break
+      endunless
+    endfor
+  endif
 -%}
+
 <nav class="site-breadcrumb" aria-label="Breadcrumb">
   {% if template.name == 'index' %}
     <span aria-current="page">{{ 'catalog.home' | t }}</span>
   {% else %}
     <a href="{{ routes.root_url }}">{{ 'catalog.home' | t }}</a>
     <span class="site-breadcrumb__separator" aria-hidden="true">&#8250;</span>
-    <span aria-current="page">{{ breadcrumb_title | escape }}</span>
+
+    {% case template.name %}
+      {% when 'collection' %}
+        {% if collection.handle == 'all' %}
+          <span aria-current="page">{{ 'catalog.store_title' | t }}</span>
+        {% else %}
+          <a href="{{ routes.all_products_collection_url }}">{{ 'catalog.store_title' | t }}</a>
+          <span class="site-breadcrumb__separator" aria-hidden="true">&#8250;</span>
+          <span aria-current="page">{{ collection.title | escape }}</span>
+        {% endif %}
+      {% when 'product' %}
+        <a href="{{ routes.all_products_collection_url }}">{{ 'catalog.store_title' | t }}</a>
+        {% if breadcrumb_product_collection != blank %}
+          <span class="site-breadcrumb__separator" aria-hidden="true">&#8250;</span>
+          <a href="{{ breadcrumb_product_collection.url }}">{{ breadcrumb_product_collection.title | escape }}</a>
+        {% endif %}
+        <span class="site-breadcrumb__separator" aria-hidden="true">&#8250;</span>
+        <span aria-current="page">{{ product.title | escape }}</span>
+      {% when 'cart' %}
+        <span aria-current="page">Your cart</span>
+      {% when 'search' %}
+        <a href="{{ routes.all_products_collection_url }}">{{ 'catalog.store_title' | t }}</a>
+        <span class="site-breadcrumb__separator" aria-hidden="true">&#8250;</span>
+        <span aria-current="page">{% if search.terms != blank %}Search: {{ search.terms | escape }}{% else %}Search{% endif %}</span>
+      {% when 'list-collections' %}
+        <a href="{{ routes.all_products_collection_url }}">{{ 'catalog.store_title' | t }}</a>
+        <span class="site-breadcrumb__separator" aria-hidden="true">&#8250;</span>
+        <span aria-current="page">Collections</span>
+      {% when 'blog' %}
+        <span aria-current="page">{{ blog.title | escape }}</span>
+      {% when 'article' %}
+        <a href="{{ blog.url }}">{{ blog.title | escape }}</a>
+        <span class="site-breadcrumb__separator" aria-hidden="true">&#8250;</span>
+        <span aria-current="page">{{ article.title | escape }}</span>
+      {% when 'page' %}
+        <span aria-current="page">{{ page.title | escape }}</span>
+      {% when 'policy' %}
+        <span aria-current="page">{{ policy.title | escape }}</span>
+      {% else %}
+        {% if request.page_type contains 'customers/' %}
+          <span aria-current="page">My account</span>
+        {% else %}
+          <span aria-current="page">{{ page_title | default: 'Page' | escape }}</span>
+        {% endif %}
+    {% endcase %}
   {% endif %}
 </nav>

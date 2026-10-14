@@ -47,7 +47,8 @@
         {{- 'icon-add-to-cart.svg' | inline_asset_content -}}
       </span>
     {% endif %}
-    {{- add_to_cart_text | default: default_add_to_cart_text -}}
+    <span class="add-to-cart__label">{{- add_to_cart_text | default: default_add_to_cart_text -}}</span>
+    <span class="quick-add-modal__added-label">{{ 'actions.added_to_cart' | t }}</span>
     {% comment %} checkmark burst markup {% endcomment %}
     <span class="add-to-cart__added">
       <span class="svg-wrapper add-to-cart__added-icon">

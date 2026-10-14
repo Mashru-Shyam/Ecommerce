@@ -114,6 +114,7 @@
     "add_to_cart": "Add to cart",
     // Success message shown after adding item to cart
     "added": "Added",
+    "added_to_cart": "Added to cart",
     // Button to apply discount code to cart
     "apply": "Apply",
     "back": "Back",
@@ -128,6 +129,7 @@
     "open": "Open",
     // Continue shopping link on the cart page which takes the user back to a collection page
     "continue_shopping": "Continue shopping",
+    "description": "Description",
     "enter_password": "Enter password",
     "log_in_html": "Have an account? <a href=\"{{ link }}\">Log in</a> to check out faster.",
     "log_in": "Sign in",

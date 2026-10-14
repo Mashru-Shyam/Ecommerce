@@ -134,7 +134,7 @@
     >
       {{ cart_icon }}
       <span class="header-action__label">{{ 'content.cart_title' | t }}</span>
-      <span class="header-cart-total" data-cart-total>{{ cart.total_price | money }}</span>
+      <span class="header-cart-total" data-cart-total data-cart-total-cents="{{ cart.total_price }}">{{ cart.total_price | money }}</span>
     </button>
   {% else %}
     <a
@@ -145,7 +145,7 @@
     >
       {{ cart_icon }}
       <span class="header-action__label">{{ 'content.cart_title' | t }}</span>
-      <span class="header-cart-total" data-cart-total>{{ cart.total_price | money }}</span>
+      <span class="header-cart-total" data-cart-total data-cart-total-cents="{{ cart.total_price }}">{{ cart.total_price | money }}</span>
     </a>
   {% endif %}
 

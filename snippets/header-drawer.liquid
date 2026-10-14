@@ -87,8 +87,8 @@
         aria-label="{{ 'actions.close' | t }}"
         on:click="/close"
       >
-        <span class="svg-wrapper header-drawer-icon header-drawer-icon--close">
-          {{- 'icon-close-menu.svg' | inline_asset_content -}}
+        <span class="svg-wrapper">
+          {{- 'icon-close.svg' | inline_asset_content -}}
         </span>
       </button>
       <nav
@@ -134,7 +134,7 @@
                         id="HeaderDrawer-{{ link.handle }}"
                         class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element"
                       >
-                        <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
+                        <span class="menu-drawer__menu-item-text wrap-text">{% if link.type == 'catalog_link' %}{{ 'catalog.store_title' | t }}{% else %}{{ link.title | escape }}{% endif %}</span>
                         <span class="svg-wrapper icon-plus">
                           {{- 'icon-plus.svg' | inline_asset_content -}}
                         </span>
@@ -198,7 +198,7 @@
                       aria-current="page"
                     {% endif %}
                   >
-                    <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
+                    <span class="menu-drawer__menu-item-text wrap-text">{% if link.type == 'catalog_link' %}{{ 'catalog.store_title' | t }}{% else %}{{ link.title | escape }}{% endif %}</span>
                   </a>
                   {% liquid
                     assign render_link_image = false
@@ -281,7 +281,7 @@
                       class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element{% if link.child_active %} menu-drawer__menu-item--active{% endif %}"
                       on:click="header-drawer/open/submenu"
                     >
-                      <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
+                      <span class="menu-drawer__menu-item-text wrap-text">{% if link.type == 'catalog_link' %}{{ 'catalog.store_title' | t }}{% else %}{{ link.title | escape }}{% endif %}</span>
                       <span class="svg-wrapper icon-caret icon-caret--forward">
                         {{- 'icon-caret.svg' | inline_asset_content -}}
                       </span>
@@ -310,7 +310,7 @@
                               aria-current="page"
                             {% endif %}
                           >
-                            <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
+                            <span class="menu-drawer__menu-item-text wrap-text">{% if link.type == 'catalog_link' %}{{ 'catalog.store_title' | t }}{% else %}{{ link.title | escape }}{% endif %}</span>
                           </a>
                           <button
                             class="button button-unstyled close-button menu-drawer__close-button focus-inset"
@@ -318,8 +318,8 @@
                             aria-label="{{ 'actions.close' | t }}"
                             on:click="header-drawer/close"
                           >
-                            <span class="svg-wrapper header-drawer-icon header-drawer-icon--close">
-                              {{- 'icon-close-menu.svg' | inline_asset_content -}}
+                            <span class="svg-wrapper">
+                              {{- 'icon-close.svg' | inline_asset_content -}}
                             </span>
                           </button>
                         </div>
@@ -581,7 +581,7 @@
                       aria-current="page"
                     {% endif %}
                   >
-                    <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
+                    <span class="menu-drawer__menu-item-text wrap-text">{% if link.type == 'catalog_link' %}{{ 'catalog.store_title' | t }}{% else %}{{ link.title | escape }}{% endif %}</span>
                   </a>
                 {%- endif -%}
               </li>
@@ -702,8 +702,8 @@
                       aria-label="{{ 'actions.close' | t }}"
                       on:click="header-drawer/close"
                     >
-                      <span class="svg-wrapper header-drawer-icon header-drawer-icon--close">
-                        {{- 'icon-close-menu.svg' | inline_asset_content -}}
+                      <span class="svg-wrapper">
+                        {{- 'icon-close.svg' | inline_asset_content -}}
                       </span>
                     </button>
                   </div>

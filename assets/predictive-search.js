@@ -53,9 +53,9 @@ class PredictiveSearchComponent extends Component {
       document.addEventListener('keydown', this.#handleKeyboardShortcut, { signal });
       dialog.addEventListener(DialogCloseEvent.eventName, this.#handleDialogClose, { signal });
       dialog.addEventListener(DialogOpenEvent.eventName, this.#handleDialogOpen, { signal, once: true });
-
-      this.addEventListener('click', this.#handleModalClick, { signal });
     }
+
+    this.addEventListener('click', this.#handleModalClick, { signal });
 
     if (RecentlyViewed.getProducts().length > 0) {
       requestIdleCallback(() => {
@@ -69,12 +69,24 @@ class PredictiveSearchComponent extends Component {
    * @param {MouseEvent} event - The mouse event
    */
   #handleModalClick = (event) => {
-    const target = /** @type {HTMLElement} */ (event.target);
+    if (!(event.target instanceof Element)) return;
+    const target = event.target;
     const productLink = target.closest('.predictive-search-results__card--product a[href*="/products/"]');
-    if (productLink instanceof HTMLAnchorElement && this.refs.searchInput.value.trim()) {
-      const productUrl = new URL(productLink.href, window.location.origin);
-      productUrl.searchParams.set('q', this.refs.searchInput.value.trim());
-      productLink.href = productUrl.toString();
+    if (productLink instanceof HTMLAnchorElement) {
+      event.preventDefault();
+      event.stopPropagation();
+      const productTitle = productLink
+        .closest('.predictive-search-results__card--product')
+        ?.querySelector('.resource-card__title')
+        ?.textContent?.trim();
+      const query = this.refs.searchInput.value.trim() || productTitle || '';
+      if (query) {
+        const searchUrl = new URL(Theme.routes.search_url, window.location.origin);
+        searchUrl.searchParams.set('q', query);
+        searchUrl.searchParams.set('type', 'product');
+        window.location.assign(searchUrl.toString());
+      }
+      return;
     }
 
     if (target.closest('.predictive-search__reset-button')) {
@@ -236,13 +248,6 @@ class PredictiveSearchComponent extends Component {
         break;
 
       case 'Enter': {
-        const singleResultContainer = this.refs.predictiveSearchResults.querySelector('[data-single-result-url]');
-        if (singleResultContainer instanceof HTMLElement && singleResultContainer.dataset.singleResultUrl) {
-          event.preventDefault();
-          window.location.href = singleResultContainer.dataset.singleResultUrl;
-          return;
-        }
-
         if (this.#currentIndex >= 0) {
           event.preventDefault();
           this.#currentItem?.querySelector('a')?.click();
@@ -333,6 +338,7 @@ class PredictiveSearchComponent extends Component {
     const url = new URL(Theme.routes.predictive_search_url, location.origin);
     url.searchParams.set('q', searchTerm);
     url.searchParams.set('resources[limit_scope]', 'each');
+    url.searchParams.set('resources[type]', 'product');
 
     const { predictiveSearchResults } = this.refs;
 

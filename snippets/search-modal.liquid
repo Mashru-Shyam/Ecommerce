@@ -83,6 +83,7 @@
               on:input="/search"
               on:keydown="/onSearchKeyDown"
             >
+            <input name="type" type="hidden" value="product">
             <input
               name="options[prefix]"
               type="hidden"
@@ -118,7 +119,6 @@
           <div
             class="predictive-search-form__content"
             ref="predictiveSearchResults"
-            on:click="/handleModalClick"
           >
             {% render 'predictive-search-empty-state',
               load_empty_state: true,

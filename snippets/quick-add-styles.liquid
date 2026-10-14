@@ -131,12 +131,171 @@
     height: 100%;
   }
 
+  /* Keep the direct-add button positioned like the former standalone Choose button. */
+  .quick-add__product-form-component add-to-cart-component {
+    display: contents;
+  }
+
+  .quick-add__cart-controls {
+    display: none;
+    position: absolute;
+    inset-inline-end: var(--quick-add-inset-inline-end);
+    inset-block-end: var(--quick-add-inset-block-end);
+    width: 100%;
+    min-height: var(--button-size-md);
+    grid-template-columns: 42px minmax(32px, 1fr) 42px;
+    align-items: stretch;
+    gap: 4px;
+    overflow: hidden;
+    padding: 3px;
+    border: 1px solid var(--freshomill-color-border, #dce5d8);
+    border-radius: var(--freshomill-radius-control, 8px);
+    background: var(--freshomill-color-surface, #fff);
+    color: var(--freshomill-color-brand-strong, #174b2a);
+    pointer-events: auto;
+    animation: quick-add-cart-controls-in 120ms ease-out both;
+  }
+
+  .quick-add__cart-controls[hidden] {
+    display: none !important;
+  }
+
+  .quick-add[data-in-cart='true'] .quick-add__product-form-component { display: none !important; }
+  .quick-add[data-in-cart='true'] .quick-add__cart-controls { display: grid; }
+  .quick-add[data-in-cart='false'] .quick-add__cart-controls { display: none !important; }
+  .quick-add[aria-busy] .quick-add__product-form-component { opacity: .65; pointer-events: none; }
+
+  .quick-add__cart-step {
+    display: grid;
+    width: 100%;
+    min-width: 42px;
+    min-height: 0;
+    place-items: center;
+    border: 0;
+    border-radius: 5px;
+    background: var(--freshomill-color-brand-soft, #eff6e9);
+    color: var(--freshomill-color-brand-strong, #174b2a);
+    font: inherit;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .quick-add__cart-step:hover:not(:disabled) {
+    background: var(--freshomill-color-brand-soft-hover, #e3efda);
+  }
+
+  .quick-add__cart-step:active:not(:disabled) {
+    background: var(--freshomill-color-brand-soft, #eff6e9);
+    transform: scale(.96);
+  }
+
+  .quick-add__cart-step:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+  }
+
+  .quick-add__cart-count {
+    flex: 1;
+    display: grid;
+    min-width: 32px;
+    place-items: center;
+    border-radius: 5px;
+    background: var(--freshomill-color-surface, #fff);
+    text-align: center;
+    font-size: var(--freshomill-font-size-body, .875rem);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .quick-add[aria-busy] .quick-add__cart-controls {
+    opacity: .65;
+    pointer-events: none;
+  }
+
+  @keyframes quick-add-cart-controls-in {
+    from { opacity: 0; transform: scale(.96); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
   .quick-add__product-form-component .shopify-product-form {
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
     container-type: inline-size;
     height: 100%;
+  }
+
+  product-card.freshomill-product-card .product-card__content > quick-add-component.quick-add {
+    position: relative;
+    inset: auto;
+    z-index: 2;
+    display: flex;
+    width: 100%;
+    height: var(--freshomill-touch-target, var(--button-size-md));
+    min-height: var(--freshomill-touch-target, var(--button-size-md));
+    margin-top: auto;
+    flex: 0 0 var(--freshomill-touch-target, var(--button-size-md));
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  product-card.freshomill-product-card .product-card__content > quick-add-component
+    :is(.quick-add__product-form-component, form, add-to-cart-component, .quick-add__button, .quick-add__cart-controls) {
+    width: 100%;
+    max-width: 100%;
+    height: var(--freshomill-touch-target, var(--button-size-md));
+    min-height: var(--freshomill-touch-target, var(--button-size-md));
+  }
+
+  product-card.freshomill-product-card .product-card__content > quick-add-component .quick-add__button,
+  product-card.freshomill-product-card .product-card__content > quick-add-component .quick-add__cart-controls {
+    position: relative;
+    inset: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 3px;
+    border: 1px solid var(--freshomill-color-border, #dce5d8);
+    border-radius: var(--freshomill-radius-control, 8px);
+    background: var(--freshomill-color-surface, #fff);
+    color: var(--freshomill-color-brand-strong, #174b2a);
+    font-size: var(--freshomill-font-size-caption, .75rem);
+    font-weight: 650;
+    line-height: 1;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+    backdrop-filter: none;
+  }
+
+  product-card.freshomill-product-card .product-card__content > quick-add-component .quick-add__cart-controls {
+    display: grid;
+    grid-template-columns: 42px minmax(32px, 1fr) 42px;
+    align-items: stretch;
+  }
+
+  product-card.freshomill-product-card .product-card__content > quick-add-component .quick-add__cart-controls[hidden] {
+    display: none !important;
+  }
+
+  product-card.freshomill-product-card .product-card__content > quick-add-component .quick-add__cart-step {
+    width: 100%;
+    min-width: 42px;
+    min-height: 100%;
+    border-radius: 5px;
+    background: var(--freshomill-color-brand-soft, #eff6e9);
+    color: var(--freshomill-color-brand-strong, #174b2a);
+    font-size: 20px;
+  }
+
+  product-card.freshomill-product-card .product-card__content > quick-add-component .quick-add__cart-count {
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
   }
 
   .quick-add-modal .product-media {

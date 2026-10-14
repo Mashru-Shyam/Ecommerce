@@ -82,7 +82,14 @@ export class AddToCartComponent extends Component {
         return;
       }
     }
-    if (this.refs.addToCartButton.dataset.puppet !== 'true') {
+    // Card adds immediately replace the button with a quantity control, so the
+    // temporary success tick would show as a second confirmation. Keep the tick
+    // for product forms and the quick-add dialog only.
+    if (
+      this.refs.addToCartButton.dataset.puppet !== 'true' &&
+      !this.closest('quick-add-component') &&
+      !this.closest('#quick-add-dialog')
+    ) {
       const animationEnabled = this.dataset.addToCartAnimation === 'true';
       if (animationEnabled && !event.target.closest('.quick-add-modal')) {
         this.#animateFlyToCart();
@@ -143,6 +150,9 @@ export class AddToCartComponent extends Component {
     if (addToCartButton.dataset.added !== 'true') {
       addToCartButton.dataset.added = 'true';
     }
+
+    // Quick-add dialogs stay open after a successful add, so keep the confirmation visible.
+    if (this.closest('#quick-add-dialog')) return;
 
     // The onAnimationEnd can trigger a style recalculation so we yield to the main thread first.
     await yieldToMainThread();
@@ -789,6 +799,10 @@ class ProductFormComponent extends Component {
       if (!detail?.html) return;
 
       const { html, newProduct, productId, resource } = detail;
+
+      const updatedForm = html.querySelector('product-form-component');
+      const selectedPrice = Number(resource?.price ?? updatedForm?.dataset.cartUnitPrice);
+      if (Number.isFinite(selectedPrice)) this.dataset.cartUnitPrice = String(selectedPrice);
 
       // Update product context if new product loaded (combined listing)
       if (newProduct) {

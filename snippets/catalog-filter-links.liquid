@@ -15,7 +15,7 @@
   <h2 class="catalog-filter-links__title">{{ 'catalog.categories' | t }}</h2>
   <nav class="catalog-filter-links__list" aria-label="{{ 'catalog.categories' | t }}">
     {% assign all_category_is_active = false %}
-    {% if active_collection.handle == 'all' or request.params.catalog_category == 'all' %}{% assign all_category_is_active = true %}{% endif %}
+    {% if template.name != 'search' and active_collection.handle == 'all' %}{% assign all_category_is_active = true %}{% endif %}
     <a class="catalog-category catalog-category--all{% if all_category_is_active %} is-active{% endif %}" href="{{ routes.all_products_collection_url }}"{% if all_category_is_active %} aria-current="page"{% endif %}>
       <span class="catalog-category__image" aria-hidden="true">
         {% assign all_category_image = collections.all.featured_image | default: collections.all.image %}
