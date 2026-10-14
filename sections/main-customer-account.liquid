@@ -57,6 +57,14 @@
         {% if customer.default_address %}
           {% assign profile_address = customer.default_address %}
           {% form 'customer_address', profile_address, class: 'customer-hub__form' %}
+            {{ form.errors | default_errors }}
+            <input type="hidden" name="address[company]" value="{{ profile_address.company | escape }}">
+            <input type="hidden" name="address[address1]" value="{{ profile_address.address1 | escape }}">
+            <input type="hidden" name="address[address2]" value="{{ profile_address.address2 | escape }}">
+            <input type="hidden" name="address[city]" value="{{ profile_address.city | escape }}">
+            <input type="hidden" name="address[province]" value="{{ profile_address.province | escape }}">
+            <input type="hidden" name="address[zip]" value="{{ profile_address.zip | escape }}">
+            <input type="hidden" name="address[country]" value="{{ profile_address.country | escape }}">
             <div class="customer-hub__form-grid">
               <label>First name<input name="address[first_name]" type="text" value="{{ profile_address.first_name | escape }}" autocomplete="given-name" required></label>
               <label>Last name<input name="address[last_name]" type="text" value="{{ profile_address.last_name | escape }}" autocomplete="family-name"></label>
@@ -83,6 +91,7 @@
           <div class="customer-hub__card-heading"><span class="customer-hub__section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 10c0 5-7 12-7 12S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div><h2>Saved Addresses</h2><p>Manage your delivery addresses for a faster checkout experience.</p></div></div>
           {% if customer != blank and sample_profile_preview == false %}<details class="customer-hub__add-address"><summary class="customer-hub__button customer-hub__button--outline"> Add new address</summary>
             {% form 'customer_address', customer.new_address, class: 'customer-hub__form customer-hub__address-form' %}
+              {{ form.errors | default_errors }}
               <h3>Add a delivery address</h3>
               <div class="customer-hub__form-grid">
                 <label>First name<input name="address[first_name]" autocomplete="given-name" required></label>
@@ -104,10 +113,11 @@
           <div class="customer-hub__addresses">
             {% for address in customer.addresses %}
               <article class="customer-hub__address">
-                <span class="customer-hub__radio" aria-hidden="true">{% if address.id == customer.default_address.id %}{% else %}{% endif %}</span>
+                <span class="customer-hub__radio{% if address.id == customer.default_address.id %} is-default{% endif %}" aria-hidden="true"></span>
                 <div class="customer-hub__address-copy"><div class="customer-hub__pills"><strong>{{ address.first_name | default: 'Address' | escape }}</strong>{% if address.id == customer.default_address.id %}<span>Default</span>{% endif %}</div><p>{{ address.address1 | escape }}{% if address.address2 != blank %}, {{ address.address2 | escape }}{% endif %}, {{ address.city | escape }}, {{ address.province | escape }} {{ address.zip | escape }}</p><small>{{ address.country | escape }}{% if address.phone != blank %}  {{ address.phone | escape }}{% endif %}</small>
                   <details class="customer-hub__edit-address"><summary>Edit</summary>
                     {% form 'customer_address', address, class: 'customer-hub__form customer-hub__address-form' %}
+                      {{ form.errors | default_errors }}
                       <div class="customer-hub__form-grid">
                         <label>First name<input name="address[first_name]" value="{{ address.first_name | escape }}" required></label>
                         <label>Last name<input name="address[last_name]" value="{{ address.last_name | escape }}"></label>
@@ -144,7 +154,7 @@
     </section>
 
     <section class="customer-hub__orders" id="my-orders">
-      <header class="customer-hub__orders-heading"><div class="customer-hub__section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 2 9 5v10l-9 5-9-5V7l9-5Z"/><path d="m3.5 7.3 8.5 4.8 8.5-4.8M12 12v10"/></svg></div><div><h2>My Orders</h2><p>Track the status of every order you placed.</p></div><label class="customer-hub__order-filter">All Orders<select aria-label="Filter orders" onchange="window.location.hash='my-orders'; document.querySelectorAll('.customer-hub__order').forEach(function(order){order.hidden=this.value !== 'all' && order.dataset.status !== this.value}.bind(this))"><option value="all">All Orders</option><option value="open">In progress</option><option value="fulfilled">Fulfilled</option></select></label></header>
+      <header class="customer-hub__orders-heading"><div class="customer-hub__section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 2 9 5v10l-9 5-9-5V7l9-5Z"/><path d="m3.5 7.3 8.5 4.8 8.5-4.8M12 12v10"/></svg></div><div><h2>My Orders</h2><p>Track the status of every order you placed.</p></div><label class="customer-hub__order-filter">All Orders<select aria-label="Filter orders" onchange="window.location.hash='my-orders'; document.querySelectorAll('.customer-hub__order').forEach(function(order){order.hidden=this.value !== 'all' && order.dataset.status !== this.value}.bind(this))"><option value="all">All Orders</option><option value="open">In progress</option><option value="fulfilled">Fulfilled</option><option value="cancelled">Cancelled</option></select></label></header>
       {% if sample_orders_preview %}
         <div class="customer-hub__sample-notice">Sample order preview · actual orders replace these cards when available</div>
         <div class="customer-hub__order-list customer-hub__sample-order-list">
@@ -160,11 +170,11 @@
               {% assign sample_order_date = '05 Oct 2024, 03:20 PM' %}
             {% endif %}
             <article class="customer-hub__order customer-hub__order--sample" data-status="{{ sample_status }}">
-              <header class="customer-hub__order-top"><div><h3>Order {{ sample_order_name }}</h3><p>Placed on {{ sample_order_date }}</p></div><div class="customer-hub__order-total"><span>Total</span><strong>{{ sample_total | money }}</strong></div><span class="customer-hub__status{% if sample_status == 'fulfilled' %} is-complete{% endif %}">{% if sample_status == 'fulfilled' %}Delivered{% else %}Preparing{% endif %}</span></header>
+              <header class="customer-hub__order-top"><div><h3>Order {{ sample_order_name }}</h3><p>Placed on {{ sample_order_date }}</p></div><div class="customer-hub__order-total"><span>Total</span><strong>{{ sample_total | money }}</strong></div><span class="customer-hub__status{% if sample_status == 'fulfilled' %} is-complete{% endif %}">{% if sample_status == 'fulfilled' %}Fulfilled{% else %}Preparing{% endif %}</span></header>
               <div class="customer-hub__order-body"><div class="customer-hub__order-products">
                 {% for product in collections.all.products limit: 4 %}<span class="customer-hub__order-thumb">{% if product.featured_image %}{{ product.featured_image | image_url: width: 140 | image_tag: loading: 'lazy', alt: product.title }}{% else %}{{ product.title | slice: 0 }}{% endif %}</span>{% endfor %}
                 <span class="customer-hub__order-extra">+2<small>items</small></span>
-              </div><div class="customer-hub__timeline"><span class="is-done"><i></i><b>Order placed</b><small>{{ sample_order_date }}</small></span><span class="{% if sample_status == 'fulfilled' %}is-done{% else %}is-current{% endif %}"><i></i><b>{% if sample_status == 'fulfilled' %}Delivered{% else %}Preparing{% endif %}</b><small>Sample status</small></span><span class="{% if sample_status == 'fulfilled' %}is-current{% endif %}"><i></i><b>Delivery</b><small>{% if sample_status == 'fulfilled' %}Complete{% else %}Updates to follow{% endif %}</small></span></div></div>
+              </div><div class="customer-hub__timeline"><span class="is-done"><i></i><b>Order placed</b><small>{{ sample_order_date }}</small></span><span class="{% if sample_status == 'fulfilled' %}is-done{% else %}is-current{% endif %}"><i></i><b>{% if sample_status == 'fulfilled' %}Fulfilled{% else %}Preparing{% endif %}</b><small>Sample status</small></span><span class="{% if sample_status == 'fulfilled' %}is-current{% endif %}"><i></i><b>Delivery</b><small>{% if sample_status == 'fulfilled' %}Tracking available{% else %}Updates to follow{% endif %}</small></span></div></div>
               <footer class="customer-hub__order-actions"><button class="customer-hub__button customer-hub__button--outline" type="button" disabled>View details</button><button class="customer-hub__button customer-hub__button--primary" type="button" disabled>Reorder</button></footer>
             </article>
           {% endfor %}
@@ -174,7 +184,7 @@
         {% if customer.orders.size > 0 %}
           <div class="customer-hub__order-list">
             {% for order in customer.orders %}
-              <article class="customer-hub__order" data-status="{% if order.fulfillment_status == 'fulfilled' %}fulfilled{% else %}open{% endif %}">
+              <article class="customer-hub__order" data-status="{% if order.cancelled %}cancelled{% elsif order.fulfillment_status == 'fulfilled' %}fulfilled{% else %}open{% endif %}">
                 <header class="customer-hub__order-top"><div><h3>Order {{ order.name | escape }}</h3><p>Placed on {{ order.created_at | date: '%d %b %Y, %I:%M %p' }}</p></div><div class="customer-hub__order-total"><span>Total</span><strong>{{ order.total_price | money }}</strong></div><span class="customer-hub__status{% if order.cancelled %} is-cancelled{% elsif order.fulfillment_status == 'fulfilled' %} is-complete{% endif %}">{% if order.cancelled %}Cancelled{% elsif order.fulfillment_status_label != blank %}{{ order.fulfillment_status_label }}{% else %}Processing{% endif %}</span></header>
                 <div class="customer-hub__order-body"><div class="customer-hub__order-products">
                   {% for line_item in order.line_items limit: 4 %}
@@ -205,6 +215,10 @@
   .customer-hub__order--sample .customer-hub__order-actions button:disabled { cursor: not-allowed; opacity: .65; }
   .customer-hub { --hub-green: var(--freshomill-color-brand); --hub-ink: var(--freshomill-color-ink); --hub-muted: var(--freshomill-color-muted); display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: var(--freshomill-space-4); width: min(1440px, calc(100% - var(--freshomill-page-gutter) - var(--freshomill-page-gutter))); margin: var(--freshomill-space-5) auto var(--freshomill-space-7); color: var(--hub-ink); }
   .customer-hub__section-icon svg,.customer-hub__nav-icon svg,.customer-hub__mobile-nav svg,.customer-hub__empty-icon svg { display: block; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .customer-hub__radio { display: grid; width: 16px; height: 16px; place-items: center; border: 1.5px solid var(--freshomill-color-muted); border-radius: 50%; }
+  .customer-hub__radio.is-default { border-color: var(--hub-green); }
+  .customer-hub__radio.is-default::after { width: 8px; height: 8px; border-radius: 50%; background: var(--hub-green); content: ''; }
+  .customer-hub__form .errors { margin: 0 0 12px; padding: 10px 12px; border: 1px solid var(--freshomill-color-danger); border-radius: var(--freshomill-radius-control); background: var(--freshomill-color-danger-soft); color: var(--freshomill-color-danger); font-size: var(--freshomill-font-size-caption); }
   .customer-hub__empty-icon svg { width: 56px; height: 56px; }
   .customer-hub__mobile-nav svg { width: 18px; height: 18px; }
   .customer-hub__sidebar,.customer-hub__panel,.customer-hub__order,.customer-hub__empty-orders { border: 1px solid var(--freshomill-color-border); border-radius: var(--freshomill-radius-panel); background: var(--freshomill-color-surface); box-shadow: 0 4px 20px rgb(34 53 35 / .04); }
