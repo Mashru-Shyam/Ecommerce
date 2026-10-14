@@ -109,7 +109,7 @@
     flex-direction: column;
     align-items: stretch;
     gap: 7px;
-    padding: 5px;
+    padding: 0;
     overflow: hidden;
     border: 1px solid rgb(255 255 255 / 90%);
     border-radius: var(--freshomill-radius-panel);
@@ -129,6 +129,7 @@
 
   .category-card__image {
     display: block;
+    width: 100%;
     aspect-ratio: 1.08;
     overflow: hidden;
     border-radius: var(--freshomill-radius-card);
@@ -163,6 +164,7 @@
   .category-card__title {
     display: -webkit-box;
     min-height: 0;
+    margin-inline: 8px;
     overflow: hidden;
     color: var(--freshomill-color-ink);
     font-size: var(--freshomill-font-size-small);
@@ -175,6 +177,8 @@
 
   .category-card__count {
     display: block;
+    margin-inline: 8px;
+    margin-block-end: 8px;
     margin-block-start: -5px;
     color: var(--freshomill-color-muted);
     font-size: var(--freshomill-font-size-caption);
@@ -225,7 +229,7 @@
 
     .category-card {
       gap: 5px;
-      padding: 4px;
+      padding: 0;
       border-radius: var(--freshomill-radius-card);
     }
 
@@ -236,11 +240,14 @@
 
     .category-card__title {
       min-height: 0;
+      margin-inline: 7px;
       font-size: var(--freshomill-font-size-caption);
       line-height: 1.12;
     }
 
     .category-card__count {
+      margin-inline: 7px;
+      margin-block-end: 7px;
       margin-block-start: -3px;
     }
   }

@@ -239,7 +239,7 @@
               "block_order": []
             },
             "text_aEtTtq": {
-              "type": "text",
+              "type": "product-description",
               "name": "t:names.product_description",
               "settings": {
                 "text": "{{ closest.product.description }}",

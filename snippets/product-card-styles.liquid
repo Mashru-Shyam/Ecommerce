@@ -28,10 +28,14 @@
   }
 
   .freshomill-product-card .card-gallery {
-    width: 100%;
+    box-sizing: border-box;
+    width: calc(100% + 16px) !important;
+    margin: -8px -8px 0 !important;
+    padding: 0 !important;
+    padding-inline: 0 !important;
     flex: 0 0 auto;
     overflow: hidden;
-    border-radius: var(--freshomill-radius-control, 6px);
+    border-radius: var(--freshomill-radius-card, 10px) var(--freshomill-radius-card, 10px) var(--freshomill-radius-control, 6px) var(--freshomill-radius-control, 6px);
     background: var(--freshomill-color-surface, #fff);
   }
 
@@ -219,6 +223,13 @@
 
   /* Product card title truncation - applied on mobile regardless of view */
   @media screen and (max-width: 749px) {
+    .freshomill-product-card .card-gallery {
+      width: calc(100% + 14px) !important;
+      margin: -7px -7px 0 !important;
+      padding: 0 !important;
+      padding-inline: 0 !important;
+    }
+
     :is(.product-card, .product-grid__card) :is(h4, .h4) {
       display: -webkit-box;
       -webkit-box-orient: vertical;

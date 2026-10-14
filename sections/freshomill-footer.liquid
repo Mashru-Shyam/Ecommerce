@@ -131,11 +131,11 @@
 
   .freshomill-footer__main {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: var(--freshomill-space-3);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+    gap: var(--freshomill-space-2);
     max-width: 1440px;
     margin: 0 auto;
-    padding: var(--freshomill-space-5) var(--freshomill-page-gutter) var(--freshomill-space-4);
+    padding: var(--freshomill-space-4) var(--freshomill-page-gutter) var(--freshomill-space-3);
   }
 
   .freshomill-footer__brand,
@@ -151,7 +151,7 @@
   }
 
   .freshomill-footer__brand {
-      padding-inline-start: 0;
+    padding-inline-start: 0;
   }
 
   .freshomill-footer__column {
@@ -183,22 +183,25 @@
 
   .freshomill-footer__tagline {
     max-width: 220px;
-    margin: 8px 0 9px;
+    margin: 6px 0 5px;
     color: rgb(255 255 255 / 82%);
     font-size: var(--freshomill-font-size-caption);
     line-height: 1.35;
   }
 
   .freshomill-footer__social {
-    display: flex;
+    display: inline-flex;
+    width: fit-content;
+    max-width: 100%;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 13px;
+    gap: 3px 8px;
   }
 
   .freshomill-footer__social a {
     display: grid;
-    width: var(--freshomill-touch-target);
-    height: var(--freshomill-touch-target);
+    width: 32px;
+    height: 32px;
     place-items: center;
     color: var(--freshomill-color-surface);
   }
@@ -217,7 +220,7 @@
   }
 
   .freshomill-footer__details summary {
-    margin: 0 0 10px;
+    margin: 0 0 6px;
     color: var(--freshomill-color-surface);
     font-size: var(--freshomill-font-size-caption);
     font-weight: 750;
@@ -235,7 +238,7 @@
 
   .freshomill-footer__details ul {
     display: grid;
-    gap: 5px;
+    gap: 3px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -243,7 +246,7 @@
 
   .freshomill-footer__details a {
     display: inline-flex;
-    min-height: var(--freshomill-touch-target);
+    min-height: 25px;
     align-items: center;
     color: rgb(255 255 255 / 84%);
     font-size: var(--freshomill-font-size-caption);
@@ -260,22 +263,24 @@
   }
 
   .freshomill-footer__contact-list {
-    gap: 8px !important;
+    gap: 5px !important;
   }
 
   .freshomill-footer__contact-list li {
     display: grid;
     grid-template-columns: 14px minmax(0, 1fr);
-    align-items: start;
-    gap: 7px;
+    align-items: center;
+    gap: 8px;
     color: rgb(255 255 255 / 84%);
     font-size: var(--freshomill-font-size-caption);
     line-height: 1.35;
   }
 
   .freshomill-footer__contact-list svg {
+    display: block;
     width: 13px;
     height: 13px;
+    justify-self: center;
     fill: none;
     stroke: var(--freshomill-color-surface);
     stroke-linecap: round;
@@ -284,10 +289,14 @@
   }
 
   .freshomill-footer__contact-list a {
+    display: block;
+    min-height: 0;
+    line-height: 1.35;
     overflow-wrap: anywhere;
   }
 
   .freshomill-footer__contact-list span {
+    display: block;
     overflow-wrap: anywhere;
   }
 
@@ -340,7 +349,8 @@
   @media screen and (max-width: 749px) {
     .freshomill-footer__main {
       grid-template-columns: 1fr;
-      padding: var(--freshomill-space-4) var(--freshomill-page-gutter);
+      gap: 0;
+      padding: var(--freshomill-space-3) var(--freshomill-page-gutter) var(--freshomill-space-2);
     }
 
     .freshomill-footer__brand,
@@ -349,7 +359,7 @@
     }
 
     .freshomill-footer__brand {
-      padding-bottom: 12px;
+      padding-bottom: 8px;
     }
 
     .freshomill-footer__logo {
@@ -365,13 +375,13 @@
     }
 
     .freshomill-footer__social {
-      gap: 15px;
-      margin-top: 6px;
+      gap: 3px 10px;
+      margin-top: 3px;
     }
 
     .freshomill-footer__social a {
-      width: var(--freshomill-touch-target);
-      height: var(--freshomill-touch-target);
+      width: 36px;
+      height: 36px;
     }
 
     .freshomill-footer__social svg {
@@ -415,12 +425,20 @@
     }
 
     .freshomill-footer__details ul {
-      gap: 7px;
+      gap: 4px;
     }
 
     .freshomill-footer__details a,
     .freshomill-footer__contact-list li {
       font-size: var(--freshomill-font-size-caption);
+    }
+
+    .freshomill-footer__details nav a {
+      min-height: 34px;
+    }
+
+    .freshomill-footer__contact-list li {
+      padding-block: 3px;
     }
 
     .freshomill-footer__payment-list {
