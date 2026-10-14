@@ -256,6 +256,7 @@ export class QuickAddComponent extends Component {
 
     if (isMobileBreakpoint()) {
       const productDetails = productGrid.querySelector('.product-details');
+      const productDescription = productDetails?.querySelector('.freshomill-product-description');
       const productFormComponent = productGrid.querySelector('product-form-component');
       const variantPicker = productGrid.querySelector('variant-picker');
       const productPrice = productGrid.querySelector('product-price');
@@ -279,6 +280,12 @@ export class QuickAddComponent extends Component {
       }
       if (productFormComponent) {
         productGrid.appendChild(productFormComponent);
+      }
+
+      if (productDescription) {
+        const mobileDescription = productDescription.cloneNode(true);
+        mobileDescription.classList.add('quick-add-product-description');
+        productGrid.appendChild(mobileDescription);
       }
 
       productDetails?.remove();

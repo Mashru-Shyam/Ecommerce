@@ -84,7 +84,7 @@
   else
     assign slideshow_class = ''
 
-    if media_presentation == 'carousel'
+    if media_presentation == 'carousel' and block_settings.slideshow_controls_style != 'thumbnails' and block_settings.slideshow_mobile_controls_style != 'thumbnails'
       assign render_slideshow_arrows = true
     endif
   endif

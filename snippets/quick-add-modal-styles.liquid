@@ -453,6 +453,8 @@
       .buy-buttons-block *,
       .view-product-title,
       .view-product-title *,
+      .freshomill-product-description,
+      .freshomill-product-description *,
       variant-picker,
       variant-picker *,
       product-price,
@@ -584,6 +586,12 @@
     }
   }
 
+  @media screen and (max-width: 749px) {
+    .quick-add-modal__content .product-information__media slideshow-slide[aria-hidden='true'] {
+      display: block;
+    }
+  }
+
   .quick-add-modal__content .product-information__media slideshow-slide:nth-child(1) {
     animation: fadeSlideIn 0.3s var(--animation-timing-fade-in) both;
   }
@@ -607,9 +615,35 @@
     top: 0;
   }
 
-  .quick-add-modal__content .text-block.rte:not(product-price),
   .quick-add-modal__content .view-more-details__wrapper {
     display: none;
+  }
+
+  .quick-add-modal__content .freshomill-product-description {
+    display: block !important;
+  }
+
+  .quick-add-modal__content .freshomill-product-description * {
+    display: revert !important;
+  }
+
+  .quick-add-modal__content .freshomill-product-description {
+    min-width: 0;
+    color: var(--color-foreground);
+    overflow-wrap: anywhere;
+  }
+
+  .quick-add-modal__content .freshomill-product-description :is(img, video, iframe) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .quick-add-modal__content .quick-add-product-description {
+    grid-column: 1 / -1;
+    width: 100%;
+    padding-block-start: var(--padding-xs);
   }
 
   @keyframes fadeSlideIn {

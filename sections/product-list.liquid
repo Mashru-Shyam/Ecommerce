@@ -249,7 +249,18 @@
   }
 
   .ui-test-product-list .card-gallery .product-media-container {
-    --product-media-fit: contain !important;
+    --product-media-fit: cover !important;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+  }
+
+  .ui-test-product-list .card-gallery .product-media-container img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover !important;
+    object-position: center;
   }
 
   .ui-test-product-list .product-card__content > a.contents {
