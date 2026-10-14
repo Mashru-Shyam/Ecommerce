@@ -181,36 +181,36 @@
   }
 
   .cart-drawer__dialog {
-    --theme-drawer-width: calc(100vw - 32px);
+    --theme-drawer-width: min(760px, calc(100vw - 48px));
     box-sizing: border-box;
     position: fixed;
-    inset: calc(var(--header-group-height, 0px) + 16px) auto 16px 50%;
+    inset: 50% auto auto 50%;
     z-index: calc(var(--layer-menu-drawer, 18) + 1);
     width: var(--theme-drawer-width);
-    max-width: none;
-    height: min(860px, calc(100dvh - var(--header-group-height, 0px) - 32px));
-    max-height: calc(100dvh - var(--header-group-height, 0px) - 32px);
-    margin: auto;
+    max-width: calc(100vw - 48px);
+    height: min(820px, calc(100dvh - 48px));
+    max-height: calc(100dvh - 48px);
+    margin: 0;
     padding: 0;
     border: 1px solid rgb(var(--color-foreground-rgb) / .12);
     border-radius: 18px;
     box-shadow: 0 24px 80px rgb(18 34 21 / .26);
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     background: var(--freshomill-color-surface-warm);
   }
 
   #cart-drawer .cart-drawer__dialog { padding: 0; }
 
-  .cart-drawer__dialog[open] { inset: calc(var(--header-group-height, 0px) + 16px) auto 16px 50% !important; }
+  .cart-drawer__dialog[open] { inset: 50% auto auto 50% !important; }
   .cart-drawer__dialog::backdrop { background: rgb(17 28 18 / .48); backdrop-filter: blur(5px); }
   .cart-drawer__dialog--opening { animation: cart-popup-in .2s ease-out; }
   .cart-drawer__dialog--closing { animation: cart-popup-out .16s ease-in forwards; }
   @keyframes cart-popup-in {
-    from { opacity: 0; transform: translate(-50%, 4px) scale(.99); }
-    to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+    from { opacity: 0; transform: translate(-50%, calc(-50% + 8px)) scale(.99); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
   }
   @keyframes cart-popup-out {
-    to { opacity: 0; transform: translate(-50%, 4px) scale(.99); }
+    to { opacity: 0; transform: translate(-50%, calc(-50% + 8px)) scale(.99); }
   }
 
   .cart-drawer__dialog .theme-drawer__header {
@@ -419,37 +419,20 @@
   @media screen and (max-width: 749px) {
     .cart-drawer__dialog,
     .cart-drawer__dialog[open] {
-      inset: auto 0 0;
-      transform: none;
+      inset: 50% auto auto 50% !important;
+      transform: translate(-50%, -50%);
       margin: 0;
-      width: calc(100% - 20px);
-      max-width: none;
-      height: min(92dvh, calc(100dvh - var(--header-group-height, 0px) - 26px));
-      max-height: calc(100dvh - var(--header-group-height, 0px) - 26px);
-      padding: 0 0 var(--safe-area-inset-bottom);
-      inset-inline: 10px;
+      width: min(92vw, 520px);
+      max-width: calc(100vw - 24px);
+      height: min(90dvh, 780px);
+      max-height: calc(100dvh - 24px - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
+      padding: 0;
       border: 1px solid rgb(var(--color-foreground-rgb) / .12);
       border-radius: 18px;
-      box-shadow: 0 -10px 40px rgb(0 0 0 / .16);
+      box-shadow: 0 20px 60px rgb(0 0 0 / .24);
     }
-    #cart-drawer .cart-drawer__dialog { padding: 0 0 var(--safe-area-inset-bottom); }
-    .cart-drawer__dialog[open] { inset: auto 10px max(10px, var(--safe-area-inset-bottom)) !important; }
-    .cart-drawer__inner::before {
-      content: '';
-      position: absolute;
-      z-index: 2;
-      top: 7px;
-      left: 50%;
-      width: 34px;
-      height: 4px;
-      border-radius: 99px;
-      background: rgb(var(--color-foreground-rgb) / .22);
-      transform: translateX(-50%);
-    }
-    .cart-drawer__dialog--opening { animation-name: cart-sheet-in; }
-    .cart-drawer__dialog--closing { animation-name: cart-sheet-out; }
-    @keyframes cart-sheet-in { from { transform: translateY(100%); } to { transform: translateY(0); } }
-    @keyframes cart-sheet-out { to { transform: translateY(100%); } }
+    .cart-drawer__dialog--opening { animation-name: cart-popup-in; }
+    .cart-drawer__dialog--closing { animation-name: cart-popup-out; }
     .cart-drawer__dialog .theme-drawer__header { padding: 18px 20px 12px; }
     .cart-drawer__content { min-height: 0; overflow: hidden; }
     .cart-drawer__items { flex: 1 1 0; min-height: 0; overflow-x: hidden; overflow-y: auto; }
