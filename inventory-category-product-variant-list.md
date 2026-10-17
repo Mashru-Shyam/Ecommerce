@@ -1,0 +1,1026 @@
+﻿# FreshOMill inventory: categories, products, and variants
+
+Source: `inventory.xlsx`, sheet `inventory`. This is a complete grouped listing of the source rows. Product names and category names are grouped in their original first-seen order; no inventory rows are removed.
+
+**16 categories · 346 products · 608 inventory rows**
+
+A dash (—) means the source cell is blank. “No variant specified” is used only where `VARIANT_NAME` is blank in the source. Prices and stock are repeated per source row. Source row numbers are included to make every line traceable.
+
+## Category totals
+
+| Category (source label) | Products | Inventory rows |
+|---|---:|---:|
+| Ayurvedic Products | 8 | 12 |
+| Cereal & Pulses Premium | 28 | 28 |
+| Cold Pressed  Edible Oil - Ghee | 26 | 73 |
+| Dairy Products | 14 | 22 |
+| Dry Fruit - Nuts | 15 | 23 |
+| Flour & Daliya | 37 | 71 |
+| Fruits | 1 | 2 |
+| Hair and Skin Care | 13 | 20 |
+| Jaggery-Sugar-Honey-Tea | 16 | 25 |
+| Millets and Healthy seed | 24 | 57 |
+| Organic Cereal & Pulses | 28 | 34 |
+| Other | 4 | 7 |
+| Pickles Home-made | 19 | 19 |
+| Ready To Cook | 28 | 30 |
+| Ready To Eat | 46 | 100 |
+| Spices - Seeds - Herbs, Herbal Powders | 39 | 85 |
+
+## Complete product and variant list
+
+### Ayurvedic Products (8 products)
+
+- **Amla Powder**
+  - 100gm · price ₹109 · cost ₹0 · stock 0 · barcode — · SKU — · source row 2
+  - 227gm · price ₹169 · cost ₹0 · stock 0 · barcode — · SKU — · source row 3
+- **Arjun Chhaal Powder**
+  - 100gm · price ₹109 · cost ₹0 · stock 0 · barcode — · SKU — · source row 4
+- **Ashwagandha Powder**
+  - 100gm · price ₹109 · cost ₹0 · stock 0 · barcode — · SKU — · source row 5
+  - 227gm · price ₹169 · cost ₹0 · stock 0 · barcode — · SKU — · source row 6
+- **Baheda Powder**
+  - 100gm · price ₹109 · cost ₹0 · stock 0 · barcode — · SKU — · source row 7
+- **Dried Drumstick Powder**
+  - 100gm · price ₹109 · cost ₹0 · stock 0 · barcode — · SKU — · source row 8
+  - 227gm · price ₹169 · cost ₹0 · stock 0 · barcode — · SKU — · source row 9
+- **Kaunch Beej Powder**
+  - 100gm · price ₹109 · cost ₹0 · stock 0 · barcode — · SKU — · source row 10
+  - 227gm · price ₹169 · cost ₹0 · stock 0 · barcode — · SKU — · source row 11
+- **Moringa Leaf Powder**
+  - 227gm · price ₹169 · cost ₹0 · stock 0 · barcode — · SKU — · source row 12
+- **Shatavari Powder**
+  - 227gm · price ₹169 · cost ₹0 · stock 0 · barcode — · SKU — · source row 13
+### Cereal & Pulses Premium (28 products)
+
+- **Chana Dal Premium**
+  - 500gm · price ₹65 · cost ₹0 · stock 0 · barcode 1207546923 · SKU — · source row 14
+- **Chola Red Premium**
+  - 500gm · price ₹80 · cost ₹0 · stock 0 · barcode 3069331458 · SKU — · source row 15
+- **Chowla White Premium**
+  - 500gm · price ₹80 · cost ₹0 · stock 0 · barcode 4954661635 · SKU — · source row 16
+- **Desi Chana Premium**
+  - 500 Gm · price ₹60 · cost ₹0 · stock 0 · barcode 5735837220 · SKU — · source row 17
+- **Green Chana**
+  - 500 Gm · price ₹77 · cost ₹0 · stock 0 · barcode 8902266000584 · SKU — · source row 18
+- **Groundnut Premium**
+  - 500gm · price ₹110 · cost ₹0 · stock 0 · barcode 1273836387 · SKU — · source row 19
+- **Kabuli Chana Premium**
+  - 500 Gm · price ₹75 · cost ₹0 · stock 0 · barcode 8222786586 · SKU — · source row 20
+- **Masoor Dal Premium**
+  - 500gm · price ₹60 · cost ₹0 · stock 0 · barcode 4535255987 · SKU — · source row 21
+- **Moong Dal Green Premium**
+  - 500 Gm · price ₹75 · cost ₹0 · stock 0 · barcode 8274847391 · SKU — · source row 22
+- **Moong Dal Yellow Premium**
+  - 500gm · price ₹80 · cost ₹0 · stock 0 · barcode 9047831500 · SKU — · source row 23
+- **Moong Whole Premium**
+  - 500gm · price ₹75 · cost ₹0 · stock 0 · barcode 9376714086 · SKU — · source row 24
+- **Moth Premium**
+  - 500gm · price ₹70 · cost ₹0 · stock 0 · barcode 7781451604 · SKU — · source row 25
+- **Nylon Poha Premium**
+  - 500gm · price ₹50 · cost ₹0 · stock 0 · barcode 6597953456 · SKU — · source row 26
+- **Poha White Premium**
+  - 500gm · price ₹45 · cost ₹0 · stock 0 · barcode 5136815267 · SKU — · source row 27
+- **Premium Whole Masoor**
+  - No variant specified · price ₹60 · cost ₹0 · stock 0 · barcode 1640603785 · SKU — · source row 28
+- **Rajma Chitra Premium**
+  - 500gm · price ₹95 · cost ₹0 · stock 0 · barcode 1648547942 · SKU — · source row 29
+- **Rajma Red Premium**
+  - 500gm · price ₹75 · cost ₹0 · stock 0 · barcode 1312852015 · SKU — · source row 30
+- **Sugar Candy**
+  - 250gm · price ₹25 · cost ₹0 · stock 0 · barcode 9771914282 · SKU — · source row 31
+- **Sugar Candy Crystal**
+  - 250gm · price ₹30 · cost ₹0 · stock 0 · barcode 1579504285 · SKU — · source row 32
+- **Tata Salt**
+  - No variant specified · price ₹28 · cost ₹0 · stock 0 · barcode — · SKU — · source row 33
+- **Toor Dal Plain Premium**
+  - 500gm · price ₹80 · cost ₹0 · stock 0 · barcode 2019454069 · SKU — · source row 34
+- **Toor Whole**
+  - 500gm · price ₹79 · cost ₹0 · stock 0 · barcode 8902266000744 · SKU — · source row 35
+- **Tuar Whole Premium**
+  - 500gm · price ₹75 · cost ₹0 · stock 0 · barcode 3233348800 · SKU — · source row 36
+- **Udad Dal Black**
+  - 500gm · price ₹85 · cost ₹0 · stock 0 · barcode 2695177508 · SKU — · source row 37
+- **Udad Dal White Premium**
+  - 500gm · price ₹85 · cost ₹0 · stock 0 · barcode 2775206628 · SKU — · source row 38
+- **Udad Whole Black**
+  - 500gm · price ₹85 · cost ₹0 · stock 0 · barcode 1337166366 · SKU — · source row 39
+- **Vatana Green**
+  - 500gm · price ₹60 · cost ₹0 · stock 0 · barcode 1192446737 · SKU — · source row 40
+- **Vatana White Premium**
+  - 500gm · price ₹45 · cost ₹0 · stock 0 · barcode 8851563656 · SKU — · source row 41
+### Cold Pressed  Edible Oil - Ghee (26 products)
+
+- **A2 Cow Ghee**
+  - 500ml · price ₹800 · cost ₹0 · stock -1 · barcode 2677627426 · SKU — · source row 42
+- **Almond Oil - Wood / Cold Pressed**
+  - 100 ml · price ₹350 · cost ₹0 · stock 21 · barcode 1767733416 · SKU — · source row 43
+  - 200 ml · price ₹700 · cost ₹0 · stock 2 · barcode 1919341112 · SKU — · source row 44
+  - 500 ml · price ₹1,750 · cost ₹0 · stock 50 · barcode — · SKU — · source row 45
+  - 1 Ltr · price ₹3,500 · cost ₹0 · stock 50 · barcode 12739 · SKU — · source row 46
+- **Black Mustard Oil - Wood / Cold Pressed**
+  - 100 ml · price ₹40 · cost ₹0 · stock 46 · barcode 7033703704 · SKU — · source row 47
+  - 200 ml · price ₹80 · cost ₹0 · stock 39 · barcode 7163450851 · SKU — · source row 48
+  - 500 ml · price ₹200 · cost ₹0 · stock 39 · barcode 9944106166 · SKU — · source row 49
+  - 1 Ltr · price ₹370 · cost ₹0 · stock -1 · barcode 3729982435 · SKU — · source row 50
+  - 5 Ltr · price ₹1,800 · cost ₹0 · stock 44 · barcode 5838259321 · SKU — · source row 51
+  - 15 Ltr · price ₹5,250 · cost ₹0 · stock 0 · barcode — · SKU — · source row 52
+- **Black Sesame Oil - Wood / Cold Pressed**
+  - 100 ml · price ₹70 · cost ₹0 · stock 48 · barcode 4816198461 · SKU — · source row 53
+  - 200 ml · price ₹140 · cost ₹0 · stock 44 · barcode 3164324087 · SKU — · source row 54
+  - 500 ml · price ₹310 · cost ₹0 · stock 50 · barcode 1984744697 · SKU — · source row 55
+  - 1 Ltr · price ₹600 · cost ₹0 · stock 47 · barcode 2415294483 · SKU — · source row 56
+  - 5 Ltr · price ₹3,000 · cost ₹0 · stock 4 · barcode 6940120057 · SKU — · source row 57
+- **Castor Oil - Wood / Cold Pressed**
+  - 100 ml · price ₹80 · cost ₹0 · stock 39 · barcode 3639995769 · SKU — · source row 58
+  - 200 ml · price ₹160 · cost ₹0 · stock 43 · barcode 7018782848 · SKU — · source row 59
+  - 500 ml · price ₹380 · cost ₹0 · stock 47 · barcode 6095130785 · SKU — · source row 60
+  - 1 Ltr · price ₹750 · cost ₹0 · stock 46 · barcode 9156766170 · SKU — · source row 61
+- **Citronella Essential Oil**
+  - 15ml · price ₹199 · cost ₹0 · stock 0 · barcode 9672834788 · SKU — · source row 62
+- **Coconut Oil - Wood / Cold Pressed**
+  - 100 ml · price ₹80 · cost ₹0 · stock 21 · barcode 8473672801 · SKU — · source row 63
+  - 200 ml · price ₹150 · cost ₹0 · stock -4 · barcode 8777828013 · SKU — · source row 64
+  - 500 ml · price ₹350 · cost ₹0 · stock 21 · barcode 5725224447 · SKU — · source row 65
+  - 1 Ltr · price ₹680 · cost ₹0 · stock 31 · barcode 7273143000 · SKU — · source row 66
+  - 5Ltr · price ₹3,350 · cost ₹0 · stock 0 · barcode — · SKU — · source row 67
+- **Eucalyptus Essential Oil**
+  - 15ml · price ₹199 · cost ₹0 · stock 0 · barcode 1211233984 · SKU — · source row 68
+- **Flaxseed Oil - Wood / Cold Pressed**
+  - 100 ml · price ₹100 · cost ₹0 · stock 46 · barcode 6037203781 · SKU — · source row 69
+  - 200 ml · price ₹200 · cost ₹0 · stock 49 · barcode 5108280979 · SKU — · source row 70
+  - 500 ml · price ₹450 · cost ₹0 · stock 20 · barcode 3068338542 · SKU — · source row 71
+  - 1ltr · price ₹900 · cost ₹0 · stock 10 · barcode 9783046587 · SKU — · source row 72
+- **Groundnut Oil - Wood / Cold Pressed**
+  - 500 ml · price ₹160 · cost ₹0 · stock 80 · barcode 9226157585 · SKU — · source row 73
+  - 1 Ltr · price ₹310 · cost ₹0 · stock -134 · barcode 9052543216 · SKU — · source row 74
+  - 5 Ltr · price ₹1,500 · cost ₹0 · stock -5 · barcode 6252031886 · SKU — · source row 75
+  - 15 Ltr · price ₹4,350 · cost ₹0 · stock 496 · barcode 8034386196 · SKU — · source row 76
+- **Groundnut Oil Ghani**
+  - 1 Ltr · price ₹270 · cost ₹0 · stock 0 · barcode — · SKU — · source row 77
+  - Loose 1 Ltr · price ₹250 · cost ₹0 · stock 0 · barcode — · SKU — · source row 78
+  - 5 Ltr · price ₹1,280 · cost ₹0 · stock -1 · barcode — · SKU — · source row 79
+  - 15kg · price ₹3,550 · cost ₹0 · stock 0 · barcode — · SKU — · source row 80
+- **Jasmine Fragrance Oil**
+  - 15ml · price ₹199 · cost ₹0 · stock 0 · barcode 1646948724 · SKU — · source row 81
+- **Kalonji Oil - Wood / Cold Pressed**
+  - 100 ml · price ₹250 · cost ₹0 · stock 41 · barcode 8581630086 · SKU — · source row 82
+  - 200 ml · price ₹500 · cost ₹0 · stock 20 · barcode 4362345751 · SKU — · source row 83
+  - 500 ml · price ₹1,250 · cost ₹0 · stock 20 · barcode 3021904036 · SKU — · source row 84
+  - 1 Ltr · price ₹2,500 · cost ₹0 · stock 9 · barcode 5815752014 · SKU — · source row 85
+- **Kumkumadi Oil**
+  - 15 Ml · price ₹349 · cost ₹0 · stock 0 · barcode 6364589391 · SKU — · source row 86
+- **Lavender Essential Oil**
+  - 15ml · price ₹199 · cost ₹0 · stock 0 · barcode 3807481948 · SKU — · source row 87
+- **Lemongrass Essential Oil**
+  - 15ml · price ₹199 · cost ₹0 · stock 0 · barcode 6704906472 · SKU — · source row 88
+- **Loose Groundnut Oil Wood / Cold Pressed**
+  - 1 Ltr · price ₹290 · cost ₹0 · stock 0 · barcode — · SKU — · source row 89
+  - 500 Ml · price ₹145 · cost ₹0 · stock 0 · barcode — · SKU — · source row 90
+- **Neem Oil - Wood / Cold Pressed**
+  - 100 ml · price ₹100 · cost ₹0 · stock 46 · barcode 3845305697 · SKU — · source row 91
+  - 200 ml · price ₹200 · cost ₹0 · stock 50 · barcode 6835076401 · SKU — · source row 92
+  - 500 ml · price ₹500 · cost ₹0 · stock 50 · barcode 9885266890 · SKU — · source row 93
+  - 1 Ltr · price ₹1,000 · cost ₹0 · stock 20 · barcode 7596594058 · SKU — · source row 94
+- **Olive Oil Extra Light**
+  - 1 Ltr · price ₹799 · cost ₹0 · stock 0 · barcode 8906058610098 · SKU — · source row 95
+  - 500ml · price ₹499 · cost ₹0 · stock 0 · barcode 8908000097674 · SKU — · source row 96
+- **Olive Oil Extra Virgin**
+  - 250ml · price ₹459 · cost ₹0 · stock 0 · barcode 8908000097667 · SKU — · source row 97
+- **Rose Essential Oil**
+  - 15ml · price ₹199 · cost ₹0 · stock 0 · barcode 7096831513 · SKU — · source row 98
+- **Rosemary Essential Oil**
+  - 30ml · price ₹349 · cost ₹0 · stock 0 · barcode 9201279573 · SKU — · source row 99
+- **Sunflower Oil - Wood / Cold Pressed**
+  - 500 ml · price ₹250 · cost ₹0 · stock 44 · barcode 2271146099 · SKU — · source row 100
+  - 1 Ltr · price ₹480 · cost ₹0 · stock -9 · barcode 6800837479 · SKU — · source row 101
+  - 5 Ltr · price ₹2,350 · cost ₹0 · stock 12 · barcode 6022730846 · SKU — · source row 102
+  - 200ml · price ₹100 · cost ₹0 · stock 0 · barcode — · SKU — · source row 103
+- **Tea Tree Essential Oil**
+  - 15ml · price ₹199 · cost ₹0 · stock 0 · barcode 9324838426 · SKU — · source row 104
+- **White Sesame Oil - Wood / Cold Pressed**
+  - 100 ml · price ₹60 · cost ₹0 · stock 43 · barcode 9161941454 · SKU — · source row 105
+  - 200 ml · price ₹120 · cost ₹0 · stock 39 · barcode 5357121307 · SKU — · source row 106
+  - 500 ml · price ₹250 · cost ₹0 · stock 34 · barcode 9084417024 · SKU — · source row 107
+  - 1 Ltr · price ₹480 · cost ₹0 · stock 8 · barcode 9991726566 · SKU — · source row 108
+  - 5 Ltr · price ₹2,350 · cost ₹0 · stock 49 · barcode 8021357961 · SKU — · source row 109
+- **Yellow Mustard Oil - Wood / Cold Pressed**
+  - 100 ml · price ₹50 · cost ₹0 · stock 46 · barcode 9061418096 · SKU — · source row 110
+  - 200 ml · price ₹100 · cost ₹0 · stock 50 · barcode 1466792792 · SKU — · source row 111
+  - 500 ml · price ₹240 · cost ₹0 · stock -2 · barcode 2610138892 · SKU — · source row 112
+  - 1 Ltr · price ₹450 · cost ₹0 · stock 45 · barcode 3154559515 · SKU — · source row 113
+  - 5 Ltr · price ₹2,200 · cost ₹0 · stock 50 · barcode 2565530297 · SKU — · source row 114
+### Dairy Products (14 products)
+
+- **Butter Chiplet**
+  - 100gm 10 Units · price ₹80 · cost ₹0 · stock 0 · barcode 8904083300595 · SKU — · source row 115
+- **Buttermilk Spiced**
+  - 200ml · price ₹20 · cost ₹0 · stock 0 · barcode 8904083308065 · SKU — · source row 116
+- **Cheese Block**
+  - 200gm · price ₹160 · cost ₹0 · stock 0 · barcode 8904083307068 · SKU — · source row 117
+- **Cheese Cubes**
+  - 200gm 10 Cubes · price ₹170 · cost ₹0 · stock 0 · barcode 8904083307037 · SKU — · source row 118
+- **Cheese Slices**
+  - 100gm 5 Slices · price ₹85 · cost ₹0 · stock 0 · barcode 8904083310136 · SKU — · source row 119
+- **Cheese Spread 200gm**
+  - Plain · price ₹120 · cost ₹0 · stock 0 · barcode 19040998 · SKU — · source row 120
+  - Garlic · price ₹120 · cost ₹0 · stock 0 · barcode 8904083310037 · SKU — · source row 121
+- **Condensed Milk Sweetened**
+  - 200gm · price ₹75 · cost ₹0 · stock 0 · barcode 8904083301547 · SKU — · source row 122
+- **Curd MilkyMist**
+  - 200gm · price ₹25 · cost ₹0 · stock 0 · barcode 8904083303039 · SKU — · source row 123
+  - 1kg · price ₹130 · cost ₹0 · stock 0 · barcode 8904083303077 · SKU — · source row 124
+  - 400gm · price ₹45 · cost ₹0 · stock 0 · barcode — · SKU — · source row 125
+- **Lassi 200ml**
+  - Rose · price ₹35 · cost ₹0 · stock 0 · barcode 8904083309109 · SKU — · source row 126
+  - Blueberry · price ₹35 · cost ₹0 · stock 0 · barcode 8904083309123 · SKU — · source row 127
+- **Milk Shake**
+  - Coffee 220ml · price ₹43 · cost ₹0 · stock 0 · barcode 8904083301561 · SKU — · source row 128
+  - Chocolate 170ml · price ₹38 · cost ₹0 · stock 0 · barcode 8904083300403 · SKU — · source row 129
+  - Strawberry 170ml · price ₹38 · cost ₹0 · stock 0 · barcode 8904083300397 · SKU — · source row 130
+  - Mango · price ₹50 · cost ₹0 · stock 0 · barcode — · SKU — · source row 131
+- **Pizza Cheese**
+  - 200gm · price ₹150 · cost ₹0 · stock 0 · barcode 8904083306962 · SKU — · source row 132
+- **Shrikhand**
+  - Badam Pista 100gm · price ₹45 · cost ₹0 · stock 0 · barcode 8904083312086 · SKU — · source row 133
+  - Elaichi 100gm · price ₹45 · cost ₹0 · stock 0 · barcode 8904083312048 · SKU — · source row 134
+- **Table Butter Salted**
+  - 100gm · price ₹75 · cost ₹0 · stock 0 · barcode 8904083300519 · SKU — · source row 135
+- **Tofu 31gm Protein**
+  - 200gm · price ₹99 · cost ₹0 · stock 0 · barcode 4908300965646 · SKU — · source row 136
+### Dry Fruit - Nuts (15 products)
+
+- **Almond /Badam Jumbo**
+  - 250 Gm · price ₹350 · cost ₹0 · stock 0 · barcode 9692196527 · SKU — · source row 137
+  - 500 Gm · price ₹700 · cost ₹0 · stock 0 · barcode — · SKU — · source row 138
+  - 1 Kg · price ₹1,400 · cost ₹0 · stock 0 · barcode — · SKU — · source row 139
+- **Anjeer Jumbo**
+  - 250gm · price ₹450 · cost ₹0 · stock 0 · barcode 2587392670 · SKU — · source row 140
+  - 250gm · price ₹450 · cost ₹0 · stock 0 · barcode 6507511172 · SKU — · source row 141
+- **Black Raisins**
+  - 250gm · price ₹180 · cost ₹0 · stock 0 · barcode 5435331343 · SKU — · source row 142
+- **Cashew (W240) /Kaju Premium**
+  - 250 Gm · price ₹325 · cost ₹0 · stock 0 · barcode 9620785962 · SKU — · source row 143
+  - 500 Gm · price ₹650 · cost ₹0 · stock 0 · barcode — · SKU — · source row 144
+  - 1 Kg · price ₹1,300 · cost ₹0 · stock 0 · barcode — · SKU — · source row 145
+- **Cashew(W210)/Kaju Premium**
+  - 250gm · price ₹350 · cost ₹0 · stock 0 · barcode 3714008552 · SKU — · source row 146
+- **Edamame Beans**
+  - 250gm · price ₹200 · cost ₹0 · stock 0 · barcode 7766489563 · SKU — · source row 147
+- **Keaser/ Saffron -1gm pck Natural**
+  - 1 Gm · price ₹329 · cost ₹0 · stock 0 · barcode 4563097377 · SKU — · source row 148
+- **Kimia Khajur Box**
+  - No variant specified · price ₹190 · cost ₹0 · stock 0 · barcode — · SKU — · source row 149
+- **Madjool Khajur Box**
+  - 500gm · price ₹750 · cost ₹0 · stock 0 · barcode 6254000335318 · SKU — · source row 150
+- **Multi Roasted Seeds**
+  - 250gm · price ₹300 · cost ₹0 · stock 0 · barcode 8908017270497 · SKU — · source row 151
+- **Nutrition Punch**
+  - Nutrition Punch · price ₹300 · cost ₹0 · stock 0 · barcode 4390983447 · SKU — · source row 152
+  - Dry Fruits Date Punch 250gm · price ₹250 · cost ₹0 · stock 0 · barcode 7077128007 · SKU — · source row 153
+- **Pistachios Jumbo Roasted**
+  - 250gm · price ₹500 · cost ₹0 · stock 0 · barcode 8908005912217 · SKU — · source row 154
+- **Raisin / Kish Mish Premium**
+  - 250 Gm · price ₹180 · cost ₹0 · stock 0 · barcode 1247295197 · SKU — · source row 155
+  - 500 Gm · price ₹300 · cost ₹0 · stock 0 · barcode — · SKU — · source row 156
+  - 1 Kg · price ₹600 · cost ₹0 · stock 0 · barcode — · SKU — · source row 157
+- **Seedless Dates / Khajur**
+  - 500gm · price ₹180 · cost ₹0 · stock 0 · barcode 8908017474512 · SKU — · source row 158
+- **Walnut Jumbo**
+  - 500gm · price ₹550 · cost ₹0 · stock 0 · barcode 1576972909 · SKU — · source row 159
+### Flour & Daliya (37 products)
+
+- **Bajri Flour**
+  - 500 gm · price ₹30 · cost ₹0 · stock -67 · barcode 9161967276 · SKU — · source row 160
+  - 1 Kg · price ₹60 · cost ₹0 · stock -42 · barcode 5259727134 · SKU — · source row 161
+- **Besan / Chanadal Flour**
+  - 500 gm · price ₹70 · cost ₹0 · stock -1 · barcode 6682815712 · SKU — · source row 162
+  - 1 Kg · price ₹140 · cost ₹0 · stock -1 · barcode 8733312592 · SKU — · source row 163
+- **Besan Kakro**
+  - 500 gm · price ₹70 · cost ₹0 · stock 0 · barcode 8381320807 · SKU — · source row 164
+  - 1 Kg · price ₹140 · cost ₹0 · stock 23 · barcode 6584113281 · SKU — · source row 165
+- **Bhakhri Flour**
+  - 500 gm · price ₹30 · cost ₹0 · stock -1 · barcode 8907367732 · SKU — · source row 166
+  - 1 Kg · price ₹60 · cost ₹0 · stock -1 · barcode 4107469654 · SKU — · source row 167
+- **Buckwheat Grain - Flour Organic**
+  - 500 gm · price ₹150 · cost ₹0 · stock 0 · barcode — · SKU — · source row 168
+  - 1 Kg · price ₹300 · cost ₹0 · stock 0 · barcode — · SKU — · source row 169
+  - 250gm · price ₹75 · cost ₹0 · stock 0 · barcode — · SKU — · source row 170
+- **Farali Atta**
+  - 400gm · price ₹110 · cost ₹0 · stock 0 · barcode — · SKU — · source row 171
+- **Idli Flour**
+  - 500 gm · price ₹60 · cost ₹0 · stock 0 · barcode 1005271694 · SKU — · source row 172
+  - 1 Kg · price ₹120 · cost ₹0 · stock -5 · barcode 9222842149 · SKU — · source row 173
+- **Jav Daliya Organic**
+  - 500gm · price ₹70 · cost ₹0 · stock 0 · barcode 2460309051 · SKU — · source row 174
+- **Jav Flour**
+  - 500 gm · price ₹35 · cost ₹0 · stock 0 · barcode 5693767347 · SKU — · source row 175
+  - 1 Kg · price ₹70 · cost ₹0 · stock 0 · barcode 9945108697 · SKU — · source row 176
+- **Jowar Daliya**
+  - 500gm · price ₹50 · cost ₹0 · stock 0 · barcode 5337929909 · SKU — · source row 177
+- **Jowar Flour**
+  - 500 gm · price ₹40 · cost ₹0 · stock -56 · barcode 7549074719 · SKU — · source row 178
+  - 1 Kg · price ₹80 · cost ₹0 · stock -60 · barcode 1909504940 · SKU — · source row 179
+- **Kanki Kormu / Handva Flour**
+  - 500 gm · price ₹60 · cost ₹0 · stock -28 · barcode 4154409208 · SKU — · source row 180
+  - 1 Kg · price ₹120 · cost ₹0 · stock 17 · barcode 3427656026 · SKU — · source row 181
+- **Khapli Wheat Flour**
+  - 500gm · price ₹100 · cost ₹0 · stock 0 · barcode — · SKU — · source row 182
+  - 1 Kg · price ₹200 · cost ₹0 · stock -2 · barcode — · SKU — · source row 183
+- **Krushna Kamod Rice Flour**
+  - 500 gm · price ₹60 · cost ₹0 · stock -2 · barcode 9199675235 · SKU — · source row 184
+  - 1 Kg · price ₹120 · cost ₹0 · stock 0 · barcode 2536024342 · SKU — · source row 185
+- **Ladu Flour**
+  - 500 gm · price ₹30 · cost ₹0 · stock 44 · barcode 9305830933 · SKU — · source row 186
+  - 1 Kg · price ₹60 · cost ₹0 · stock 48 · barcode 2946533646 · SKU — · source row 187
+- **Lapsi / Broken Wheat**
+  - 500gm · price ₹40 · cost ₹0 · stock 0 · barcode — · SKU — · source row 188
+- **Little Millet Flour**
+  - 500gm · price ₹100 · cost ₹0 · stock 0 · barcode — · SKU — · source row 189
+- **Maida**
+  - 500 Gm · price ₹34 · cost ₹0 · stock 0 · barcode 8904082760406 · SKU — · source row 190
+- **Methi Flour**
+  - 250gm · price ₹50 · cost ₹0 · stock 0 · barcode — · SKU — · source row 191
+  - 500gm · price ₹100 · cost ₹0 · stock 0 · barcode — · SKU — · source row 192
+- **Millet Dosa Mix**
+  - Foxtail 500gm · price ₹96 · cost ₹0 · stock 0 · barcode — · SKU — · source row 193
+  - Little · price ₹98 · cost ₹0 · stock 0 · barcode — · SKU — · source row 194
+- **Moraiyo**
+  - 500gm · price ₹125 · cost ₹0 · stock 0 · barcode — · SKU — · source row 195
+- **Multi Grain Daliya Organic**
+  - 500 gm · price ₹85 · cost ₹0 · stock 0 · barcode 3469445804 · SKU — · source row 196
+- **Multigrain Gluten Free Flour**
+  - 500 gm · price ₹50 · cost ₹0 · stock 74 · barcode 2810281293 · SKU — · source row 197
+  - 1 Kg · price ₹100 · cost ₹0 · stock 0 · barcode 8792841566 · SKU — · source row 198
+- **Premium Wheat Flour**
+  - 1 Kg · price ₹70 · cost ₹0 · stock 996 · barcode 3240143868 · SKU — · source row 199
+  - 2 Kg · price ₹140 · cost ₹0 · stock 1000 · barcode 3667700117 · SKU — · source row 200
+  - 3 Kg · price ₹210 · cost ₹0 · stock 999 · barcode 1769773728 · SKU — · source row 201
+  - 5 Kg · price ₹350 · cost ₹0 · stock 996 · barcode 4430930018 · SKU — · source row 202
+- **Ragi Flour**
+  - 500 gm · price ₹40 · cost ₹0 · stock 48 · barcode 7563687312 · SKU — · source row 203
+  - 1 Kg · price ₹80 · cost ₹0 · stock 27 · barcode 4162592860 · SKU — · source row 204
+- **Rajigara Flour**
+  - 500gm · price ₹95 · cost ₹0 · stock 0 · barcode — · SKU — · source row 205
+- **Rava**
+  - 500 Gm · price ₹38 · cost ₹0 · stock 0 · barcode 2088260926 · SKU — · source row 206
+- **Rice Flour**
+  - 500 gm · price ₹30 · cost ₹0 · stock 17 · barcode 6562310028 · SKU — · source row 207
+  - 1 Kg · price ₹60 · cost ₹0 · stock 63 · barcode 6511327211 · SKU — · source row 208
+- **Sattu (Roasted Chana Flour)**
+  - 250 gm · price ₹50 · cost ₹0 · stock 0 · barcode 6189967269 · SKU — · source row 209
+  - 500 gm · price ₹100 · cost ₹0 · stock 0 · barcode 4297837017 · SKU — · source row 210
+  - 1 Kg · price ₹200 · cost ₹0 · stock 0 · barcode — · SKU — · source row 211
+- **Sharbati Wheat Flour**
+  - 1 Kg · price ₹60 · cost ₹0 · stock 832 · barcode 9906529966 · SKU — · source row 212
+  - 2 Kg · price ₹120 · cost ₹0 · stock 911 · barcode 9283386905 · SKU — · source row 213
+  - 3 Kg · price ₹180 · cost ₹0 · stock 873 · barcode 1131987474 · SKU — · source row 214
+  - 5 Kg · price ₹300 · cost ₹0 · stock 663 · barcode 6931992263 · SKU — · source row 215
+- **Singoda Flour**
+  - 100gm · price ₹30 · cost ₹0 · stock 0 · barcode — · SKU — · source row 216
+- **Soyabean Flour**
+  - 250gm · price ₹40 · cost ₹0 · stock 0 · barcode — · SKU — · source row 217
+  - 500gm · price ₹80 · cost ₹0 · stock 0 · barcode — · SKU — · source row 218
+  - 1kg · price ₹160 · cost ₹0 · stock 0 · barcode — · SKU — · source row 219
+- **Suji Organic**
+  - 500gm Organic · price ₹70 · cost ₹0 · stock 0 · barcode 2785999505 · SKU — · source row 220
+  - 500gm Uttam · price ₹38 · cost ₹0 · stock 0 · barcode — · SKU — · source row 221
+- **Udad Dal Flour**
+  - 500 gm · price ₹100 · cost ₹0 · stock 0 · barcode 7752628037 · SKU — · source row 222
+  - 1 Kg · price ₹200 · cost ₹0 · stock 0 · barcode 9591810198 · SKU — · source row 223
+  - 250gm · price ₹50 · cost ₹0 · stock 0 · barcode — · SKU — · source row 224
+- **Wheat Dalia /Broken wheat Organic**
+  - 500 gm · price ₹55 · cost ₹0 · stock 0 · barcode — · SKU — · source row 225
+  - 500gm Ge · price ₹77 · cost ₹0 · stock 0 · barcode — · SKU — · source row 226
+- **White Makai Flour**
+  - 500 gm · price ₹30 · cost ₹0 · stock 80 · barcode 3407919260 · SKU — · source row 227
+  - 1 Kg · price ₹60 · cost ₹0 · stock 89 · barcode 7215078567 · SKU — · source row 228
+- **Yellow Makai Flour**
+  - 500 gm · price ₹30 · cost ₹0 · stock 65 · barcode 4904234733 · SKU — · source row 229
+  - 1 Kg · price ₹60 · cost ₹0 · stock 81 · barcode 7074427119 · SKU — · source row 230
+### Fruits (1 products)
+
+- **Mango Kesar Talala Gir 100% Pure**
+  - 5kg · price ₹800 · cost ₹0 · stock 0 · barcode — · SKU — · source row 231
+  - 10kg · price ₹1,500 · cost ₹0 · stock 0 · barcode — · SKU — · source row 232
+### Hair and Skin Care (13 products)
+
+- **Aloe Vera Gel 99%**
+  - 165gm · price ₹160 · cost ₹0 · stock 0 · barcode 7614202383 · SKU — · source row 233
+- **Baby Bottom Wash**
+  - Spray · price ₹349 · cost ₹0 · stock 0 · barcode 8908015457739 · SKU — · source row 234
+- **Baby Oil**
+  - 7 in 1 Massage Oil · price ₹399 · cost ₹0 · stock 0 · barcode 8007015457739 · SKU — · source row 235
+- **Baby Shampoo**
+  - Baby Shampoo · price ₹399 · cost ₹0 · stock 0 · barcode 8908015457845 · SKU — · source row 236
+- **Baby Wash**
+  - Cleanse And Moisturize · price ₹399 · cost ₹0 · stock 0 · barcode 048645456752 · SKU — · source row 237
+- **Bathing Gel**
+  - No variant specified · price ₹299 · cost ₹0 · stock 0 · barcode — · SKU — · source row 238
+- **Conditioner**
+  - Hair Hydrating Treatment · price ₹399 · cost ₹0 · stock 0 · barcode 8908015457791 · SKU — · source row 239
+- **Cucumber Gel 99% Pure**
+  - 165gm · price ₹220 · cost ₹0 · stock 0 · barcode 8054682816 · SKU — · source row 240
+- **Face Cleanser**
+  - Glow and Hydrate · price ₹349 · cost ₹0 · stock 0 · barcode 9017343310902 · SKU — · source row 241
+  - Acne & Deep Cleansing · price ₹349 · cost ₹0 · stock 0 · barcode 8854015457708 · SKU — · source row 242
+- **Hair Serum**
+  - Natural · price ₹399 · cost ₹0 · stock 0 · barcode 8908015457876 · SKU — · source row 243
+- **Hair Wash**
+  - Detox and Dandruff · price ₹349 · cost ₹0 · stock 0 · barcode 8908015457708 · SKU — · source row 244
+  - Damage Repair Volumizing · price ₹349 · cost ₹0 · stock 0 · barcode 8908015457777 · SKU — · source row 245
+- **Homemade Premium Soap**
+  - Panchgavya · price ₹99 · cost ₹0 · stock 0 · barcode — · SKU — · source row 246
+  - Charcol · price ₹99 · cost ₹0 · stock 0 · barcode — · SKU — · source row 247
+  - Kesuda · price ₹99 · cost ₹0 · stock 0 · barcode — · SKU — · source row 248
+  - Rose Milk · price ₹99 · cost ₹0 · stock 0 · barcode — · SKU — · source row 249
+  - Neem Aloevera · price ₹75 · cost ₹0 · stock 0 · barcode — · SKU — · source row 250
+  - Camphor · price ₹99 · cost ₹0 · stock 0 · barcode — · SKU — · source row 251
+- **Root Oil**
+  - Advance Herbs & Shrubs · price ₹399 · cost ₹0 · stock 0 · barcode — · SKU — · source row 252
+### Jaggery-Sugar-Honey-Tea (16 products)
+
+- **Brown Sugar Candy /Mishri (Jar Pack)**
+  - 500gm · price ₹120 · cost ₹0 · stock 0 · barcode 8129794196 · SKU — · source row 253
+- **Brown Sugar Organic**
+  - 500 Gm · price ₹65 · cost ₹0 · stock 0 · barcode 3097591817 · SKU — · source row 254
+  - 1 Kg · price ₹120 · cost ₹0 · stock 0 · barcode 3858385299 · SKU — · source row 255
+- **Bura Sugar Organic**
+  - 500 Gm · price ₹65 · cost ₹0 · stock 0 · barcode 2403554689 · SKU — · source row 256
+  - 1 Kg · price ₹120 · cost ₹0 · stock 0 · barcode — · SKU — · source row 257
+- **Coconut Sugar**
+  - 250gm · price ₹190 · cost ₹0 · stock 0 · barcode 8908011091432 · SKU — · source row 258
+  - 500gm Jar · price ₹345 · cost ₹0 · stock 0 · barcode — · SKU — · source row 259
+- **Honey Ajwain Organic**
+  - 250gm · price ₹200 · cost ₹0 · stock 0 · barcode — · SKU — · source row 260
+- **Honey Multiflora Organic**
+  - 250 Gm · price ₹165 · cost ₹0 · stock 0 · barcode — · SKU — · source row 261
+- **Jaggery Powder Organic**
+  - 500 Gm · price ₹80 · cost ₹0 · stock 0 · barcode 6385635266 · SKU — · source row 262
+  - 1 Kg · price ₹150 · cost ₹0 · stock 0 · barcode 6148300463 · SKU — · source row 263
+- **Jaggery Square Organic**
+  - 950 Gm · price ₹110 · cost ₹0 · stock 0 · barcode 8593383997 · SKU — · source row 264
+- **Jaggery Tukda**
+  - 750gm · price ₹145 · cost ₹0 · stock 0 · barcode — · SKU — · source row 265
+  - 500gm · price ₹80 · cost ₹0 · stock 0 · barcode 7581452904 · SKU — · source row 266
+- **Jaggery Uttam Organic**
+  - 950 Gm · price ₹110 · cost ₹0 · stock 0 · barcode 8019269350 · SKU — · source row 267
+- **Jaggery VrajmalaiOrganic**
+  - 950 Gm · price ₹110 · cost ₹0 · stock 0 · barcode 4256148076 · SKU — · source row 268
+- **Palm Jaggery Small**
+  - 500gm · price ₹345 · cost ₹0 · stock 0 · barcode 8908011091470 · SKU — · source row 269
+- **Palm Sugar**
+  - 250gm · price ₹190 · cost ₹0 · stock 0 · barcode 8908011091401 · SKU — · source row 270
+  - 500gm Jar · price ₹345 · cost ₹0 · stock 0 · barcode — · SKU — · source row 271
+- **Raw Honey**
+  - 250 gm · price ₹170 · cost ₹0 · stock 42 · barcode 5201210505 · SKU — · source row 272
+- **Raw Sugar/Khandasari Sugar (Off White) Organic**
+  - 500 Gm · price ₹65 · cost ₹0 · stock 0 · barcode 4038732534 · SKU — · source row 273
+  - 1 Kg · price ₹120 · cost ₹0 · stock 0 · barcode — · SKU — · source row 274
+- **Tea CTC Black Organic**
+  - 250 Gm · price ₹230 · cost ₹0 · stock 0 · barcode 5758545115 · SKU — · source row 275
+  - 500 Gm · price ₹450 · cost ₹0 · stock 0 · barcode — · SKU — · source row 276
+  - 1 Kg · price ₹900 · cost ₹0 · stock 0 · barcode — · SKU — · source row 277
+### Millets and Healthy seed (24 products)
+
+- **Barnyard Millet Organic**
+  - 500 Gm · price ₹125 · cost ₹0 · stock 0 · barcode 5351087955 · SKU — · source row 278
+- **Basil / Sabja Seeds Organic**
+  - 100gm · price ₹115 · cost ₹0 · stock 0 · barcode — · SKU — · source row 279
+  - 100gm Pouch · price ₹90 · cost ₹0 · stock 0 · barcode 6766159345 · SKU — · source row 280
+  - 250gm · price ₹225 · cost ₹0 · stock 0 · barcode — · SKU — · source row 281
+- **Black Sesame Seeds**
+  - 250gm · price ₹120 · cost ₹0 · stock 0 · barcode 8098019569 · SKU — · source row 282
+- **Browntop Millet Organic**
+  - 500 Gm · price ₹210 · cost ₹0 · stock 0 · barcode 2812759554 · SKU — · source row 283
+- **Chia Seeds Organic**
+  - 100gm · price ₹60 · cost ₹0 · stock 0 · barcode 3253406801 · SKU — · source row 284
+  - 250gm · price ₹135 · cost ₹0 · stock 0 · barcode 1850426810 · SKU — · source row 285
+- **Dil Seed / Suva**
+  - 125gm · price ₹70 · cost ₹0 · stock 0 · barcode 4533593469 · SKU — · source row 286
+- **Flaxseed / Alsi Premium**
+  - 100gm · price ₹35 · cost ₹0 · stock 0 · barcode 2437389043 · SKU — · source row 287
+  - 150gm Roasted · price ₹80 · cost ₹0 · stock 0 · barcode — · SKU — · source row 288
+  - 250 Gm · price ₹85 · cost ₹0 · stock 0 · barcode 1192346307 · SKU — · source row 289
+  - 500 Gm · price ₹160 · cost ₹0 · stock 0 · barcode — · SKU — · source row 290
+  - 1 Kg · price ₹320 · cost ₹0 · stock 0 · barcode — · SKU — · source row 291
+- **Foxtail Millet Organic**
+  - 500 Gm · price ₹90 · cost ₹0 · stock 0 · barcode 9524674494 · SKU — · source row 292
+- **Kalonji /Black Cumin Seeds Organic**
+  - 125 Gm · price ₹120 · cost ₹0 · stock 0 · barcode — · SKU — · source row 293
+  - 250 Gm · price ₹160 · cost ₹0 · stock 0 · barcode — · SKU — · source row 294
+  - 500 Gm · price ₹300 · cost ₹0 · stock 0 · barcode — · SKU — · source row 295
+  - 1 Kg · price ₹580 · cost ₹0 · stock 0 · barcode — · SKU — · source row 296
+- **Kodo Millet Organic**
+  - 500 Gm · price ₹90 · cost ₹0 · stock 0 · barcode 7827589952 · SKU — · source row 297
+- **Little Millet Organic**
+  - 500 Gm · price ₹125 · cost ₹0 · stock 0 · barcode 1615599524 · SKU — · source row 298
+- **Makhana Flavored**
+  - Peri Peri · price ₹299 · cost ₹0 · stock 0 · barcode — · SKU — · source row 299
+  - Cream & Onion · price ₹299 · cost ₹0 · stock 0 · barcode — · SKU — · source row 300
+  - Black Pepper & Salt · price ₹299 · cost ₹0 · stock 0 · barcode — · SKU — · source row 301
+  - Peri Peri Jain · price ₹299 · cost ₹0 · stock 0 · barcode — · SKU — · source row 302
+  - Tomato · price ₹299 · cost ₹0 · stock 0 · barcode — · SKU — · source row 303
+- **Makhana Jumbo**
+  - 250gm · price ₹350 · cost ₹0 · stock -1 · barcode — · SKU — · source row 304
+  - 100gm · price ₹200 · cost ₹0 · stock 0 · barcode 7046307059 · SKU — · source row 305
+- **Millet Noodles**
+  - Kodo Millet Noodles · price ₹61 · cost ₹0 · stock 0 · barcode 8908001340922 · SKU — · source row 306
+  - Barnyard Millet Noodles · price ₹61 · cost ₹0 · stock 0 · barcode 4907345269016 · SKU — · source row 307
+  - Little Millet Noodles · price ₹61 · cost ₹0 · stock 0 · barcode 8908001340946 · SKU — · source row 308
+  - Foxtail Millet Noodles · price ₹61 · cost ₹0 · stock 0 · barcode 8908001340939 · SKU — · source row 309
+  - Multi Millet Noodles · price ₹61 · cost ₹0 · stock 0 · barcode 948441340555 · SKU — · source row 310
+  - Jowar Millet Noodles · price ₹61 · cost ₹0 · stock 0 · barcode 8908001340564 · SKU — · source row 311
+- **Millet Pasta**
+  - Multi Millet Pasta · price ₹63 · cost ₹0 · stock 0 · barcode 8908001340984 · SKU — · source row 312
+  - Kodo Millet Pasta · price ₹63 · cost ₹0 · stock 0 · barcode 4908408340918 · SKU — · source row 313
+  - Banyard Millet Pasta · price ₹63 · cost ₹0 · stock 0 · barcode 8908001340953 · SKU — · source row 314
+  - Little Millet Pasta · price ₹63 · cost ₹0 · stock 0 · barcode 8908001340946 · SKU — · source row 315
+  - Foxtail Millet Pasta · price ₹63 · cost ₹0 · stock 0 · barcode 8908001340922 · SKU — · source row 316
+  - Jowar Millet Pasta · price ₹63 · cost ₹0 · stock 0 · barcode 8908001340960 · SKU — · source row 317
+  - Ragi Pasta · price ₹63 · cost ₹0 · stock 0 · barcode 9493031230 · SKU — · source row 318
+- **Multigrain Oats**
+  - 500gm · price ₹155 · cost ₹0 · stock 0 · barcode 8906058611200 · SKU — · source row 319
+- **Proso Millet Organic**
+  - 250 Gm · price ₹50 · cost ₹0 · stock 0 · barcode — · SKU — · source row 320
+  - 500 Gm · price ₹90 · cost ₹0 · stock 0 · barcode 4354971940 · SKU — · source row 321
+  - 1 Kg · price ₹170 · cost ₹0 · stock 0 · barcode — · SKU — · source row 322
+- **Psyllium Husk Isubgul**
+  - 100gm · price ₹150 · cost ₹0 · stock 0 · barcode 4755979984 · SKU — · source row 323
+- **Pumpkin Seed Organic**
+  - 100gm · price ₹80 · cost ₹0 · stock 0 · barcode 7649570673 · SKU — · source row 324
+  - 150gm · price ₹125 · cost ₹0 · stock 0 · barcode — · SKU — · source row 325
+- **Rajgara/Amaranth Organic**
+  - 500 Gm · price ₹120 · cost ₹0 · stock 0 · barcode 3384072008 · SKU — · source row 326
+- **Roasted Flaxseed**
+  - 100gm · price ₹60 · cost ₹0 · stock 0 · barcode 5304751957 · SKU — · source row 327
+- **Rolled Oats**
+  - 1 Kg · price ₹425 · cost ₹0 · stock 0 · barcode — · SKU — · source row 328
+  - 500gm · price ₹140 · cost ₹0 · stock 0 · barcode — · SKU — · source row 329
+- **Sunflower Seeds Natural**
+  - 100 Gm · price ₹45 · cost ₹0 · stock 0 · barcode 4590228143 · SKU — · source row 330
+  - 200gm · price ₹80 · cost ₹0 · stock 0 · barcode — · SKU — · source row 331
+  - 500 Gm · price ₹200 · cost ₹0 · stock 0 · barcode — · SKU — · source row 332
+  - 1 Kg · price ₹380 · cost ₹0 · stock 0 · barcode — · SKU — · source row 333
+- **White Quinoa Seeds (Processed) Organic**
+  - 500 Gm · price ₹140 · cost ₹0 · stock 0 · barcode 9266002631 · SKU — · source row 334
+### Organic Cereal & Pulses (28 products)
+
+- **Basmati Rice  Organic**
+  - 1 Kg · price ₹210 · cost ₹0 · stock 0 · barcode 8000205893 · SKU — · source row 335
+- **Biryani Basmati Rice Organic**
+  - 1 Kg · price ₹265 · cost ₹0 · stock -1 · barcode 7706643120 · SKU — · source row 336
+- **Buckwheat Grain - Whole Hulled Organic**
+  - 500 Gm · price ₹140 · cost ₹0 · stock 0 · barcode 8729380715 · SKU — · source row 337
+- **Chana Dal /Split Bengal Gram Organic**
+  - 500 Gm · price ₹90 · cost ₹0 · stock 0 · barcode 1966116887 · SKU — · source row 338
+- **Chawla / Cowpea Organic**
+  - 500gm · price ₹125 · cost ₹0 · stock 0 · barcode 7387439095 · SKU — · source row 339
+- **Govind Bhog Rice Organic**
+  - 1 Kg · price ₹250 · cost ₹0 · stock 0 · barcode 7079349395 · SKU — · source row 340
+- **Groundnut/ Peanut Seeds Organic**
+  - 500gm · price ₹110 · cost ₹0 · stock 0 · barcode 9862258000 · SKU — · source row 341
+- **Kabuli Channa/Chickpeas (white) - Small Organic**
+  - 500 Gm · price ₹130 · cost ₹0 · stock 0 · barcode 4999904659 · SKU — · source row 342
+  - 250gm · price ₹75 · cost ₹0 · stock 0 · barcode — · SKU — · source row 343
+- **Kala Chana / Brown Chick Peas Organic**
+  - 500 Gm · price ₹100 · cost ₹0 · stock 0 · barcode 2465914126 · SKU — · source row 344
+- **Krushna Kamod Kanki**
+  - 1 Kg · price ₹150 · cost ₹0 · stock 0 · barcode — · SKU — · source row 345
+  - 500gm · price ₹75 · cost ₹0 · stock 0 · barcode — · SKU — · source row 346
+- **Masoor Dal**
+  - 500gm · price ₹110 · cost ₹0 · stock 0 · barcode 4711657050 · SKU — · source row 347
+- **Masoor Whole / Red Lentil Organic**
+  - 500gm · price ₹90 · cost ₹0 · stock 0 · barcode 8845264507 · SKU — · source row 348
+- **Mix Dal Organic**
+  - 500 Gm · price ₹130 · cost ₹0 · stock -1 · barcode 7621210546 · SKU — · source row 349
+- **Moong /Green Gram Organic**
+  - 500 Gm · price ₹110 · cost ₹0 · stock -1 · barcode 9329545334 · SKU — · source row 350
+- **Moong Dal Chilka /Split Green Gram Organic**
+  - 500 Gm · price ₹115 · cost ₹0 · stock 0 · barcode 3979084628 · SKU — · source row 351
+- **Moong Dal Dhuli (Mogar) Yellow Organic**
+  - 500 Gm · price ₹120 · cost ₹0 · stock 14 · barcode 8045808309 · SKU — · source row 352
+  - 1 Kg · price ₹240 · cost ₹0 · stock 0 · barcode — · SKU — · source row 353
+- **Ragi**
+  - 500gm · price ₹75 · cost ₹0 · stock 0 · barcode 5624049002 · SKU — · source row 354
+- **Red Rajma Jammu Organic**
+  - 500 Gm · price ₹130 · cost ₹0 · stock 0 · barcode 8949902065 · SKU — · source row 355
+- **Red Rice Poha/Flattened Organic**
+  - 500 Gm · price ₹80 · cost ₹0 · stock 0 · barcode 6245463826 · SKU — · source row 356
+- **Sona Mansoory Rice - Brown Organic**
+  - 500gm · price ₹90 · cost ₹0 · stock 0 · barcode 6701143576 · SKU — · source row 357
+- **Sona Masoory Rice Organic**
+  - 1kg · price ₹150 · cost ₹0 · stock 0 · barcode 8434369119 · SKU — · source row 358
+- **Soybean Seeds Organic**
+  - 250 Gm · price ₹50 · cost ₹0 · stock 0 · barcode 1915880456 · SKU — · source row 359
+  - 500 Gm · price ₹95 · cost ₹0 · stock 0 · barcode 6029314855 · SKU — · source row 360
+  - 1 Kg · price ₹140 · cost ₹0 · stock 0 · barcode — · SKU — · source row 361
+- **Tuar Dal/Arhar/Pigeon pea Organic**
+  - 500 Gm · price ₹125 · cost ₹0 · stock 0 · barcode 3609954223 · SKU — · source row 362
+  - 1 Kg · price ₹250 · cost ₹0 · stock 0 · barcode — · SKU — · source row 363
+- **Udad Dal With Skin**
+  - 500gm · price ₹120 · cost ₹0 · stock 0 · barcode 4860530967 · SKU — · source row 364
+- **Udad Whole**
+  - 500gm · price ₹115 · cost ₹0 · stock 0 · barcode 9534389971 · SKU — · source row 365
+- **Urad Whole Without Skin / Urad Gota Organic**
+  - 500gm · price ₹145 · cost ₹0 · stock 0 · barcode — · SKU — · source row 366
+- **UradDal Dhuli(White)/Black Gram Without Skin Organic**
+  - 500 Gm · price ₹125 · cost ₹0 · stock 0 · barcode 2526153910 · SKU — · source row 367
+- **White Rice Poha/Flattened Organic**
+  - 500 Gm · price ₹65 · cost ₹0 · stock -1 · barcode 8445662782 · SKU — · source row 368
+### Other (4 products)
+
+- **Kacharyu**
+  - 250gm · price ₹100 · cost ₹0 · stock 0 · barcode — · SKU — · source row 369
+  - 500gm · price ₹200 · cost ₹0 · stock 0 · barcode — · SKU — · source row 370
+- **Khali**
+  - 500gm · price ₹30 · cost ₹0 · stock 0 · barcode — · SKU — · source row 371
+  - Retail · price ₹50 · cost ₹0 · stock 0 · barcode — · SKU — · source row 372
+  - Semi Wholesale · price ₹40 · cost ₹0 · stock 0 · barcode — · SKU — · source row 373
+- **Mos-go**
+  - 100 ml · price ₹99 · cost ₹0 · stock 0 · barcode — · SKU — · source row 374
+- **Papdi**
+  - 500gm · price ₹150 · cost ₹0 · stock 0 · barcode — · SKU — · source row 375
+### Pickles Home-made (19 products)
+
+- **Adu Lasan**
+  - 500gm · price ₹400 · cost ₹0 · stock 0 · barcode — · SKU — · source row 376
+- **Chana Methi Keri**
+  - 500gm · price ₹400 · cost ₹0 · stock 0 · barcode — · SKU — · source row 377
+- **Chhundo**
+  - 500gm · price ₹300 · cost ₹0 · stock 0 · barcode — · SKU — · source row 378
+- **Dabda Keri**
+  - 500gm · price ₹400 · cost ₹0 · stock 0 · barcode — · SKU — · source row 379
+- **Gaud Keri**
+  - 500gm · price ₹400 · cost ₹0 · stock 0 · barcode — · SKU — · source row 380
+- **Green Chilly Pickle**
+  - 500gm · price ₹300 · cost ₹0 · stock 0 · barcode — · SKU — · source row 381
+- **Green Paper**
+  - 500gm · price ₹400 · cost ₹0 · stock 0 · barcode — · SKU — · source row 382
+- **Gulkand Fresh**
+  - 500gm · price ₹350 · cost ₹0 · stock 0 · barcode — · SKU — · source row 383
+- **Gunda Keri**
+  - 500gm · price ₹400 · cost ₹0 · stock 0 · barcode — · SKU — · source row 384
+- **Kadi Lasan Keri**
+  - 500gm · price ₹400 · cost ₹0 · stock 0 · barcode — · SKU — · source row 385
+- **Kaida Pickles**
+  - 500gm · price ₹300 · cost ₹0 · stock 0 · barcode — · SKU — · source row 386
+- **Katki Keri**
+  - 500gm · price ₹300 · cost ₹0 · stock 0 · barcode — · SKU — · source row 387
+- **Keri Khatu**
+  - 500gm · price ₹400 · cost ₹0 · stock 0 · barcode — · SKU — · source row 388
+- **Lemon**
+  - 500gm · price ₹400 · cost ₹0 · stock 0 · barcode — · SKU — · source row 389
+- **Lemon Citron (Bijora)**
+  - 500gm · price ₹400 · cost ₹0 · stock 0 · barcode — · SKU — · source row 390
+- **Mix Vegetable**
+  - 500gm · price ₹400 · cost ₹0 · stock 0 · barcode — · SKU — · source row 391
+- **Murambo**
+  - 500gm · price ₹400 · cost ₹0 · stock 0 · barcode — · SKU — · source row 392
+- **Red Chilli Pickle**
+  - 500gm · price ₹300 · cost ₹0 · stock 0 · barcode — · SKU — · source row 393
+- **Vagharyu**
+  - 500gm · price ₹400 · cost ₹0 · stock 0 · barcode — · SKU — · source row 394
+### Ready To Cook (28 products)
+
+- **Cold Coco Pre Mix**
+  - 60 · price ₹60 · cost ₹0 · stock 0 · barcode — · SKU — · source row 395
+  - Cold Coffe · price ₹60 · cost ₹0 · stock 0 · barcode — · SKU — · source row 396
+  - કોલ્ડ Coco · price ₹50 · cost ₹0 · stock 0 · barcode — · SKU — · source row 397
+- **Dal Khichdi Masala**
+  - 200gm · price ₹120 · cost ₹0 · stock 0 · barcode 8939113793238 · SKU — · source row 398
+- **Farali Kadhi Masala**
+  - 80gm · price ₹40 · cost ₹0 · stock 0 · barcode 8939113793610 · SKU — · source row 399
+- **Farali Khichdi**
+  - 100gm · price ₹60 · cost ₹0 · stock 0 · barcode 8939113793306 · SKU — · source row 400
+- **Foxtail Millet Kadhi Masala**
+  - 60gm · price ₹40 · cost ₹0 · stock 0 · barcode 8939113793856 · SKU — · source row 401
+- **Gujarati Kadhi Masala**
+  - 60gm · price ₹40 · cost ₹0 · stock 0 · barcode 8939113793788 · SKU — · source row 402
+- **Kodo Millet Khichdi Masala**
+  - 200gm · price ₹120 · cost ₹0 · stock 0 · barcode 8939113793474 · SKU — · source row 403
+- **Masala Khichdi**
+  - 200gm · price ₹90 · cost ₹0 · stock 0 · barcode 8939113793160 · SKU — · source row 404
+- **Masala Pulao**
+  - 200gm · price ₹120 · cost ₹0 · stock 0 · barcode 8939113793924 · SKU — · source row 405
+- **Mini Khichya**
+  - 250gm · price ₹70 · cost ₹0 · stock 0 · barcode 3154918057 · SKU — · source row 406
+- **Papadi Gujarat 17**
+  - 500gm · price ₹150 · cost ₹0 · stock 0 · barcode 3794148006 · SKU — · source row 407
+- **Papadi Makai**
+  - 500gm · price ₹150 · cost ₹0 · stock 0 · barcode 2934346698 · SKU — · source row 408
+- **Papdi Bajari**
+  - 500gm · price ₹150 · cost ₹0 · stock 0 · barcode 4716241017 · SKU — · source row 409
+- **Papdi Green Garlic**
+  - 500gm · price ₹150 · cost ₹0 · stock 0 · barcode 5535703677 · SKU — · source row 410
+- **Papdi Juwar**
+  - 500gm · price ₹150 · cost ₹0 · stock 0 · barcode 3605251015 · SKU — · source row 411
+- **Papdi Krushna Kamod**
+  - 500gm · price ₹180 · cost ₹0 · stock 0 · barcode 5848720342 · SKU — · source row 412
+- **Papdi Moraiya**
+  - 500gm · price ₹220 · cost ₹0 · stock 0 · barcode 8901091885 · SKU — · source row 413
+- **Papdi Ragi**
+  - 500gm · price ₹180 · cost ₹0 · stock 0 · barcode 1978745543 · SKU — · source row 414
+- **Papdi Rajwadi**
+  - 500gm · price ₹150 · cost ₹0 · stock 0 · barcode 9552413798 · SKU — · source row 415
+- **Papdi Wheat**
+  - 500gm · price ₹150 · cost ₹0 · stock 0 · barcode 6297621898 · SKU — · source row 416
+- **Popcorn Makai**
+  - 200gm · price ₹70 · cost ₹0 · stock 0 · barcode A71DB002 · SKU — · source row 417
+- **Potato Chips Jali**
+  - 500gm · price ₹275 · cost ₹0 · stock 0 · barcode 1633868304 · SKU — · source row 418
+- **Potato Sali**
+  - 200gm · price ₹120 · cost ₹0 · stock 0 · barcode 8543418806 · SKU — · source row 419
+- **Sabudana Chakli**
+  - 500gm · price ₹275 · cost ₹0 · stock 0 · barcode 1185272158 · SKU — · source row 420
+- **Sabudana Papad**
+  - 250gm · price ₹120 · cost ₹0 · stock 0 · barcode 9485127797 · SKU — · source row 421
+- **Soyabean Chunks**
+  - 100gm · price ₹25 · cost ₹0 · stock 0 · barcode 3916567351 · SKU — · source row 422
+- **Thakker Khichdi**
+  - No variant specified · price ₹125 · cost ₹0 · stock 0 · barcode — · SKU — · source row 423
+- **Tomato Chakli**
+  - 250gm · price ₹130 · cost ₹0 · stock 0 · barcode 9434325559 · SKU — · source row 424
+### Ready To Eat (46 products)
+
+- **Coin Khakhra**
+  - Mexican · price ₹110 · cost ₹0 · stock 0 · barcode LB228 · SKU — · source row 425
+  - Peri Peri · price ₹110 · cost ₹0 · stock 0 · barcode LB227 · SKU — · source row 426
+  - Cheese · price ₹110 · cost ₹0 · stock 0 · barcode LB229 · SKU — · source row 427
+  - Pizza · price ₹110 · cost ₹0 · stock 0 · barcode LB226 · SKU — · source row 428
+- **Coriander Mint Panipuri Paste**
+  - 100gm · price ₹35 · cost ₹0 · stock 0 · barcode 8908024773042 · SKU — · source row 429
+- **Date Tamarind Chutney**
+  - 100gm · price ₹35 · cost ₹0 · stock 0 · barcode 8908024773073 · SKU — · source row 430
+- **Farali Khakhra**
+  - 200gm · price ₹100 · cost ₹0 · stock 4 · barcode LV127 · SKU — · source row 431
+- **Farali Peanuts**
+  - 200gm · price ₹90 · cost ₹0 · stock 0 · barcode 8906162710172 · SKU — · source row 432
+- **Garlic Chutney**
+  - 100gm · price ₹40 · cost ₹0 · stock 0 · barcode 8908024773035 · SKU — · source row 433
+- **Garlic Khakhra**
+  - 200 · price ₹80 · cost ₹0 · stock 2 · barcode LV123 · SKU — · source row 434
+- **Hajma Hajam Panipuri Paste**
+  - 100gm · price ₹35 · cost ₹0 · stock 0 · barcode 8908024773066 · SKU — · source row 435
+- **Jalpooree Ravapuri**
+  - 200gm · price ₹75 · cost ₹0 · stock 0 · barcode 8908024773004 · SKU — · source row 436
+- **Jiralu Khakhra**
+  - 200gm · price ₹80 · cost ₹0 · stock 0 · barcode LV116 · SKU — · source row 437
+- **Ketchup And Mayonnaise**
+  - Imli Date Sauce · price ₹185 · cost ₹0 · stock 0 · barcode 8908024126046 · SKU — · source row 438
+  - Tomato Ketchup · price ₹199 · cost ₹0 · stock 0 · barcode 8908024126022 · SKU — · source row 439
+  - Jain Tomato Ketchup · price ₹185 · cost ₹0 · stock 0 · barcode 3002024126053 · SKU — · source row 440
+  - Pizza/Pasta Sauce · price ₹199 · cost ₹0 · stock 0 · barcode 8908024126039 · SKU — · source row 441
+  - Mayonnaise · price ₹251 · cost ₹0 · stock 0 · barcode 8908024126008 · SKU — · source row 442
+  - Tandoori Mayo · price ₹275 · cost ₹0 · stock 0 · barcode 8908024126015 · SKU — · source row 443
+- **Khatta Tikha Panipuri Paste**
+  - 60gm · price ₹25 · cost ₹0 · stock 0 · barcode 8908024773080 · SKU — · source row 444
+- **Masala Khakhra**
+  - 500gm · price ₹150 · cost ₹0 · stock 0 · barcode 5788142138 · SKU — · source row 445
+- **Methi Khakhra**
+  - 500gm · price ₹150 · cost ₹0 · stock 0 · barcode 4520349160 · SKU — · source row 446
+- **Millet Cookies**
+  - Ragi & Almond 100gm · price ₹99 · cost ₹0 · stock 0 · barcode 8939111443104 · SKU — · source row 447
+  - Jowar & Coconut 100gm · price ₹99 · cost ₹0 · stock 0 · barcode 8939111443272 · SKU — · source row 448
+  - Millets & Cashew 100gm · price ₹99 · cost ₹0 · stock 0 · barcode 8939111443340 · SKU — · source row 449
+  - Gluten Free Almond Coconut · price ₹120 · cost ₹0 · stock 0 · barcode 8939111444958 · SKU — · source row 450
+  - All In One · price ₹200 · cost ₹0 · stock 0 · barcode 8939111443036 · SKU — · source row 451
+  - Gluten Free Choco Almond · price ₹120 · cost ₹0 · stock 0 · barcode 8939111445252 · SKU — · source row 452
+  - Ragi Choco · price ₹99 · cost ₹0 · stock 0 · barcode 8939111444026 · SKU — · source row 453
+- **Millets Kurmure / Mamra**
+  - Multigrain Kurmure · price ₹60 · cost ₹0 · stock 0 · barcode 8908012355540 · SKU — · source row 454
+  - Ragi Kurmure · price ₹60 · cost ₹0 · stock 0 · barcode 8908012355519 · SKU — · source row 455
+  - Juvar Kurmure · price ₹60 · cost ₹0 · stock 0 · barcode 8908012355533 · SKU — · source row 456
+  - Bajra Kurmure · price ₹60 · cost ₹0 · stock 0 · barcode 8908012355557 · SKU — · source row 457
+  - Makai Kurmure · price ₹60 · cost ₹0 · stock 0 · barcode 8908012355526 · SKU — · source row 458
+- **Mugadi Khakhra**
+  - 200gm · price ₹90 · cost ₹0 · stock 0 · barcode LV128 · SKU — · source row 459
+- **Oats Barely Khskhra**
+  - 200gm · price ₹90 · cost ₹0 · stock 3 · barcode LV136 · SKU — · source row 460
+- **Roasted Bajra Bhel**
+  - 200gm · price ₹80 · cost ₹0 · stock 0 · barcode 38644353643 · SKU — · source row 461
+- **Roasted Bhakhri**
+  - Masala Bhakhari · price ₹75 · cost ₹0 · stock 0 · barcode LB202 · SKU — · source row 462
+  - Jeera Bhakhari · price ₹75 · cost ₹0 · stock 0 · barcode LB203 · SKU — · source row 463
+  - Kothmir Marcha Bhakhari · price ₹80 · cost ₹0 · stock 0 · barcode LB204 · SKU — · source row 464
+  - Garlic Bhakhari · price ₹80 · cost ₹0 · stock 0 · barcode LB205 · SKU — · source row 465
+- **Roasted Bhel**
+  - Juvar Bhel · price ₹75 · cost ₹0 · stock 0 · barcode 1001000240 · SKU — · source row 466
+  - Multigrain Bhel · price ₹75 · cost ₹0 · stock 0 · barcode 1001000237 · SKU — · source row 467
+  - Ragi Bhel · price ₹75 · cost ₹0 · stock 0 · barcode 1001000236 · SKU — · source row 468
+- **Roasted Chickpeas / Chana**
+  - 200gm · price ₹70 · cost ₹0 · stock 0 · barcode 8906162710110 · SKU — · source row 469
+- **Roasted Chivda**
+  - Farali Makhana Chivda · price ₹105 · cost ₹0 · stock 0 · barcode 38616975988 · SKU — · source row 470
+- **Roasted Crispy**
+  - Chana Dal Roasted · price ₹75 · cost ₹0 · stock 0 · barcode 38684536403 · SKU — · source row 471
+  - Pudina Chana Dal · price ₹75 · cost ₹0 · stock 0 · barcode 38662703980 · SKU — · source row 472
+  - Chanachor Roasted · price ₹80 · cost ₹0 · stock 0 · barcode 38680540580 · SKU — · source row 473
+  - Juvar Crispy · price ₹70 · cost ₹0 · stock 0 · barcode 38652377581 · SKU — · source row 474
+  - Bajra Crispy · price ₹70 · cost ₹0 · stock 0 · barcode 38664554997 · SKU — · source row 475
+- **Roasted Diet Chivda**
+  - 200gm · price ₹55 · cost ₹0 · stock 0 · barcode 1001000246 · SKU — · source row 476
+- **Roasted Diet Khakhra**
+  - Diet Jav Khakhra · price ₹80 · cost ₹0 · stock 0 · barcode LV118 · SKU — · source row 477
+  - Ragi Khakhra · price ₹85 · cost ₹0 · stock 0 · barcode LV129 · SKU — · source row 478
+  - Plain Khakhra · price ₹75 · cost ₹0 · stock 0 · barcode LV104 · SKU — · source row 479
+  - Multigrain Khakhra · price ₹80 · cost ₹0 · stock 0 · barcode LV133 · SKU — · source row 480
+- **Roasted Flakes**
+  - Hearty Oats · price ₹70 · cost ₹0 · stock 0 · barcode 38632221163 · SKU — · source row 481
+  - Juvar Flakes · price ₹70 · cost ₹0 · stock 0 · barcode 38679243197 · SKU — · source row 482
+  - Bajra Flakes · price ₹70 · cost ₹0 · stock 0 · barcode 1001000256 · SKU — · source row 483
+  - Soya Flakes · price ₹70 · cost ₹0 · stock 0 · barcode 3867463374 · SKU — · source row 484
+  - Makai Flakes · price ₹70 · cost ₹0 · stock 0 · barcode 1001000252 · SKU — · source row 485
+- **Roasted Juvar Puff Cheesy**
+  - 200gm · price ₹70 · cost ₹0 · stock 2 · barcode 38672946114 · SKU — · source row 486
+- **Roasted Juvar Puff Peri Peri**
+  - No variant specified · price ₹70 · cost ₹0 · stock 1 · barcode 3863029061 · SKU — · source row 487
+- **Roasted Juvar Puff Pudina**
+  - No variant specified · price ₹70 · cost ₹0 · stock 0 · barcode 38674197464 · SKU — · source row 488
+- **Roasted Khakhra**
+  - Methi Khakhra · price ₹70 · cost ₹0 · stock 0 · barcode LV101 · SKU — · source row 489
+  - Masala Khakhra · price ₹75 · cost ₹0 · stock 0 · barcode LV102 · SKU — · source row 490
+  - Jeera Khakhra · price ₹75 · cost ₹0 · stock 0 · barcode LV103 · SKU — · source row 491
+  - Ginger Coriander Chilly Khakhra · price ₹80 · cost ₹0 · stock 0 · barcode LV117 · SKU — · source row 492
+  - Mangrove Khakhra · price ₹75 · cost ₹0 · stock 0 · barcode LV112 · SKU — · source row 493
+  - Bajri Lasan Dhebara Khakhra · price ₹85 · cost ₹0 · stock 0 · barcode LV119 · SKU — · source row 494
+  - Amul Ghee Sada Khakhra · price ₹100 · cost ₹0 · stock 0 · barcode LV137 · SKU — · source row 495
+  - Jowar Khakhra · price ₹85 · cost ₹0 · stock 0 · barcode — · SKU — · source row 496
+- **Roasted Khakhra Flavored**
+  - Barbecue Khakhra · price ₹75 · cost ₹0 · stock 0 · barcode LV139 · SKU — · source row 497
+  - Chatpatta Khakhra · price ₹75 · cost ₹0 · stock 0 · barcode LV106 · SKU — · source row 498
+  - Panipuri Khakhra · price ₹75 · cost ₹0 · stock 0 · barcode LV107 · SKU — · source row 499
+  - Manchurian Khakhra · price ₹75 · cost ₹0 · stock 0 · barcode LV108 · SKU — · source row 500
+- **Roasted Makai**
+  - 200gm · price ₹80 · cost ₹0 · stock -5 · barcode 38697191713 · SKU — · source row 501
+- **Roasted Makhana**
+  - Jalapeno · price ₹249 · cost ₹0 · stock 0 · barcode 6933020922 · SKU — · source row 502
+  - Black Pepper & Salt · price ₹249 · cost ₹0 · stock 0 · barcode 4334646665 · SKU — · source row 503
+  - Peri Peri · price ₹249 · cost ₹0 · stock 0 · barcode 7384282790 · SKU — · source row 504
+  - Peri Peri Jain · price ₹249 · cost ₹0 · stock 0 · barcode 5239932712 · SKU — · source row 505
+  - Creamy Cheese · price ₹249 · cost ₹0 · stock 0 · barcode 4017581911 · SKU — · source row 506
+  - Cream & Onion · price ₹249 · cost ₹0 · stock 0 · barcode 4823642167 · SKU — · source row 507
+  - Himalayan Salt · price ₹249 · cost ₹0 · stock 0 · barcode 6708036098 · SKU — · source row 508
+  - Pudina · price ₹249 · cost ₹0 · stock 0 · barcode 8666520045 · SKU — · source row 509
+  - Tomato · price ₹249 · cost ₹0 · stock 0 · barcode 6329512056 · SKU — · source row 510
+- **Roasted Marwadi Mix**
+  - 200gm · price ₹85 · cost ₹0 · stock 0 · barcode 38675284346 · SKU — · source row 511
+- **Roasted Multigrain Mixture**
+  - 200gm · price ₹100 · cost ₹0 · stock -3 · barcode 38617433969 · SKU — · source row 512
+- **Roasted Papad Chivda**
+  - 200gm · price ₹80 · cost ₹0 · stock -10 · barcode 38698927252 · SKU — · source row 513
+- **Roasted Peanuts**
+  - 200gm · price ₹90 · cost ₹0 · stock 0 · barcode 8906162710004 · SKU — · source row 514
+- **Roasted Puff**
+  - Quinoa Puff · price ₹75 · cost ₹0 · stock 0 · barcode 38674015315 · SKU — · source row 515
+  - Chick Pea Puff · price ₹85 · cost ₹0 · stock 0 · barcode 38623684549 · SKU — · source row 516
+  - Farali Balls · price ₹65 · cost ₹0 · stock 0 · barcode 1001000301 · SKU — · source row 517
+- **Roasted Quinoa Puff Cheese**
+  - No variant specified · price ₹80 · cost ₹0 · stock 0 · barcode 38677787096 · SKU — · source row 518
+- **Roasted Quinoa Puff Masala**
+  - No variant specified · price ₹85 · cost ₹0 · stock 0 · barcode 38688183267 · SKU — · source row 519
+- **Roasted Ragi Flakes**
+  - 200gm · price ₹75 · cost ₹0 · stock -2 · barcode 1001000254 · SKU — · source row 520
+- **Roasted Wheat Flakes Chivda**
+  - 200gm · price ₹80 · cost ₹0 · stock -3 · barcode 38619725067 · SKU — · source row 521
+- **Salted Chickpeas/ Chana**
+  - 200gm · price ₹70 · cost ₹0 · stock 0 · barcode 8906162710127 · SKU — · source row 522
+- **Salted Peanuts**
+  - 200gm · price ₹90 · cost ₹0 · stock 0 · barcode 8906162710028 · SKU — · source row 523
+- **Whole Wheat Panipuri**
+  - 200gm · price ₹70 · cost ₹0 · stock 0 · barcode 8908024773028 · SKU — · source row 524
+### Spices - Seeds - Herbs, Herbal Powders (39 products)
+
+- **Ahsvgandha Powder Organic**
+  - 50 Gm · price ₹60 · cost ₹0 · stock 0 · barcode 4224937047 · SKU — · source row 525
+  - 100 Gm · price ₹110 · cost ₹0 · stock 0 · barcode 8041630624 · SKU — · source row 526
+  - 250 Gm · price ₹250 · cost ₹0 · stock 0 · barcode — · SKU — · source row 527
+  - 500 Gm · price ₹500 · cost ₹0 · stock 0 · barcode — · SKU — · source row 528
+  - 1 Kg · price ₹1,000 · cost ₹0 · stock 0 · barcode — · SKU — · source row 529
+- **Ajwain/Ajma Organic**
+  - 50 Gm · price ₹35 · cost ₹0 · stock 0 · barcode 9238734156 · SKU — · source row 530
+  - 100 Gm · price ₹65 · cost ₹0 · stock 0 · barcode 7632886124 · SKU — · source row 531
+  - 250 Gm · price ₹150 · cost ₹0 · stock 0 · barcode 9446779980 · SKU — · source row 532
+  - 500 Gm · price ₹300 · cost ₹0 · stock 0 · barcode — · SKU — · source row 533
+  - 1 Kg · price ₹580 · cost ₹0 · stock 0 · barcode — · SKU — · source row 534
+- **Amchur Powder Organic**
+  - 100gm · price ₹90 · cost ₹0 · stock 0 · barcode 7334571749 · SKU — · source row 535
+- **Black Salt/Sanchal/Kala Namak Organic**
+  - 250 Gm · price ₹45 · cost ₹0 · stock 0 · barcode 2433790924 · SKU — · source row 536
+  - 500 Gm · price ₹75 · cost ₹0 · stock 0 · barcode — · SKU — · source row 537
+- **Cinamon bark/Dalchini Organic**
+  - 50 Gm · price ₹50 · cost ₹0 · stock 0 · barcode 8980486562 · SKU — · source row 538
+- **Cinnamon/Dalchini Powder Organic**
+  - 100gm · price ₹115 · cost ₹0 · stock 0 · barcode 5089831746 · SKU — · source row 539
+- **Coriander Cumin/Dhana Jeera Powder Organic**
+  - 500gm · price ₹250 · cost ₹0 · stock 0 · barcode 2681428508 · SKU — · source row 540
+  - 250gm · price ₹130 · cost ₹0 · stock 0 · barcode — · SKU — · source row 541
+- **Coriander/Dhana Whole Organic**
+  - 100 Gm · price ₹35 · cost ₹0 · stock 0 · barcode 7571887117 · SKU — · source row 542
+  - 250 Gm · price ₹95 · cost ₹0 · stock 0 · barcode 5291696631 · SKU — · source row 543
+  - 500 Gm · price ₹180 · cost ₹0 · stock 0 · barcode — · SKU — · source row 544
+  - 1 Kg · price ₹350 · cost ₹0 · stock 0 · barcode — · SKU — · source row 545
+  - 150gm · price ₹75 · cost ₹0 · stock 0 · barcode — · SKU — · source row 546
+- **Elaichi/Green Cardamom**
+  - 25gm · price ₹150 · cost ₹0 · stock 0 · barcode 1332491527 · SKU — · source row 547
+- **Fennel/ Saunf Lakhnavi**
+  - 100 Gm · price ₹50 · cost ₹0 · stock 0 · barcode 3133468697 · SKU — · source row 548
+  - 250 Gm · price ₹120 · cost ₹0 · stock 0 · barcode 6931309612 · SKU — · source row 549
+  - Natural 250gm · price ₹90 · cost ₹0 · stock 0 · barcode 7452096782 · SKU — · source row 550
+  - 1 Kg · price ₹800 · cost ₹0 · stock 0 · barcode — · SKU — · source row 551
+- **Garam Masala Organic**
+  - 50gm · price ₹120 · cost ₹0 · stock 0 · barcode 3886145572 · SKU — · source row 552
+  - 100gm · price ₹220 · cost ₹0 · stock 0 · barcode 8145290803 · SKU — · source row 553
+- **Ginger Powder Organic**
+  - 100gm · price ₹100 · cost ₹0 · stock 0 · barcode 1508333001 · SKU — · source row 554
+  - 250 Gm · price ₹210 · cost ₹0 · stock 0 · barcode — · SKU — · source row 555
+  - 500 Gm · price ₹410 · cost ₹0 · stock 0 · barcode — · SKU — · source row 556
+  - 1 Kg · price ₹800 · cost ₹0 · stock 0 · barcode — · SKU — · source row 557
+- **Gooseberry/ Amla Powder Organic**
+  - 150 Gm · price ₹99 · cost ₹0 · stock 0 · barcode 6166155931 · SKU — · source row 558
+- **Gound Katira**
+  - 100gm · price ₹80 · cost ₹0 · stock 0 · barcode 7035001423 · SKU — · source row 559
+- **Hing Natural**
+  - 50 Gm · price ₹180 · cost ₹0 · stock 0 · barcode 4328740149 · SKU — · source row 560
+  - Strong 15gm · price ₹200 · cost ₹0 · stock 0 · barcode 9127219026 · SKU — · source row 561
+  - 100gm · price ₹350 · cost ₹0 · stock 0 · barcode — · SKU — · source row 562
+- **Jeera /Cumin Powder Organic**
+  - 100gm · price ₹75 · cost ₹0 · stock 0 · barcode — · SKU — · source row 563
+- **Jeera /Cumin Seeds Natural**
+  - 100gm · price ₹65 · cost ₹0 · stock 0 · barcode 3484210876 · SKU — · source row 564
+  - 250 Gm · price ₹170 · cost ₹0 · stock 0 · barcode 3882755225 · SKU — · source row 565
+  - 1kg · price ₹680 · cost ₹0 · stock 0 · barcode — · SKU — · source row 566
+  - 500gm · price ₹340 · cost ₹0 · stock 0 · barcode — · SKU — · source row 567
+- **Jeeravan**
+  - 40gm · price ₹30 · cost ₹0 · stock 0 · barcode — · SKU — · source row 568
+  - 80gm · price ₹60 · cost ₹0 · stock 0 · barcode — · SKU — · source row 569
+  - 200 Gm · price ₹120 · cost ₹0 · stock 0 · barcode — · SKU — · source row 570
+- **Kali Mirch /Black Pepper Organic**
+  - 50gm · price ₹80 · cost ₹0 · stock 0 · barcode 3290643789 · SKU — · source row 571
+- **Kalonji / Black Seeds**
+  - 100gm · price ₹60 · cost ₹0 · stock 0 · barcode 6274378225 · SKU — · source row 572
+- **Kashmiri/Kumthi Red Chilly Powder**
+  - 500gm · price ₹600 · cost ₹0 · stock 0 · barcode 8394089668 · SKU — · source row 573
+  - 250gm · price ₹300 · cost ₹0 · stock 0 · barcode — · SKU — · source row 574
+- **Kasuri methi Organic**
+  - 50 Gm · price ₹50 · cost ₹0 · stock 0 · barcode 8412159681 · SKU — · source row 575
+- **Kokam**
+  - No variant specified · price ₹100 · cost ₹0 · stock 0 · barcode — · SKU — · source row 576
+- **Lavang/Clove Organic**
+  - 50gm · price ₹90 · cost ₹0 · stock 0 · barcode 9733383447 · SKU — · source row 577
+  - 75 Gm · price ₹175 · cost ₹0 · stock 0 · barcode — · SKU — · source row 578
+- **Methi/Fenugreek Organic**
+  - 150gm · price ₹60 · cost ₹0 · stock 0 · barcode 9194500578 · SKU — · source row 579
+  - 200gm · price ₹60 · cost ₹0 · stock 0 · barcode 3236855134 · SKU — · source row 580
+  - 500gm · price ₹120 · cost ₹0 · stock 0 · barcode — · SKU — · source row 581
+  - 100 · price ₹40 · cost ₹0 · stock 0 · barcode — · SKU — · source row 582
+- **Natural Heena Powder Organic**
+  - 100 Gm · price ₹50 · cost ₹0 · stock 0 · barcode 9504394620 · SKU — · source row 583
+- **Natural Shatavari Powder Organic**
+  - 50gm · price ₹60 · cost ₹0 · stock 0 · barcode 3421752620 · SKU — · source row 584
+- **Patni Chilli Powder**
+  - 500gm · price ₹350 · cost ₹0 · stock 0 · barcode 3498137023 · SKU — · source row 585
+- **Premium Himalayan Salt (Dark Pink) Organic**
+  - 1 Kg · price ₹100 · cost ₹0 · stock 0 · barcode 7723086376 · SKU — · source row 586
+- **Rai / Mustard Seeds Organic**
+  - 150gm · price ₹60 · cost ₹0 · stock 0 · barcode — · SKU — · source row 587
+  - 250gm · price ₹50 · cost ₹0 · stock 0 · barcode 3556531441 · SKU — · source row 588
+  - 100gm · price ₹25 · cost ₹0 · stock 0 · barcode 1057379146 · SKU — · source row 589
+  - 1 Kg · price ₹180 · cost ₹0 · stock 0 · barcode — · SKU — · source row 590
+- **Red Chili powder Organic**
+  - 500gm · price ₹250 · cost ₹0 · stock 0 · barcode — · SKU — · source row 591
+  - 250gm · price ₹175 · cost ₹0 · stock 0 · barcode 8722751417 · SKU — · source row 592
+- **Resham Patti Chilli Powder**
+  - 500gm · price ₹450 · cost ₹0 · stock 0 · barcode 8510252250 · SKU — · source row 593
+  - No variant specified · price ₹240 · cost ₹0 · stock 0 · barcode — · SKU — · source row 594
+- **Satva Sparsh Herbal Fragrance**
+  - 10gm · price ₹320 · cost ₹0 · stock 0 · barcode — · SKU — · source row 595
+- **Sukku Coffee**
+  - 250gm · price ₹245 · cost ₹0 · stock 0 · barcode 8908011091111 · SKU — · source row 596
+- **Tej patta (Bay Leaves) Organic**
+  - 50 Gm · price ₹30 · cost ₹0 · stock 0 · barcode 2927205042 · SKU — · source row 597
+  - 100 Gm · price ₹70 · cost ₹0 · stock 0 · barcode — · SKU — · source row 598
+  - 250 Gm · price ₹120 · cost ₹0 · stock 0 · barcode — · SKU — · source row 599
+- **Tikhalal Chilli Powder**
+  - 500gm · price ₹250 · cost ₹0 · stock 0 · barcode 5900029232 · SKU — · source row 600
+  - 250gm · price ₹150 · cost ₹0 · stock 0 · barcode — · SKU — · source row 601
+- **Til/  White Sesamme**
+  - 100 Gm · price ₹40 · cost ₹0 · stock 0 · barcode 2268459533 · SKU — · source row 602
+  - 250 Gm · price ₹100 · cost ₹0 · stock 0 · barcode 9675526309 · SKU — · source row 603
+  - 500 Gm · price ₹170 · cost ₹0 · stock 0 · barcode 2926869172 · SKU — · source row 604
+  - 1 Kg · price ₹320 · cost ₹0 · stock 0 · barcode — · SKU — · source row 605
+- **Tulsi Leaves Organic**
+  - 50 Gm · price ₹60 · cost ₹0 · stock 0 · barcode — · SKU — · source row 606
+  - 100 Gm · price ₹110 · cost ₹0 · stock 0 · barcode 5783624905 · SKU — · source row 607
+- **Turmeric /Haldi Powder (Premium) Organic**
+  - 250gm · price ₹125 · cost ₹0 · stock 0 · barcode 2975776770 · SKU — · source row 608
+  - 500gm · price ₹250 · cost ₹0 · stock 0 · barcode 4245787272 · SKU — · source row 609
+
+## Source data notes
+
+- `ITEM_TYPE` is `Unit` on all 608 populated rows.
+- `VARIANT_NAME` is blank on 11 rows; these are retained as products with no variant specified.
+- Duplicate category/product/variant key(s): 1.
+  - `Dry Fruit - Nuts / Anjeer Jumbo / 250gm` appears 2 times; both source rows are listed above.
+- Blank barcode cells: 171; blank SKU cells: 608.
+- `STOCK` values: 505 zero, 73 positive, and 30 negative inventory rows.
