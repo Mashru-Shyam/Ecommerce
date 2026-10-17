@@ -976,6 +976,12 @@
   }
 
   @media screen and (max-width: 749px) {
+    .quick-add-modal[open] {
+      height: fit-content;
+      min-height: 0;
+      max-height: calc(100dvh - max(var(--safe-area-inset-top), 8px) - 8px);
+    }
+
     .quick-add-modal__content :is(
       .freshomill-product-description,
       .quick-add-product-description,
@@ -992,10 +998,10 @@
 
     .quick-add-modal > product-component {
       display: block;
-      height: auto;
+      height: fit-content;
       max-height: calc(100dvh - max(var(--safe-area-inset-top), 8px) - 8px);
       min-height: 0;
-      flex: 0 1 auto;
+      flex: 0 0 auto;
       flex-grow: 0;
       align-self: stretch;
     }
@@ -1005,10 +1011,13 @@
       align-self: stretch;
       gap: var(--gap-md, 16px);
       box-sizing: border-box;
-      height: auto;
+      height: fit-content;
       max-height: calc(100dvh - max(var(--safe-area-inset-top), 8px) - 8px);
-      flex: 0 1 auto;
+      flex: 0 0 auto;
       flex-grow: 0;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
       padding-block: 5px 0;
       padding-inline: var(--padding-md, 12px);
       scroll-padding-block-end: 0;
