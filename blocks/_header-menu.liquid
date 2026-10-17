@@ -106,7 +106,11 @@
                   {% render 'cart-bubble', limit: 100, show_empty: true, bubble_text_id: 'bottom-cart-bubble-text' %}
                 </cart-icon>
                 <span class="header-bottom-navigation__label">{{ 'content.cart_title' | t }}</span>
-                <span class="header-bottom-navigation__cart-total" data-cart-total>{{ cart.total_price | money }}</span>
+                <span
+                  class="header-bottom-navigation__cart-total"
+                  data-cart-total
+                  data-cart-total-cents="{{ cart.total_price }}"
+                >{{ cart.total_price | money }}</span>
             {% if settings.cart_type == 'drawer' and template.name != 'cart' %}
               </button>
             {% else %}
