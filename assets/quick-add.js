@@ -466,6 +466,12 @@ export class QuickAddComponent extends Component {
         productGrid.appendChild(mobileDescription);
       }
 
+      const detailAccordions = [...(productDetails?.querySelectorAll('.accordion') || [])]
+        .filter((accordion) => !accordion.parentElement?.closest('.accordion'));
+      for (const accordion of detailAccordions) productGrid.appendChild(accordion);
+
+      // Keep all scrollable product information before the sticky purchase row.
+      // If details follow the sticky row, they scroll underneath it on mobile.
       if (variantPicker) {
         productGrid.appendChild(variantPicker);
       }
@@ -475,10 +481,6 @@ export class QuickAddComponent extends Component {
       if (productFormComponent) {
         productGrid.appendChild(productFormComponent);
       }
-
-      const detailAccordions = [...(productDetails?.querySelectorAll('.accordion') || [])]
-        .filter((accordion) => !accordion.parentElement?.closest('.accordion'));
-      for (const accordion of detailAccordions) productGrid.appendChild(accordion);
 
       productDetails?.remove();
     }
