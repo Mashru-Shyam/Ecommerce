@@ -231,9 +231,8 @@
       height: min(92dvh, 760px);
       max-height: calc(100dvh - var(--safe-area-inset-top) - 8px);
 
-      /* Bottom sheet touches the physical bottom edge (viewport-fit=cover); keep the
-         buy buttons above the home indicator while the background fills the safe area */
-      padding-block-end: var(--safe-area-inset-bottom);
+      /* The purchase row handles the device safe area; don't reserve storefront nav space here. */
+      padding-block-end: 0;
     }
   }
 
@@ -970,8 +969,8 @@
       box-sizing: border-box;
       height: 100%;
       max-height: 100%;
-      padding-block: 5px calc(var(--height-buy-buttons, 48px) + var(--padding-2xl, 24px) + var(--safe-area-inset-bottom));
-      scroll-padding-block-end: calc(var(--height-buy-buttons, 48px) + var(--padding-2xl, 24px) + var(--safe-area-inset-bottom));
+      padding-block: 5px 0;
+      scroll-padding-block-end: 0;
     }
 
     .quick-add-modal__content .product-information__media {
