@@ -961,6 +961,20 @@
   }
 
   @media screen and (max-width: 749px) {
+    .quick-add-modal__content :is(
+      .freshomill-product-description,
+      .quick-add-product-description,
+      .quick-add-description,
+      .shopify-block:has(.freshomill-product-description),
+      .shopify-block:has(.accordion),
+      .shopify-block:has(accordion-custom),
+      .accordion,
+      accordion-custom,
+      .view-more-details__wrapper
+    ) {
+      display: none !important;
+    }
+
     .quick-add-modal > product-component {
       display: block;
       height: auto;
@@ -1069,6 +1083,47 @@
   }
 
   @media screen and (min-width: 750px) {
+    .quick-add-modal {
+      height: auto;
+      max-height: min(86dvh, var(--quick-add-modal-height, 38.5rem));
+    }
+
+    .quick-add-modal__content {
+      grid-template-rows: auto;
+      height: auto;
+      max-height: min(86dvh, var(--quick-add-modal-height, 38.5rem));
+      flex: 0 1 auto;
+      flex-grow: 0;
+    }
+
+    .quick-add-modal__content :is(
+      .freshomill-product-description,
+      .quick-add-product-description,
+      .quick-add-description,
+      .shopify-block:has(.freshomill-product-description),
+      .shopify-block:has(.accordion),
+      .shopify-block:has(accordion-custom),
+      .accordion,
+      accordion-custom,
+      .view-more-details__wrapper
+    ) {
+      display: none !important;
+    }
+
+    .quick-add-modal__content .product-information__media {
+      height: min(68dvh, 26rem);
+    }
+
+    .quick-add-modal__content .product-details {
+      grid-row: 1;
+      height: auto;
+      overflow: visible;
+    }
+
+    .quick-add-modal__content .product-details > .group-block {
+      flex-grow: 0;
+    }
+
     .quick-add-modal__content {
       padding-block-start: 5px;
     }

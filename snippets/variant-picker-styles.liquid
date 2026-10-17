@@ -150,6 +150,35 @@
     margin-block-end: var(--margin-xs);
   }
 
+  .variant-option--single {
+    display: block;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .variant-option--single legend {
+    margin-block-end: var(--margin-xs);
+    padding: 0;
+  }
+
+  .variant-option__single-value {
+    display: inline-flex;
+    width: fit-content;
+    max-width: 100%;
+    min-height: 3.25em;
+    align-items: center;
+    justify-content: center;
+    padding: var(--padding-sm) var(--padding-lg);
+    border: var(--variant-picker-button-border-width) solid var(--color-selected-variant-border);
+    border-radius: var(--variant-picker-button-radius);
+    background: var(--color-selected-variant-background);
+    color: var(--color-selected-variant-text);
+    line-height: 1.2;
+    text-align: center;
+  }
+
   .variant-option--buttons legend,
   .variant-option--dropdowns > label,
   .variant-option[data-testid='variant-option-single'] {

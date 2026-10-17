@@ -447,7 +447,6 @@ export class QuickAddComponent extends Component {
 
     if (isMobileBreakpoint()) {
       const productDetails = productGrid.querySelector('.product-details');
-      const productDescription = productDetails?.querySelector('.freshomill-product-description');
       const productFormComponent = productGrid.querySelector('product-form-component');
       const variantPicker = productGrid.querySelector('variant-picker');
       const productPrice = productGrid.querySelector('product-price');
@@ -462,16 +461,6 @@ export class QuickAddComponent extends Component {
 
       productHeader.appendChild(productTitle);
       productGrid.appendChild(productHeader);
-
-      if (productDescription) {
-        const mobileDescription = productDescription.cloneNode(true);
-        mobileDescription.classList.add('quick-add-product-description');
-        productGrid.appendChild(mobileDescription);
-      }
-
-      const detailAccordions = [...(productDetails?.querySelectorAll('.accordion') || [])]
-        .filter((accordion) => !accordion.parentElement?.closest('.accordion'));
-      for (const accordion of detailAccordions) productGrid.appendChild(accordion);
 
       // Keep all scrollable product information before the sticky purchase row.
       // If details follow the sticky row, they scroll underneath it on mobile.
@@ -494,7 +483,6 @@ export class QuickAddComponent extends Component {
 
     morph(modalContent, productGrid);
 
-    this.#setupModalDescription(modalContent);
     this.#syncVariantSelection(modalContent);
     this.#syncModalAddedState();
   }

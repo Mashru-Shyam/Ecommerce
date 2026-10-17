@@ -74,18 +74,18 @@
         -%}
 
         {%- if product_option.values.size == 1 and variant_style != 'swatch' -%}
-          <div
-            class="variant-option"
+          <fieldset
+            class="variant-option variant-option--single"
             data-testid="variant-option-single"
           >
-            Choose {{ product_option.name | downcase | escape }}
+            <legend>Choose {{ product_option.name | downcase | escape }}</legend>
             <span
-              class="variant-option__swatch-value"
+              class="variant-option__single-value"
               data-testid="variant-option-single-value"
             >
               {{- product_option.selected_value -}}
             </span>
-          </div>
+          </fieldset>
         {%- elsif variant_style == 'swatch' or block_settings.variant_style == 'buttons' -%}
           <fieldset
             class="variant-option variant-option--buttons{% if variant_style == 'swatch' %} variant-option--swatches{% else %} variant-option--{{ settings.variant_button_width }}{% endif %}"
