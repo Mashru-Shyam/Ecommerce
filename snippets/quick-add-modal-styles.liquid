@@ -967,15 +967,19 @@
       max-height: calc(100dvh - max(var(--safe-area-inset-top), 8px) - 8px);
       min-height: 0;
       flex: 0 1 auto;
+      flex-grow: 0;
+      align-self: stretch;
     }
 
     .quick-add-modal__content {
       align-content: start;
+      align-self: stretch;
       gap: var(--gap-md, 16px);
       box-sizing: border-box;
       height: auto;
       max-height: calc(100dvh - max(var(--safe-area-inset-top), 8px) - 8px);
       flex: 0 1 auto;
+      flex-grow: 0;
       padding-block: 5px 0;
       scroll-padding-block-end: 0;
     }
@@ -984,7 +988,7 @@
       grid-column: 1 / -1;
       grid-row: auto;
       width: 100%;
-      height: min(30vh, 240px);
+      height: min(24svh, 200px);
       overflow: hidden;
       border-radius: var(--freshomill-radius-card, 12px);
     }
@@ -1013,6 +1017,15 @@
       letter-spacing: var(--font-h3--letter-spacing, normal);
       line-height: var(--font-h3--line-height, 1.2);
       text-transform: var(--font-h3--case, none);
+    }
+
+    .quick-add-modal__content > variant-picker {
+      display: block;
+      grid-column: 1 / -1;
+      grid-row: auto;
+      width: 100%;
+      min-width: 0;
+      visibility: visible;
     }
 
     .quick-add-modal__content > product-price {

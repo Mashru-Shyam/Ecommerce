@@ -306,6 +306,7 @@ export class QuickAddComponent extends Component {
     this.#openQuickAddModal();
     if (modalContent) {
       modalContent.replaceChildren();
+      modalContent.dataset.productUrl = currentUrl;
       modalContent.setAttribute('aria-busy', 'true');
     }
 
@@ -326,14 +327,16 @@ export class QuickAddComponent extends Component {
         }
       }
 
-      if (productGrid) {
+      if (productGrid && modalContent?.dataset.productUrl === currentUrl) {
         // Use a fresh clone from the cache
         const freshContent = /** @type {Element} */ (productGrid.cloneNode(true));
         await this.updateQuickAddModal(freshContent);
         this.#updateVariantPicker(productGrid);
       }
     } finally {
-      modalContent?.removeAttribute('aria-busy');
+      if (modalContent?.dataset.productUrl === currentUrl) {
+        modalContent.removeAttribute('aria-busy');
+      }
     }
   };
 
@@ -825,6 +828,15 @@ class QuickAddDialog extends DialogComponent {
   }
 
   #handleDialogClose = () => {
+    const modalContent = document.getElementById('quick-add-modal-content');
+    if (modalContent) {
+      modalContent.replaceChildren();
+      modalContent.removeAttribute('aria-busy');
+      modalContent.removeAttribute('view-event-payload');
+      delete modalContent.dataset.productUrl;
+      modalContent.scrollTop = 0;
+    }
+
     const iosVersion = getIOSVersion();
     /**
      * This is a patch to solve an issue with the UI freezing when the dialog is closed.
