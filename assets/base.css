@@ -2093,6 +2093,12 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
   #filters-drawer .catalog-category__indicator::before { display: none; }
   #filters-drawer .catalog-category.is-active .catalog-category__indicator { border: 2px solid var(--freshomill-color-brand, #267326); }
   #filters-drawer .catalog-category.is-active .catalog-category__indicator::after { position: absolute; inset: 4px; border-radius: 50%; background: var(--freshomill-color-brand, #267326); content: ''; }
+  #filters-drawer.has-pending-category .catalog-category.is-active:not(.is-pending) { background: transparent; color: var(--freshomill-color-ink, #203326); }
+  #filters-drawer.has-pending-category .catalog-category.is-active:not(.is-pending) .catalog-category__indicator { border: 1.5px solid var(--freshomill-color-muted, #68736b); }
+  #filters-drawer.has-pending-category .catalog-category.is-active:not(.is-pending) .catalog-category__indicator::after { display: none; }
+  #filters-drawer .catalog-category.is-pending { background: var(--freshomill-color-brand-soft, #eff6e9); color: var(--freshomill-color-brand-strong, #174b2a); }
+  #filters-drawer .catalog-category.is-pending .catalog-category__indicator { position: relative; border: 2px solid var(--freshomill-color-brand, #267326); }
+  #filters-drawer .catalog-category.is-pending .catalog-category__indicator::after { position: absolute; inset: 4px; border-radius: 50%; background: var(--freshomill-color-brand, #267326); content: ''; }
   #filters-drawer .facets--drawer .facets__summary { min-height: var(--freshomill-touch-target, 44px); padding-block: 6px; }
   #filters-drawer .facets--drawer .facets__inputs-wrapper { margin-block: 0 5px; padding-block: 2px 4px; }
   #filters-drawer .facets--drawer .facets__inputs-list { gap: 4px; }

@@ -16,14 +16,16 @@
     ref="dialog"
     scroll-lock
   >
-    <button
-      ref="closeButton"
-      on:click="/closeDialog"
-      class="button button-unstyled close-button quick-add-modal__close"
-      aria-label="{{ 'accessibility.close_dialog' | t }}"
-    >
-      {{- 'icon-close.svg' | inline_asset_content -}}
-    </button>
+    <div class="quick-add-modal__topbar">
+      <button
+        ref="closeButton"
+        on:click="/closeDialog"
+        class="button button-unstyled close-button quick-add-modal__close"
+        aria-label="{{ 'accessibility.close_dialog' | t }}"
+      >
+        {{- 'icon-close.svg' | inline_asset_content -}}
+      </button>
+    </div>
 
     <product-component
       id="quick-add-modal-content"

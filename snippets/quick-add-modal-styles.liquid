@@ -224,6 +224,8 @@
     padding: 0;
     border: var(--style-border-popover);
     overflow: hidden;
+    flex-direction: column;
+    align-items: stretch;
     box-shadow: 0 5px 30px rgb(0 0 0 / var(--opacity-15));
 
     @media screen and (max-width: 749px) {
@@ -281,6 +283,30 @@
     z-index: var(--layer-raised);
     overflow: visible;
     transform-origin: center;
+  }
+
+  .quick-add-modal__topbar {
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    min-height: 40px;
+    flex: 0 0 40px;
+    align-items: center;
+    justify-content: flex-end;
+    padding-inline: var(--padding-xs, 4px);
+  }
+
+  .quick-add-modal__topbar .quick-add-modal__close {
+    position: relative;
+    inset: auto;
+    display: flex;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
   }
 
   /* Match the specificity of the base [dir='rtl'] .close-button safe-area rule so
@@ -977,9 +1003,12 @@
 
   @media screen and (max-width: 749px) {
     .quick-add-modal[open] {
-      height: fit-content;
-      min-height: 0;
+      display: flex !important;
+      height: max-content !important;
+      min-height: 0 !important;
       max-height: calc(100dvh - max(var(--safe-area-inset-top), 8px) - 8px);
+      align-content: flex-end;
+      justify-content: flex-end;
     }
 
     .quick-add-modal__content :is(
@@ -998,23 +1027,26 @@
 
     .quick-add-modal > product-component {
       display: block;
-      height: fit-content;
+      height: max-content !important;
       max-height: calc(100dvh - max(var(--safe-area-inset-top), 8px) - 8px);
       min-height: 0;
-      flex: 0 0 auto;
-      flex-grow: 0;
+      flex: 0 0 auto !important;
+      flex-grow: 0 !important;
       align-self: stretch;
     }
 
     .quick-add-modal__content {
       align-content: start;
       align-self: stretch;
+      grid-template-columns: minmax(0, 1fr) !important;
+      grid-template-rows: auto !important;
+      grid-auto-rows: max-content;
       gap: var(--gap-md, 16px);
       box-sizing: border-box;
-      height: fit-content;
+      height: max-content !important;
       max-height: calc(100dvh - max(var(--safe-area-inset-top), 8px) - 8px);
-      flex: 0 0 auto;
-      flex-grow: 0;
+      flex: 0 0 auto !important;
+      flex-grow: 0 !important;
       min-height: 0;
       overflow-x: hidden;
       overflow-y: auto;
@@ -1101,7 +1133,10 @@
     /* Keep one scroll surface for the sheet. Nested scrolling inside product-details
        lets the product text pass behind the sticky purchase controls. */
     .quick-add-modal__content .product-details {
-      height: auto;
+      grid-column: 1 / -1;
+      grid-row: auto !important;
+      align-self: start;
+      height: auto !important;
       max-height: none;
       overflow: visible;
     }
