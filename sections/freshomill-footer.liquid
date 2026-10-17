@@ -8,13 +8,9 @@
   <div class="freshomill-footer__main">
     <div class="freshomill-footer__brand">
       <a class="freshomill-footer__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
-        {% assign footer_logo = settings.logo_inverse | default: settings.logo %}
+        {% assign footer_logo = settings.logo %}
         {% if footer_logo != blank %}
-          {% assign footer_logo_class = 'freshomill-footer__logo-image' %}
-          {% if settings.logo_inverse == blank %}
-            {% assign footer_logo_class = footer_logo_class | append: ' freshomill-footer__logo-image--fallback' %}
-          {% endif %}
-          {{ footer_logo | image_url: width: 520 | image_tag: loading: 'lazy', widths: '180, 260, 360, 520', alt: shop.name, class: footer_logo_class }}
+          {{ footer_logo | image_url: width: 520 | image_tag: loading: 'lazy', widths: '180, 260, 360, 520', alt: shop.name, class: 'freshomill-footer__logo-image' }}
         {% else %}
           <span>{{ shop.name | escape }}</span>
         {% endif %}
@@ -175,10 +171,6 @@
     max-height: 54px;
     object-fit: contain;
     object-position: left center;
-  }
-
-  .freshomill-footer__logo-image--fallback {
-    filter: brightness(0) invert(1);
   }
 
   .freshomill-footer__tagline {

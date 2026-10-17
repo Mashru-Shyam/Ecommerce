@@ -146,7 +146,20 @@
           <tbody role="rowgroup">
             {% for item in cart.items %}
               {% assign first_product_media = item.product.media | first %}
-              {% assign cart_item_image = item.image | default: item.variant.featured_image | default: item.variant.image | default: item.product.featured_media.preview_image | default: item.product.featured_image | default: first_product_media.preview_image | default: first_product_media %}
+              {% assign cart_item_variant_image = item.variant.featured_media.preview_image | default: item.variant.featured_image | default: item.variant.image %}
+              {% assign cart_item_product_image = item.product.featured_media.preview_image | default: item.product.featured_image | default: first_product_media.preview_image | default: first_product_media %}
+              {% assign cart_item_collection_image = blank %}
+              {% if item.product.media.size == 0 %}
+                {% for candidate_collection in item.product.collections %}
+                  {% unless candidate_collection.handle == 'all' or candidate_collection.handle == 'frontpage' %}
+                    {% if candidate_collection.image != blank %}
+                      {% assign cart_item_collection_image = candidate_collection.image %}
+                      {% break %}
+                    {% endif %}
+                  {% endunless %}
+                {% endfor %}
+              {% endif %}
+              {% assign cart_item_image = cart_item_variant_image | default: cart_item_product_image | default: cart_item_collection_image | default: item.image %}
               <tr
                 id="CartItem-{{ item.key }}"
                 role="row"
@@ -181,7 +194,7 @@
                       style="--ratio:{{ ratio }};"
                     >
                       {%- liquid
-                        echo cart_item_image | image_url: width: 250 | image_tag: class: 'cart-items__media-image border-style', style: border_override, alt: item.title
+                        echo cart_item_image | image_url: width: 320 | image_tag: class: 'cart-items__media-image border-style', style: border_override, loading: 'eager', alt: item.title
                       -%}
                     </a>
                   {%- endif %}
