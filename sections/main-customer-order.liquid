@@ -5,7 +5,12 @@
     <h2>Items in this order</h2>
     {% for line_item in order.line_items %}
       <article class="customer-order-page__item">
-        <a class="customer-order-page__image" href="{{ line_item.product.url | default: routes.all_products_collection_url }}">{% if line_item.image %}{{ line_item.image | image_url: width: 240 | image_tag: loading: 'lazy', alt: line_item.title }}{% endif %}</a>
+        {% if line_item.product %}
+          <a class="customer-order-page__image" href="{{ line_item.product.url }}" data-quick-add-modal-key="order-detail-{{ order.id }}-{{ line_item.id }}" aria-haspopup="dialog">{% if line_item.image %}{{ line_item.image | image_url: width: 240 | image_tag: loading: 'lazy', alt: line_item.title }}{% endif %}</a>
+          <quick-add-component class="order-item-quick-add" data-quick-add-modal-key="order-detail-{{ order.id }}-{{ line_item.id }}" data-product-title="{{ line_item.product.title | escape }}" data-product-id="{{ line_item.product.id }}" data-product-url="{{ line_item.product.url | escape }}" hidden></quick-add-component>
+        {% else %}
+          <span class="customer-order-page__image">{% if line_item.image %}{{ line_item.image | image_url: width: 240 | image_tag: loading: 'lazy', alt: line_item.title }}{% endif %}</span>
+        {% endif %}
         <div class="customer-order-page__details"><h3>{{ line_item.title | escape }}</h3><p>{{ line_item.variant.title | escape }}{% if line_item.quantity > 1 %}  Qty {{ line_item.quantity }}{% endif %}</p></div>
         <strong>{{ line_item.final_line_price | money }}</strong>
       </article>

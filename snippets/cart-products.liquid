@@ -191,6 +191,8 @@
                     <a
                       href="{{ item.url }}"
                       class="cart-items__media-container"
+                      data-quick-add-modal-key="cart-{{ context | default: 'page' }}-{{ item.index }}"
+                      aria-haspopup="dialog"
                       style="--ratio:{{ ratio }};"
                     >
                       {%- liquid
@@ -215,12 +217,22 @@
                       <a
                         href="{{ item.url }}"
                         class="cart-items__title"
+                        data-quick-add-modal-key="cart-{{ context | default: 'page' }}-{{ item.index }}"
+                        aria-haspopup="dialog"
                         {% if item.parent_relationship.parent != null %}
                           aria-label="{{ 'accessibility.nested_product' | t: product_title: item.product.title, parent_title: item.parent_relationship.parent.title | escape }}"
                         {% endif %}
                       >
                         {{- item.product.title -}}
                       </a>
+                      <quick-add-component
+                        class="cart-item-quick-add"
+                        data-quick-add-modal-key="cart-{{ context | default: 'page' }}-{{ item.index }}"
+                        data-product-title="{{ item.product.title | escape }}"
+                        data-product-id="{{ item.product.id }}"
+                        data-product-url="{{ item.url | escape }}"
+                        hidden
+                      ></quick-add-component>
                       {%- render 'cart-disclosure-tooltip',
                         product: item.product,
                         unique_id: cart_disclosure_unique_id,
@@ -749,7 +761,7 @@
   .cart-items__media-image {
     display: block;
     aspect-ratio: inherit;
-    object-fit: contain;
+    object-fit: inherit;
     object-position: center center;
     width: 100%;
     height: 100%;

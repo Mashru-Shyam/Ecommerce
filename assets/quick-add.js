@@ -24,7 +24,7 @@ export class QuickAddComponent extends Component {
     );
     const productLink = hotspotProduct?.getHotspotProductLink();
 
-    return productLink?.href || '';
+    return productLink?.href || this.dataset.productUrl || '';
   }
 
   /**
@@ -46,6 +46,11 @@ export class QuickAddComponent extends Component {
     document.addEventListener(StandardEvents.cartLinesUpdate, this.#syncCardCartState, {
       signal: this.#cartUpdateAbortController.signal,
     });
+    if (this.dataset.quickAddModalKey) {
+      document.addEventListener('click', this.#handleProductDisplayClick, {
+        signal: this.#cartUpdateAbortController.signal,
+      });
+    }
     document.addEventListener(StandardEvents.productSelect, this.#handleProductSelectUpdate);
   }
 
@@ -58,6 +63,15 @@ export class QuickAddComponent extends Component {
     if (this.#addedAnimationTimeout) clearTimeout(this.#addedAnimationTimeout);
     document.removeEventListener(StandardEvents.productSelect, this.#handleProductSelectUpdate);
   }
+
+  #handleProductDisplayClick = (event) => {
+    if (!(event.target instanceof Element)) return;
+    const trigger = event.target.closest('[data-quick-add-modal-key]');
+    if (!trigger || trigger.dataset.quickAddModalKey !== this.dataset.quickAddModalKey) return;
+
+    event.preventDefault();
+    this.handleClick(event);
+  };
 
   /**
    * Updates quick-add button state when product variant is selected
@@ -303,12 +317,14 @@ export class QuickAddComponent extends Component {
   openQuickAddModal = async () => {
     const currentUrl = this.productPageUrl;
     const modalContent = document.getElementById('quick-add-modal-content');
+    const modalDialog = document.querySelector('#quick-add-dialog .quick-add-modal');
     this.#openQuickAddModal();
     if (modalContent) {
       modalContent.replaceChildren();
       modalContent.dataset.productUrl = currentUrl;
       modalContent.setAttribute('aria-busy', 'true');
     }
+    modalDialog?.setAttribute('aria-busy', 'true');
 
     // Check if we have cached content for this URL
     let productGrid = this.#cachedContent.get(currentUrl);
@@ -336,6 +352,7 @@ export class QuickAddComponent extends Component {
     } finally {
       if (modalContent?.dataset.productUrl === currentUrl) {
         modalContent.removeAttribute('aria-busy');
+        modalDialog?.removeAttribute('aria-busy');
       }
     }
   };
@@ -445,16 +462,49 @@ export class QuickAddComponent extends Component {
 
     if (!productGrid || !modalContent) return;
 
+    // Quick add only needs the gallery and purchase controls. Remove description
+    // and details blocks before layout so their Shopify wrappers cannot reserve
+    // empty space in the dialog.
+    productGrid
+      .querySelectorAll(
+        [
+          '.shopify-block:has(.freshomill-product-description)',
+          '.shopify-block:has(.quick-add-product-description)',
+          '.shopify-block:has(.accordion)',
+          '.shopify-block:has(accordion-custom)',
+          '.shopify-block:has(.view-more-details__wrapper)',
+          '.freshomill-product-description',
+          '.quick-add-product-description',
+          '.quick-add-description',
+          '.accordion',
+          'accordion-custom',
+          '.view-more-details__wrapper',
+        ].join(',')
+      )
+      .forEach((element) => element.remove());
+
+    [...productGrid.querySelectorAll('.shopify-block')]
+      .reverse()
+      .forEach((block) => {
+        if (!block.children.length && !(block.textContent || '').trim()) block.remove();
+      });
+
+    [...productGrid.querySelectorAll('.group-block-content')]
+      .reverse()
+      .forEach((content) => {
+        if (!content.children.length && !(content.textContent || '').trim()) {
+          content.closest('.group-block')?.remove();
+        }
+      });
+
     if (isMobileBreakpoint()) {
       const productDetails = productGrid.querySelector('.product-details');
       const productFormComponent = productGrid.querySelector('product-form-component');
       const variantPicker = productGrid.querySelector('variant-picker');
       const productPrice = productGrid.querySelector('product-price');
-      const productTitle = document.createElement('a');
+      const productTitle = document.createElement('span');
+      productTitle.classList.add('product-header__title');
       productTitle.textContent = this.dataset.productTitle || '';
-
-      // Make product title as a link to the product page
-      productTitle.href = this.productPageUrl;
 
       const productHeader = document.createElement('div');
       productHeader.classList.add('product-header');
@@ -475,6 +525,24 @@ export class QuickAddComponent extends Component {
       }
 
       productDetails?.remove();
+    } else {
+      const productDetails = productGrid.querySelector('.product-details');
+
+      if (productDetails) {
+        const productTitle = productDetails.querySelector('.view-product-title');
+        const variantPicker = productDetails.querySelector('variant-picker');
+        const productPrice = productDetails.querySelector('product-price');
+        const buyButtons = productDetails.querySelector('.buy-buttons-block');
+        const titleLink = productTitle?.querySelector('a');
+        if (titleLink) {
+          const titleText = document.createElement('span');
+          titleText.className = titleLink.className;
+          titleText.textContent = titleLink.textContent || this.dataset.productTitle || '';
+          titleLink.replaceWith(titleText);
+        }
+
+        productDetails.replaceChildren(...[productTitle, variantPicker, productPrice, buyButtons].filter(Boolean));
+      }
     }
 
     // Sync the view-event-payload attribute and morph children into the modal's product-component
