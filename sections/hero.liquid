@@ -791,6 +791,15 @@
     line-height: 0.98;
   }
 
+  .hero--home .hero__home-heading,
+  .hero--home .hero__home-description {
+    font-family: 'Dancing Script', cursive;
+  }
+
+  .hero:not(.hero--home) .hero__content-wrapper :is(h1, h2, h3, p) {
+    font-family: 'Dancing Script', cursive !important;
+  }
+
   .hero__home-heading span:first-child {
     color: var(--freshomill-color-brand-strong);
   }
@@ -801,6 +810,10 @@
     color: var(--freshomill-color-ink);
     font-size: clamp(14px, 1.55vw, 20px);
     line-height: 1.35;
+  }
+
+  .hero--home .hero__home-description {
+    color: var(--freshomill-color-brand-deep);
   }
 
   .hero__home-actions {

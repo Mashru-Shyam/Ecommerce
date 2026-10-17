@@ -221,13 +221,15 @@
     box-shadow: 0 5px 30px rgb(0 0 0 / var(--opacity-15));
 
     @media screen and (max-width: 749px) {
+      box-sizing: border-box;
       position: fixed;
       margin: auto 0 0 0;
       min-height: unset;
       max-width: 100%;
       border-radius: 0;
       overflow: clip;
-      height: fit-content;
+      height: min(92dvh, 760px);
+      max-height: calc(100dvh - var(--safe-area-inset-top) - 8px);
 
       /* Bottom sheet touches the physical bottom edge (viewport-fit=cover); keep the
          buy buttons above the home indicator while the background fills the safe area */
@@ -956,9 +958,18 @@
   }
 
   @media screen and (max-width: 749px) {
+    .quick-add-modal > product-component {
+      display: block;
+      height: 100%;
+      min-height: 0;
+    }
+
     .quick-add-modal__content {
       align-content: start;
       gap: var(--gap-md, 16px);
+      box-sizing: border-box;
+      height: 100%;
+      max-height: 100%;
       padding-block: 5px calc(var(--height-buy-buttons, 48px) + var(--padding-2xl, 24px) + var(--safe-area-inset-bottom));
       scroll-padding-block-end: calc(var(--height-buy-buttons, 48px) + var(--padding-2xl, 24px) + var(--safe-area-inset-bottom));
     }
@@ -1027,6 +1038,14 @@
       width: 100%;
       padding-block: var(--gap-md, 12px) max(var(--padding-xs), var(--safe-area-inset-bottom));
       background: var(--color-background);
+    }
+
+    /* Keep one scroll surface for the sheet. Nested scrolling inside product-details
+       lets the product text pass behind the sticky purchase controls. */
+    .quick-add-modal__content .product-details {
+      height: auto;
+      max-height: none;
+      overflow: visible;
     }
   }
 
